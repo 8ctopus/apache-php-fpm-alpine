@@ -16,9 +16,14 @@ RUN apk add \
 
 ADD --chown=root:root include/zshrc /etc/zsh/zshrc
 
+# install openrc
+RUN apk add \
+    openrc
+
 # install php
 RUN apk add \
-    php7-apache2 \
+    # use php7-fpm instead of php7-apache2
+    php7-fpm \
     php7-bcmath \
     php7-common \
     php7-ctype \
@@ -39,6 +44,14 @@ RUN apk add \
 RUN apk add \
     php7-pecl-xdebug
 
+# hack to start services
+RUN rc-status; \
+    rc-update add php-fpm7; \
+    touch /run/openrc/softlevel
+
+# necessary for services to be started
+VOLUME ["/sys/fs/cgroup"]
+
 # configure xdebug
 ADD --chown=root:root include/xdebug.ini /etc/php7/conf.d/xdebug.ini
 
@@ -49,7 +62,8 @@ RUN apk add \
 # install apache
 RUN apk add \
     apache2 \
-    apache2-ssl
+    apache2-ssl \
+    apache2-proxy
 
 # enable mod rewrite
 RUN sed -i 's|#LoadModule rewrite_module modules/mod_rewrite.so|LoadModule rewrite_module modules/mod_rewrite.so|g' /etc/apache2/httpd.conf
@@ -65,6 +79,13 @@ RUN sed -i 's| logs/access.log| /var/log/apache2/access.log|g' /etc/apache2/http
 # change SSL log files location
 RUN sed -i 's|ErrorLog logs/ssl_error.log|ErrorLog /var/log/apache2/error.log|g' /etc/apache2/conf.d/ssl.conf
 RUN sed -i 's|TransferLog logs/ssl_access.log|TransferLog /var/log/apache2/access.log|g' /etc/apache2/conf.d/ssl.conf
+
+# switch from mpm_prefork to mpm_event
+RUN sed -i 's|LoadModule mpm_prefork_module modules/mod_mpm_prefork.so|#LoadModule mpm_prefork_module modules/mod_mpm_prefork.so|g' /etc/apache2/httpd.conf
+RUN sed -i 's|#LoadModule mpm_event_module modules/mod_mpm_event.so|LoadModule mpm_event_module modules/mod_mpm_event.so|g' /etc/apache2/httpd.conf
+
+# switch to php-fpm
+RUN sed -i 's|^DocumentRoot|ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://127.0.0.1:9000/var/www/localhost/htdocs/$1\n\nDocumentRoot|g' /etc/apache2/httpd.conf
 
 # add site test page
 ADD --chown=root:root include/index.php /var/www/site/index.php

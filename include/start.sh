@@ -120,6 +120,22 @@ touch /var/log/apache2/xdebug.log
 # allow xdebug to write to it
 chmod 666 /var/log/apache2/xdebug.log
 
+# start php-fpm
+service php-fpm7 restart
+
+# sleep
+sleep 2
+
+# check if php-fpm is running
+if pgrep -x php-fpm7 > /dev/null
+then
+    echo "-----------------------------------------------"
+    echo "Start php-fpm - OK"
+else
+    echo "Start php-fpm - FAILED"
+    exit
+fi
+
 echo "-----------------------------------------------"
 
 # start apache2
