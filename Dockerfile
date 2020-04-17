@@ -87,6 +87,9 @@ RUN sed -i 's|#LoadModule mpm_event_module modules/mod_mpm_event.so|LoadModule m
 # switch to php-fpm
 RUN sed -i 's|^DocumentRoot|ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://127.0.0.1:9000/var/www/localhost/htdocs/$1\n\nDocumentRoot|g' /etc/apache2/httpd.conf
 
+# update directory index to add php files
+RUN sed -i 's|DirectoryIndex index.html|DirectoryIndex index.php index.html|g' /etc/apache2/httpd.conf
+
 # add site test page
 ADD --chown=root:root include/index.php /var/www/site/index.php
 
