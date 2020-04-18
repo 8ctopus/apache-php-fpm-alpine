@@ -154,12 +154,6 @@ stop_container()
 {
     echo ""
     echo "Stop container web server... - received SIGTERM signal"
-
-    # stop apache
-    echo "Stop apache..."
-    httpd -k stop
-    echo "Stop apache - OK"
-
     echo "Stop container web server - OK"
     exit
 }
