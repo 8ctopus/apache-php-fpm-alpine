@@ -3,12 +3,12 @@
 A super light docker web server with Apache and php-fpm on top of Alpine Linux for development purposes
 
 - Apache 2.4.41 with SSL
-- php-fpm 7.3.16
+- php-fpm 7.3.17
 - Xdebug debugging from host
 - composer
 - zsh
 
-The docker image size is 48 MB.
+The docker image size is 46 MB.
 
 ## cool features
 
@@ -52,7 +52,7 @@ The docker image is fully configured to debug php code from the PC.
 In the Xdebug client on the computer set the variables as follows:
 
     host: 127.0.0.1
-    port: 9000
+    port: 9001
     path mapping: "/var/www/site/" : "$GIT_ROOT/dev/"
 
 For path mapping, $GIT_ROOT is the absolute path to where you cloned this
