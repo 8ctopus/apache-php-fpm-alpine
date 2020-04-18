@@ -121,7 +121,7 @@ touch /var/log/apache2/xdebug.log
 chmod 666 /var/log/apache2/xdebug.log
 
 # start php-fpm
-service php-fpm7 restart
+php-fpm7
 
 # sleep
 sleep 2
@@ -171,6 +171,24 @@ trap stop_container SIGTERM
 restart_apache2()
 {
     sleep 0.5
+
+    # test php-fpm config
+    if php-fpm7 -t
+    then
+        # restart php-fpm
+        echo "Restart php-fpm7..."
+        httpd -k restart
+
+        # check if php-fpm is running
+        if pgrep -x php-fpm7 > /dev/null
+        then
+            echo "Restart php-fpm7 - OK"
+        else
+            echo "Restart php-fpm7 - FAILED"
+        fi
+    else
+        echo "Restart php-fpm7 - FAILED - syntax error"
+    fi
 
     # test apache2 config
     if httpd -t

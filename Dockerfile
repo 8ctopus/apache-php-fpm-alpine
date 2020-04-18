@@ -16,10 +16,6 @@ RUN apk add \
 
 ADD --chown=root:root include/zshrc /etc/zsh/zshrc
 
-# install openrc
-RUN apk add \
-    openrc
-
 # install php
 RUN apk add \
     # use php7-fpm instead of php7-apache2
@@ -43,14 +39,6 @@ RUN apk add \
 # install xdebug
 RUN apk add \
     php7-pecl-xdebug
-
-# hack to start services
-RUN rc-status; \
-    rc-update add php-fpm7; \
-    touch /run/openrc/softlevel
-
-# necessary for services to be started
-VOLUME ["/sys/fs/cgroup"]
 
 # configure xdebug
 ADD --chown=root:root include/xdebug.ini /etc/php7/conf.d/xdebug.ini
