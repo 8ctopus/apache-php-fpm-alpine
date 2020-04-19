@@ -8,7 +8,7 @@ A super light docker web server with Apache and php-fpm on top of Alpine Linux f
 - composer
 - zsh
 
-The docker image size is 46 MB.
+The docker image size is 40 MB.
 
 ## cool features
 
@@ -18,16 +18,16 @@ The docker image size is 46 MB.
 - All changes to the config files are automatically applied (hot reload).
 - Xdebug is configured for remote debugging (no headaches).
 
-## start container
+## start container (choose one among the two)
 
     docker-compose up
 
-    docker run -p 8000:80 8ct8pus/apache-php-fpm-alpine:latest
+    docker run -p 80:80 -p 443:443 8ct8pus/apache-php-fpm-alpine:latest
 
 ## access website
 
-    http://localhost:8000/
-    https://localhost:8001/
+    http://localhost/
+    https://localhost/
 
 ## set domain name
 
@@ -60,21 +60,21 @@ repository in.
 
 ## build docker image
 
-    docker build -t 8ct8pus/apache-php-fpm-alpine:latest .
+    docker build -t apache-php-fpm-alpine:dev .
 
 ## get console to container
 
-    docker exec -it dev-web zsh
+    docker exec -it lamp zsh
 
 ## extend the docker image
 
 In this example, we add the php-curl extension.
 
     docker-compose up --detach
-    docker exec -it dev-web zsh
+    docker exec -it lamp zsh
     apk add php-curl
     exit
     docker-compose stop
-    docker commit dev-web user/apache-php-fpm-alpine-curl:latest
+    docker commit lamp apache-php-fpm-alpine-curl:dev
 
 To use the new image, run it or update the image link in the docker-compose file.
