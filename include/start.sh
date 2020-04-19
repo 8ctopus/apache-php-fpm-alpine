@@ -3,12 +3,6 @@
 echo ""
 echo "Start container web server..."
 
-# set domain variable if not set
-if [ -z "$DOMAIN" ];
-then
-    DOMAIN="localhost"
-fi
-
 echo "domain: $DOMAIN"
 echo "document root: $DOCUMENT_ROOT"
 
