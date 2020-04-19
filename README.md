@@ -18,11 +18,9 @@ The docker image size is 40 MB.
 - All changes to the config files are automatically applied (hot reload).
 - Xdebug is configured for remote debugging (no headaches).
 
-## start container (choose one among the two)
+## start container
 
     docker-compose up
-
-    docker run -p 80:80 -p 443:443 8ct8pus/apache-php-fpm-alpine:latest
 
 ## access website
 
