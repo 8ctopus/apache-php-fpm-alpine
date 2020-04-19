@@ -71,8 +71,18 @@ RUN sed -i 's|TransferLog logs/ssl_access.log|TransferLog /var/log/apache2/acces
 RUN sed -i 's|LoadModule mpm_prefork_module modules/mod_mpm_prefork.so|#LoadModule mpm_prefork_module modules/mod_mpm_prefork.so|g' /etc/apache2/httpd.conf
 RUN sed -i 's|#LoadModule mpm_event_module modules/mod_mpm_event.so|LoadModule mpm_event_module modules/mod_mpm_event.so|g' /etc/apache2/httpd.conf
 
-# switch to php-fpm
-RUN sed -i 's|^DocumentRoot|ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://127.0.0.1:9000/var/www/localhost/htdocs/$1\n\nDocumentRoot|g' /etc/apache2/httpd.conf
+# configure php-fpm to use unix socket
+RUN sed -i 's|listen = 127.0.0.1:9000|listen = /var/run/php-fpm7.sock|g' /etc/php7/php-fpm.d/www.conf
+RUN sed -i 's|;listen.owner = nobody|listen.owner = apache|g' /etc/php7/php-fpm.d/www.conf
+
+# switch apache to use php-fpm through proxy
+# don't use proxy pass match because it does not support directory indexing
+#RUN sed -i 's|^DocumentRoot|ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://127.0.0.1:9000/var/www/localhost/htdocs/$1\n\nDocumentRoot|g' /etc/apache2/httpd.conf
+
+# use set handler
+RUN sed -i 's|^DocumentRoot|<FilesMatch "\.php$">\n\
+    SetHandler "proxy:unix:/var/run/php-fpm7.sock\|fcgi://localhost"\n\
+</FilesMatch>\n\nDocumentRoot|g' /etc/apache2/httpd.conf
 
 # update directory index to add php files
 RUN sed -i 's|DirectoryIndex index.html|DirectoryIndex index.php index.html|g' /etc/apache2/httpd.conf
