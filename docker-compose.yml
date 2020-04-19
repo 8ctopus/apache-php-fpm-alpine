@@ -3,10 +3,10 @@ version: '3.7'
 services:
   web:
     image: 8ct8pus/apache-php-fpm-alpine:latest
-    container_name: dev-web
+    container_name: lamp
     ports:
-      - 8000:80
-      - 8001:443
+      - 80:80
+      - 443:443
     environment:
       - DOMAIN=localhost
       - DOCUMENT_ROOT=/public
