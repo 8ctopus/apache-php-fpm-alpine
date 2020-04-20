@@ -76,3 +76,7 @@ In this example, we add the php-curl extension.
     docker commit lamp apache-php-fpm-alpine-curl:dev
 
 To use the new image, run it or update the image link in the docker-compose file.
+
+## more info on php-fpm
+
+    https://php-fpm.org/about/
