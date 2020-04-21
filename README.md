@@ -2,7 +2,7 @@
 
 A super light docker web server with Apache and php-fpm on top of Alpine Linux for development purposes
 
-- Apache 2.4.41 with SSL
+- Apache 2.4.43 with SSL
 - php-fpm 7.3.17
 - Xdebug debugging from host
 - composer
