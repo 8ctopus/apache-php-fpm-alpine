@@ -1,0 +1,10 @@
+{
+    "name": "8ctopus/apache-php-fpm-alpine",
+    "authors": [
+        {
+            "name": "8ctopus",
+            "email": "hello@octopuslabs.io"
+        }
+    ],
+    "require": {}
+}

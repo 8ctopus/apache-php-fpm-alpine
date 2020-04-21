@@ -1,4 +1,7 @@
 /etc/
 /log/
+
+/dev/vendor/
+
 /*.sublime-project
 /*.sublime-workspace
