@@ -11,7 +11,7 @@
             "port": 9001,
             "stopOnEntry": true,
             "pathMappings": {
-                "/var/www/site/public/": "${workspaceRoot}/dev/public/",
+                "/var/www/site/": "${workspaceRoot}/dev/",
             }
         },
         {
