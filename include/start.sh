@@ -108,8 +108,11 @@ then
     echo "Expose php to host - OK"
 fi
 
-# create xdebug log file
-touch /var/log/apache2/xdebug.log
+# clean log files
+truncate -s 0 /var/log/apache2/access.log
+truncate -s 0 /var/log/apache2/error.log
+truncate -s 0 /var/log/apache2/ssl_request.log
+truncate -s 0 /var/log/apache2/xdebug.log
 
 # allow xdebug to write to it
 chmod 666 /var/log/apache2/xdebug.log
