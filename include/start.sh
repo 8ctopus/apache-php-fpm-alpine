@@ -12,7 +12,15 @@ then
     echo "Expose apache to host..."
     sleep 3
 
-    # check if apache config exists on host
+    # check if config backup exists
+    if [ ! -d /etc/apache2.bak/ ];
+    then
+        # create config backup
+        echo "Expose apache to host - backup container config"
+        cp -r /etc/apache2/ /etc/apache2.bak/
+    fi
+
+    # check if config exists on host
     if [ -z "$(ls -A /docker/etc/apache2/ 2> /dev/null)" ];
     then
         # config doesn't exist on host
@@ -25,10 +33,6 @@ then
             echo "Expose apache to host - restore config from backup"
             rm /etc/apache2/
             cp -r /etc/apache2.bak/ /etc/apache2/
-        else
-            # create config backup
-            echo "Expose apache to host - backup container config"
-            cp -r /etc/apache2/ /etc/apache2.bak/
         fi
 
         # copy config to host
@@ -74,6 +78,14 @@ then
     echo "Expose php to host..."
     sleep 3
 
+    # check if config backup exists
+    if [ ! -d /etc/php7.bak/ ];
+    then
+        # create config backup
+        echo "Expose php to host - backup container config"
+        cp -r /etc/php7/ /etc/php7.bak/
+    fi
+
     # check if php config exists on host
     if [ -z "$(ls -A /docker/etc/php7/ 2> /dev/null)" ];
     then
@@ -87,10 +99,6 @@ then
             echo "Expose php to host - restore config from backup"
             rm /etc/php7/
             cp -r /etc/php7.bak/ /etc/php7/
-        else
-            # create config backup
-            echo "Expose php to host - backup container config"
-            cp -r /etc/php7/ /etc/php7.bak/
         fi
 
         # copy config to host
