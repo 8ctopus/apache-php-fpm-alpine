@@ -11,11 +11,12 @@ ENV DOCUMENT_ROOT /public
 RUN apk add \
     inotify-tools
 
-# install and configure zsh
+# install zsh
 RUN apk add \
     zsh \
     zsh-vcs
 
+# configure zsh
 ADD --chown=root:root include/zshrc /etc/zsh/zshrc
 
 # install php
