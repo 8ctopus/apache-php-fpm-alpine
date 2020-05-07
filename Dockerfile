@@ -26,6 +26,7 @@ RUN apk add \
     php7-bcmath \
     php7-common \
     php7-ctype \
+    php7-curl \
     php7-dom \
     php7-fileinfo \
     php7-json \
@@ -35,6 +36,7 @@ RUN apk add \
     php7-pdo \
     php7-pdo_mysql \
     php7-session \
+    php7-simplexml \
     php7-tokenizer \
     php7-xml \
     php7-xmlwriter
