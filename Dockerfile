@@ -39,7 +39,8 @@ RUN apk add \
     php7-simplexml \
     php7-tokenizer \
     php7-xml \
-    php7-xmlwriter
+    php7-xmlwriter \
+    php7-zip
 
 # install xdebug
 RUN apk add \
