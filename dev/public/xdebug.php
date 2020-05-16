@@ -12,8 +12,7 @@ class Strings
 
     static function fix_strings(array $a)
     {
-        foreach ($a as $element)
-        {
+        foreach ($a as $element) {
             self::fix_string($a);
         }
     }
