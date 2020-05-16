@@ -121,13 +121,13 @@ then
 fi
 
 # clean log files
-truncate -s 0 /var/log/apache2/access.log
-truncate -s 0 /var/log/apache2/error.log
-truncate -s 0 /var/log/apache2/ssl_request.log
-truncate -s 0 /var/log/apache2/xdebug.log
+truncate -s 0 /var/log/apache2/access.log 2> /dev/null
+truncate -s 0 /var/log/apache2/error.log 2> /dev/null
+truncate -s 0 /var/log/apache2/ssl_request.log 2> /dev/null
+truncate -s 0 /var/log/apache2/xdebug.log 2> /dev/null
 
 # allow xdebug to write to it
-chmod 666 /var/log/apache2/xdebug.log
+chmod 666 /var/log/apache2/xdebug.log 2> /dev/null
 
 # start php-fpm
 php-fpm7
@@ -138,14 +138,13 @@ sleep 2
 # check if php-fpm is running
 if pgrep -x php-fpm7 > /dev/null
 then
-    echo "-----------------------------------------------"
     echo "Start php-fpm - OK"
 else
     echo "Start php-fpm - FAILED"
     exit
 fi
 
-echo "-----------------------------------------------"
+echo "-------------------------------------------------------"
 
 # start apache
 httpd -k start
@@ -158,6 +157,8 @@ else
     echo "Start container web server - FAILED"
     exit
 fi
+
+echo "-------------------------------------------------------"
 
 stop_container()
 {
