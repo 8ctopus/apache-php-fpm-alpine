@@ -86,13 +86,19 @@ RUN sed -i 's|;listen.owner = nobody|listen.owner = apache|g' /etc/php7/php-fpm.
 # don't use proxy pass match because it does not support directory indexing
 #RUN sed -i 's|^DocumentRoot|ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://127.0.0.1:9000/var/www/localhost/htdocs/$1\n\nDocumentRoot|g' /etc/apache2/httpd.conf
 
-# use set handler
+# use set handler to route php requests to php-fpm
 RUN sed -i 's|^DocumentRoot|<FilesMatch "\.php$">\n\
     SetHandler "proxy:unix:/var/run/php-fpm7.sock\|fcgi://localhost"\n\
 </FilesMatch>\n\nDocumentRoot|g' /etc/apache2/httpd.conf
 
 # update directory index to add php files
 RUN sed -i 's|DirectoryIndex index.html|DirectoryIndex index.php index.html|g' /etc/apache2/httpd.conf
+
+# change Apache timeout for easier debugging
+RUN sed -i 's|^Timeout .*$|Timeout 600|g' /etc/apache2/conf.d/default.conf
+
+# change php max execution time for easier debugging
+RUN sed -i 's|^max_execution_time .*$|max_execution_time 600|g' /etc/php7/php.ini
 
 # add site test page
 ADD --chown=root:root include/index.php /var/www/site/index.php
