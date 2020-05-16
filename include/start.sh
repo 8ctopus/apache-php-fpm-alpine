@@ -48,33 +48,37 @@ then
     ln -s /docker/etc/apache2 /etc/apache2
 
     echo "Expose apache to host - OK"
+fi
 
-    if [ ! -e /etc/ssl/apache2/$DOMAIN.pem ];
-    then
-        echo "Generate self-signed SSL certificate for $DOMAIN..."
+if [ ! -e /etc/ssl/apache2/$DOMAIN.pem ];
+then
+    echo "Generate self-signed SSL certificate for $DOMAIN..."
 
-        # generate self-signed SSL certificate
-        openssl req -new -x509 -key /etc/ssl/apache2/server.key -out /etc/ssl/apache2/$DOMAIN.pem -days 3650 -subj /CN=$DOMAIN
+    # generate self-signed SSL certificate
+    openssl req -new -x509 -key /etc/ssl/apache2/server.key -out /etc/ssl/apache2/$DOMAIN.pem -days 3650 -subj /CN=$DOMAIN
 
-        # use SSL certificate
-        sed -i "s|SSLCertificateFile .*|SSLCertificateFile /etc/ssl/apache2/$DOMAIN.pem|g" /etc/apache2/conf.d/ssl.conf
+    # use SSL certificate
+    sed -i "s|SSLCertificateFile .*|SSLCertificateFile /etc/ssl/apache2/$DOMAIN.pem|g" /etc/apache2/conf.d/ssl.conf
 
-        echo "Generate self-signed SSL certificate for $DOMAIN - OK"
-    fi
+    echo "Generate self-signed SSL certificate for $DOMAIN - OK"
+fi
 
-    echo "Configure apache for domain..."
+echo "Configure apache for domain..."
 
-    # set document root dir
-    sed -i "s|/var/www/localhost/htdocs|/var/www/site$DOCUMENT_ROOT|g" /etc/apache2/httpd.conf
+# set document root dir
+sed -i "s|/var/www/localhost/htdocs|/var/www/site$DOCUMENT_ROOT|g" /etc/apache2/httpd.conf
 
-    # set SSL document root dir
-    sed -i "s|DocumentRoot \".*\"|DocumentRoot \"/var/www/site$DOCUMENT_ROOT\"|g" /etc/apache2/conf.d/ssl.conf
+# set SSL document root dir
+sed -i "s|DocumentRoot \".*\"|DocumentRoot \"/var/www/site$DOCUMENT_ROOT\"|g" /etc/apache2/conf.d/ssl.conf
 
-    sed -i "s|#ServerName .*:80|ServerName $DOMAIN:80|g" /etc/apache2/httpd.conf
-    sed -i "s|ServerName .*:443|ServerName $DOMAIN:443|g" /etc/apache2/conf.d/ssl.conf
+sed -i "s|#ServerName .*:80|ServerName $DOMAIN:80|g" /etc/apache2/httpd.conf
+sed -i "s|ServerName .*:443|ServerName $DOMAIN:443|g" /etc/apache2/conf.d/ssl.conf
 
-    echo "Configure apache for domain - OK"
+echo "Configure apache for domain - OK"
 
+# check if we should expose apache to host
+if [ -d /docker/etc/ ];
+then
     echo "Expose php to host..."
     sleep 3
 
