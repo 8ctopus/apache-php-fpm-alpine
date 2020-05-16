@@ -100,6 +100,10 @@ RUN sed -i 's|^Timeout .*$|Timeout 600|g' /etc/apache2/conf.d/default.conf
 # change php max execution time for easier debugging
 RUN sed -i 's|^max_execution_time .*$|max_execution_time 600|g' /etc/php7/php.ini
 
+# add http authentication support
+RUN sed -i 's|^DocumentRoot|<VirtualHost _default_:80>\n    SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1\n</VirtualHost>\n\nDocumentRoot|g' /etc/apache2/httpd.conf
+RUN sed -i 's|<VirtualHost _default_:443>|<VirtualHost _default_:443>\n\nSetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1|g' /etc/apache2/conf.d/ssl.conf
+
 # add site test page
 ADD --chown=root:root include/index.php /var/www/site/index.php
 
