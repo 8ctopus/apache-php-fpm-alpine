@@ -44,6 +44,10 @@ To access the site
     http://www.test.net:8000/
     https://www.test.net:8001/
 
+## https
+
+To remove "Your connection is not private" nag screens, import the certificate authority file ssl/certificate_authority.pem in your browser's certificates under Trusted Root Certification Authorities. (https://support.globalsign.com/digital-certificates/digital-certificate-installation/install-client-digital-certificate-windows-using-chrome)
+
 ## Xdebug
 
 The docker image is fully configured to debug php code from the PC.

@@ -50,15 +50,55 @@ then
     echo "Expose apache to host - OK"
 fi
 
+# check for existing certificate authority
+if [ ! -e /etc/ssl/apache2/certificate_authority.pem ];
+then
+    # https://stackoverflow.com/questions/7580508/getting-chrome-to-accept-self-signed-localhost-certificate
+    echo "Generate certificate authority..."
+
+    # generate certificate authority private key
+    openssl genrsa -out /etc/ssl/apache2/certificate_authority.key 2048 2> /dev/null
+
+    # generate certificate authority certificate
+    # to read content openssl x590 -in /etc/ssl/apache2/certificate_authority.pem -noout -text
+    openssl req -new -x509 -nodes -key /etc/ssl/apache2/certificate_authority.key -sha256 -days 825 -out /etc/ssl/apache2/certificate_authority.pem -subj "/C=RU/O=8ctopus" 2> /dev/null
+
+    # copy certificate authority for docker user access
+#    cp /etc/ssl/apache2/certificate_authority.pem /var/www/site/
+
+    echo "Generate certificate authority - OK"
+fi
+
 if [ ! -e /etc/ssl/apache2/$DOMAIN.pem ];
 then
     echo "Generate self-signed SSL certificate for $DOMAIN..."
 
-    # generate self-signed SSL certificate
-    openssl req -new -x509 -key /etc/ssl/apache2/server.key -out /etc/ssl/apache2/$DOMAIN.pem -days 3650 -subj /CN=$DOMAIN
+    # generate domain private key
+    openssl genrsa -out /etc/ssl/apache2/$DOMAIN.key 2048 2> /dev/null
 
-    # use SSL certificate
+    # create certificate signing request
+    # to read content openssl x590 -in certificate_authority.pem -noout -text
+    openssl req -new -key /etc/ssl/apache2/$DOMAIN.key -out /etc/ssl/apache2/$DOMAIN.csr -subj "/C=RU/O=8ctopus/CN=$DOMAIN" 2> /dev/null
+
+    # create config file for the extensions
+    >/etc/ssl/apache2/$DOMAIN.ext cat <<-EOF
+authorityKeyIdentifier=keyid,issuer
+basicConstraints=CA:FALSE
+keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+subjectAltName = @alt_names
+[alt_names]
+DNS.1 = $DOMAIN # Be sure to include the domain name here because Common Name is not so commonly honoured by itself
+DNS.2 = www.$DOMAIN # Optionally, add additional domains (I've added a subdomain here)
+IP.1 = 192.168.0.13 # Optionally, add an IP address (if the connection which you have planned requires it)
+EOF
+
+    # create signed certificate by certificate authority
+    openssl x509 -req -in /etc/ssl/apache2/$DOMAIN.csr -CA /etc/ssl/apache2/certificate_authority.pem -CAkey /etc/ssl/apache2/certificate_authority.key \
+        -CAcreateserial -out /etc/ssl/apache2/$DOMAIN.pem -days 825 -sha256 -extfile /etc/ssl/apache2/$DOMAIN.ext 2> /dev/null
+
+    # use certificate
     sed -i "s|SSLCertificateFile .*|SSLCertificateFile /etc/ssl/apache2/$DOMAIN.pem|g" /etc/apache2/conf.d/ssl.conf
+    sed -i "s|SSLCertificateKeyFile .*|SSLCertificateKeyFile /etc/ssl/apache2/$DOMAIN.key|g" /etc/apache2/conf.d/ssl.conf
 
     echo "Generate self-signed SSL certificate for $DOMAIN - OK"
 fi

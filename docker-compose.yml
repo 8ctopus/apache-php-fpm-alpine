@@ -17,3 +17,5 @@ services:
       - ./log/:/var/log/apache2/
       # expose apache2 and php config to host
       - ./etc/:/docker/etc/
+      # expose ssl certificates to host
+      - ./ssl/:/etc/ssl/apache2/
