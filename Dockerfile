@@ -95,7 +95,7 @@ RUN sed -i 's|^DocumentRoot|<FilesMatch "\.php$">\n\
 # update directory index to add php files
 RUN sed -i 's|DirectoryIndex index.html|DirectoryIndex index.php index.html|g' /etc/apache2/httpd.conf
 
-# change Apache timeout for easier debugging
+# change apache timeout for easier debugging
 RUN sed -i 's|^Timeout .*$|Timeout 600|g' /etc/apache2/conf.d/default.conf
 
 # change php max execution time for easier debugging

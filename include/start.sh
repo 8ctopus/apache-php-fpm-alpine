@@ -116,7 +116,7 @@ sed -i "s|ServerName .*:443|ServerName $DOMAIN:443|g" /etc/apache2/conf.d/ssl.co
 
 echo "Configure apache for domain - OK"
 
-# check if we should expose apache to host
+# check if we should expose php to host
 if [ -d /docker/etc/ ];
 then
     echo "Expose php to host..."
