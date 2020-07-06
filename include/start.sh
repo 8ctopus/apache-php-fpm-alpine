@@ -221,7 +221,8 @@ restart_processes()
     then
         # restart php-fpm
         echo "Restart php-fpm..."
-        httpd -k restart
+        killall php-fpm7 > /dev/null
+        php-fpm7
 
         # check if php-fpm is running
         if pgrep -x php-fpm7 > /dev/null
