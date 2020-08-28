@@ -79,6 +79,11 @@ RUN sed -i 's|TransferLog logs/ssl_access.log|TransferLog /var/log/apache2/acces
 RUN sed -i 's|LoadModule mpm_prefork_module modules/mod_mpm_prefork.so|#LoadModule mpm_prefork_module modules/mod_mpm_prefork.so|g' /etc/apache2/httpd.conf
 RUN sed -i 's|#LoadModule mpm_event_module modules/mod_mpm_event.so|LoadModule mpm_event_module modules/mod_mpm_event.so|g' /etc/apache2/httpd.conf
 
+# enable important apache modules
+RUN sed -i 's|#LoadModule deflate_module modules/mod_deflate.so|LoadModule deflate_module modules/mod_deflate.so|g' /etc/apache2/httpd.conf
+RUN sed -i 's|#LoadModule expires_module modules/mod_expires.so|LoadModule expires_module modules/mod_expires.so|g' /etc/apache2/httpd.conf
+RUN sed -i 's|#LoadModule ext_filter_module modules/mod_ext_filter.so|LoadModule ext_filter_module modules/mod_ext_filter.so|g' /etc/apache2/httpd.conf
+
 # configure php-fpm to use unix socket
 RUN sed -i 's|listen = 127.0.0.1:9000|listen = /var/run/php-fpm7.sock|g' /etc/php7/php-fpm.d/www.conf
 RUN sed -i 's|;listen.owner = nobody|listen.owner = apache|g' /etc/php7/php-fpm.d/www.conf
