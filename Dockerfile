@@ -7,6 +7,12 @@ EXPOSE 443/tcp
 ENV DOMAIN localhost
 ENV DOCUMENT_ROOT /public
 
+# update apk repositories
+RUN apk update
+
+# update all
+RUN apk upgrade
+
 # install console tools
 RUN apk add \
     inotify-tools
