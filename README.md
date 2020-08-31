@@ -68,6 +68,7 @@ repository in.
 
 In this example, we add the php-curl extension.
 
+    docker-compose up --detach
     docker exec -it lap-fpm zsh
     apk add php-curl
     exit
