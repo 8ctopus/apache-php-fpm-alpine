@@ -10,7 +10,7 @@ ENV DOCUMENT_ROOT /public
 # update apk repositories
 RUN apk update
 
-# update all
+# upgrade all
 RUN apk upgrade
 
 # install console tools
@@ -124,12 +124,13 @@ RUN sed -i 's|<VirtualHost _default_:443>|<VirtualHost _default_:443>\n\nSetEnvI
 ADD --chown=root:root include/index.php /var/www/site/index.php
 
 # add entry point script
-ADD --chown=root:root include/start.sh /start.sh
+ADD --chown=root:root include/start.sh /tmp/start.sh
 
 # make entry point script executable
-RUN chmod +x /start.sh
+RUN chmod +x /tmp/start.sh
 
 # set working dir
 WORKDIR /var/www/site/
 
-ENTRYPOINT ["/start.sh"]
+# set entrypoint
+ENTRYPOINT ["/tmp/start.sh"]
