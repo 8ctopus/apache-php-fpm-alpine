@@ -80,7 +80,7 @@ then
     # to read content openssl x590 -in certificate_authority.pem -noout -text
     openssl req -new -key /etc/ssl/apache2/$DOMAIN.key -out /etc/ssl/apache2/$DOMAIN.csr -subj "/C=RU/O=8ctopus/CN=$DOMAIN" 2> /dev/null
 
-    # create config file for the extensions
+    # create certificate config file
     >/etc/ssl/apache2/$DOMAIN.ext cat <<-EOF
 authorityKeyIdentifier=keyid,issuer
 basicConstraints=CA:FALSE
@@ -88,8 +88,8 @@ keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
 subjectAltName = @alt_names
 [alt_names]
 DNS.1 = $DOMAIN # Be sure to include the domain name here because Common Name is not so commonly honoured by itself
-DNS.2 = www.$DOMAIN # Optionally, add additional domains (I've added a subdomain here)
-IP.1 = 192.168.0.13 # Optionally, add an IP address (if the connection which you have planned requires it)
+DNS.2 = www.$DOMAIN # add additional domains and subdomains if needed
+IP.1 = 192.168.0.13 # you can also add an IP address (if the connection which you have planned requires it)
 EOF
 
     # create signed certificate by certificate authority
