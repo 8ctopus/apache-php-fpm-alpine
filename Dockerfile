@@ -132,5 +132,8 @@ RUN chmod +x /tmp/start.sh
 # set working dir
 WORKDIR /var/www/site/
 
+# make sure apache directory exists otherwise server can't start
+RUN mkdir /var/www/site/$DOCUMENT_ROOT
+
 # set entrypoint
 ENTRYPOINT ["/tmp/start.sh"]
