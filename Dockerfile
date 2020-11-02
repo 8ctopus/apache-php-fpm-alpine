@@ -121,7 +121,7 @@ RUN sed -i 's|^DocumentRoot|<VirtualHost _default_:80>\n    SetEnvIf Authorizati
 RUN sed -i 's|<VirtualHost _default_:443>|<VirtualHost _default_:443>\n\nSetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1|g' /etc/apache2/conf.d/ssl.conf
 
 # add site test page
-ADD --chown=root:root include/index.php /var/www/site/index.php
+ADD --chown=root:root include/index.php /var/www/site$DOCUMENT_ROOT/index.php
 
 # add entry point script
 ADD --chown=root:root include/start.sh /tmp/start.sh
@@ -131,9 +131,6 @@ RUN chmod +x /tmp/start.sh
 
 # set working dir
 WORKDIR /var/www/site/
-
-# make sure apache directory exists otherwise server can't start
-RUN mkdir /var/www/site/$DOCUMENT_ROOT
 
 # set entrypoint
 ENTRYPOINT ["/tmp/start.sh"]
