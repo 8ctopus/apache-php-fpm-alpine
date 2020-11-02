@@ -21,6 +21,13 @@ The docker image size is 41 MB.
 ## start container
 
 ```bash
+docker run -p 80:80 8ct8pus/apache-php-fpm-alpine
++ CTRL-Z to detach
+
+docker stop container
+```
+or
+```bash
 docker-compose up
 ```
 
