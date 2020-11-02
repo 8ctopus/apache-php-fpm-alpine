@@ -98,4 +98,5 @@ To use the new image, update the image link in the docker-compose file.
 
 ## notes
 
-hot reload doesn't work with WSL 2, you need to use the legacy Hyper-V
+In Windows hot reload doesn't work with WSL 2, you need to use the legacy Hyper-V.
+
