@@ -3,8 +3,9 @@
 A super light docker web server with Apache and php-fpm on top of Alpine Linux for development purposes
 
 - Apache 2.4.46 with SSL
-- php-fpm 7.4.11
-- Xdebug debugging from host
+- php-fpm 7.4.12
+- Xdebug debugging
+- Xdebug profiler
 - composer
 - zsh
 
@@ -51,19 +52,25 @@ Add this line to the system host file. Editing the file requires administrator p
 
 ## https
 
-To remove "Your connection is not private" nag screens, import the certificate authority file under ssl/certificate_authority.pem in your browser's certificates under Trusted Root Certification Authorities. (https://support.globalsign.com/digital-certificates/digital-certificate-installation/install-client-digital-certificate-windows-using-chrome)
+To remove "Your connection is not private" nag screens, import the certificate authority file under ssl/certificate_authority.pem in the browser's certificates under Trusted Root Certification Authorities.
 
-## Xdebug
+guide: https://support.globalsign.com/digital-certificates/digital-certificate-installation/install-client-digital-certificate-windows-using-chrome
 
-The docker image is fully configured to debug php code from the PC.
-In the Xdebug client on the computer configure as follows:
+## Xdebug debugging
 
-    host: 127.0.0.1
-    port: 9001
-    path mapping: "/var/www/site/" : "$GIT_ROOT/dev/"
+The docker image is configured to debug php code in Visual Studio Code.
+To start debugging `Run > Start debugging` then load `index.php` in the browser.
 
-For path mapping, $GIT_ROOT is the absolute path to where you cloned this
-repository in.
+For other IDEs, set port to 9001.
+
+## Xdebug profiling
+
+The docker image is configured to profile php code.
+To start profiling, add the `XDEBUG_PROFILE` variable to the request as a GET, POST or COOKIE.
+
+    http://localhost/?XDEBUG_PROFILE
+
+Profiles are stored in the log directory.
 
 ## build docker image
 
