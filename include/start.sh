@@ -64,7 +64,7 @@ then
     openssl req -new -x509 -nodes -key /etc/ssl/apache2/certificate_authority.key -sha256 -days 825 -out /etc/ssl/apache2/certificate_authority.pem -subj "/C=RU/O=8ctopus" 2> /dev/null
 
     # copy certificate authority for docker user access
-#    cp /etc/ssl/apache2/certificate_authority.pem /var/www/site/
+#    cp /etc/ssl/apache2/certificate_authority.pem /var/www/html/
 
     echo "Generate certificate authority - OK"
 fi
@@ -106,10 +106,10 @@ fi
 echo "Configure apache for domain..."
 
 # set document root dir
-sed -i "s|/var/www/localhost/htdocs|/var/www/site$DOCUMENT_ROOT|g" /etc/apache2/httpd.conf
+sed -i "s|/var/www/localhost/htdocs|/var/www/html$DOCUMENT_ROOT|g" /etc/apache2/httpd.conf
 
 # set SSL document root dir
-sed -i "s|DocumentRoot \".*\"|DocumentRoot \"/var/www/site$DOCUMENT_ROOT\"|g" /etc/apache2/conf.d/ssl.conf
+sed -i "s|DocumentRoot \".*\"|DocumentRoot \"/var/www/html$DOCUMENT_ROOT\"|g" /etc/apache2/conf.d/ssl.conf
 
 sed -i "s|#ServerName .*:80|ServerName $DOMAIN:80|g" /etc/apache2/httpd.conf
 sed -i "s|ServerName .*:443|ServerName $DOMAIN:443|g" /etc/apache2/conf.d/ssl.conf

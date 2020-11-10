@@ -120,8 +120,8 @@ RUN sed -i 's|^max_execution_time .*$|max_execution_time = 600|g' /etc/php7/php.
 RUN sed -i 's|^DocumentRoot|<VirtualHost _default_:80>\n    SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1\n</VirtualHost>\n\nDocumentRoot|g' /etc/apache2/httpd.conf
 RUN sed -i 's|<VirtualHost _default_:443>|<VirtualHost _default_:443>\n\nSetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1|g' /etc/apache2/conf.d/ssl.conf
 
-# add site test page
-ADD --chown=root:root include/index.php /var/www/site$DOCUMENT_ROOT/index.php
+# add test page to site
+ADD --chown=root:root include/index.php /var/www/html$DOCUMENT_ROOT/index.php
 
 # add entry point script
 ADD --chown=root:root include/start.sh /tmp/start.sh
@@ -130,7 +130,7 @@ ADD --chown=root:root include/start.sh /tmp/start.sh
 RUN chmod +x /tmp/start.sh
 
 # set working dir
-WORKDIR /var/www/site/
+WORKDIR /var/www/html/
 
 # set entrypoint
 ENTRYPOINT ["/tmp/start.sh"]
