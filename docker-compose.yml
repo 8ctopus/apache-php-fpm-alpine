@@ -3,6 +3,7 @@ version: '3.7'
 services:
   web:
     image: 8ct8pus/apache-php-fpm-alpine:latest
+#    image: apache-php-fpm-alpine:dev
     container_name: web
     ports:
       - 80:80
