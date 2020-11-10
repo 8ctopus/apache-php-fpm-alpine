@@ -1,5 +1,7 @@
 <?php
 
-echo('Hello World');
+echo(<<<EOL
+Hello from docker container!
+EOL);
 
 phpinfo();
