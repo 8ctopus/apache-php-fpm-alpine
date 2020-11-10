@@ -21,18 +21,22 @@ The docker image size is 41 MB.
 
 ## start container
 
-```bash
-docker run -p 80:80 --name web 8ct8pus/apache-php-fpm-alpine:latest
-CTRL-Z to detach
+Starting the container with `docker-compose` offer all container functionalities.
 
-docker stop container
-```
-or
 ```bash
 docker-compose up
 CTRL-Z to detach
 
 docker-compose stop
+```
+
+Alternatively the container can also be started with `docker run`.
+
+```bash
+docker run -p 80:80 --name web 8ct8pus/apache-php-fpm-alpine:latest
+CTRL-Z to detach
+
+docker stop container
 ```
 
 ## access website
@@ -63,10 +67,10 @@ guide: https://support.globalsign.com/digital-certificates/digital-certificate-i
 
 ## Xdebug debugging
 
-The docker image is configured to debug php code in Visual Studio Code.
-To start debugging `Run > Start debugging` then load `index.php` in the browser.
+This github repository is configured to debug php code in Visual Studio Code.
+To start debugging, open the VSCode workspace then select `Run > Start debugging` then open the site in the browser.
 
-For other IDEs, set port to 9001.
+For other IDEs, set the Xdebug debugging port to 9001.
 
 ## Xdebug profiling
 
@@ -77,19 +81,19 @@ To start profiling, add the `XDEBUG_PROFILE` variable to the request as a GET, P
 
 Profiles are stored in the log directory.
 
+## access container through command line
+
+```bash
+docker exec -it web zsh
+```
+
 ## build docker image
 
 ```bash
 docker build -t apache-php-fpm-alpine:dev .
 ```
 
-## get console to container
-
-```bash
-docker exec -it web zsh
-```
-
-## extend the docker image
+## extend docker image
 
 In this example, we add the php-curl extension.
 
