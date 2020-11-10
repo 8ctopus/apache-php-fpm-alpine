@@ -37,6 +37,8 @@ docker-compose up
     http://localhost/
     https://localhost/
 
+The source code is located inside the `html` directory.
+
 ## set domain name
 
 To set the domain name to www.test.com, edit the environment variable in the docker-compose file
@@ -106,4 +108,3 @@ To use the new image, update the image link in the docker-compose file.
 ## notes
 
 In Windows hot reload doesn't work with WSL 2, you need to use the legacy Hyper-V.
-
