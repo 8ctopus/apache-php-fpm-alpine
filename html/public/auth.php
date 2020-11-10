@@ -7,4 +7,3 @@ else {
     //return response('Unauthorized', 401, ['WWW-Authenticate' => 'Basic']);
     header('WWW-Authenticate: Basic');
 }
-
