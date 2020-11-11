@@ -33,7 +33,7 @@ docker-compose stop
 Alternatively the container can also be started with `docker run`.
 
 ```bash
-docker run -p 80:80 --name web 8ct8pus/apache-php-fpm-alpine:latest
+docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:latest
 CTRL-Z to detach
 
 docker stop container
