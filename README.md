@@ -4,9 +4,9 @@ A super light docker web server with Apache and php-fpm on top of Alpine Linux f
 
 - Apache 2.4.46 with SSL
 - php-fpm 7.4.12
-- Xdebug debugging
-- Xdebug profiler
-- composer
+- Xdebug 2.9.8 - debugger and profiler
+- [SPX prolifer 0.4.10](https://github.com/NoiseByNorthwest/php-spx)
+- composer 2.0.6
 - zsh
 
 The docker image size is 41 MB.
@@ -67,20 +67,28 @@ guide: https://support.globalsign.com/digital-certificates/digital-certificate-i
 
 ## Xdebug debugging
 
-This github repository is configured to debug php code in Visual Studio Code.
+This repository is configured to debug php code in Visual Studio Code.
 To start debugging, open the VSCode workspace then select `Run > Start debugging` then open the site in the browser.
 
 For other IDEs, set the Xdebug debugging port to 9001.
 
 ## Xdebug profiling
 
-The docker image is configured to profile php code.
 To start profiling, add the `XDEBUG_PROFILE` variable to the request as a GET, POST or COOKIE.
 
     http://localhost/?XDEBUG_PROFILE
 
-Profiles are stored in the log directory.
+Profiles are stored in the log directory and can be analyzed with tools such as [webgrind](https://github.com/jokkedk/webgrind).
 
+## SPX profiling
+
+To start profiling with SPX:
+
+- Access the [SPX control panel](http://localhost/?SPX_KEY=dev&SPX_UI_URI=/)
+- Check checkbox `Whether to enable SPX profiler for your current browser session. No performance impact for other clients.`
+- Run script to profile
+- Refresh the SPX control panel tab and the report will be available at the bottom of the screen. Click it to show the report in a new tab.
+- 
 ## access container through command line
 
 ```bash
