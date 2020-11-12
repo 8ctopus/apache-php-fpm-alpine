@@ -72,6 +72,8 @@ To start debugging, open the VSCode workspace then select `Run > Start debugging
 
 For other IDEs, set the Xdebug debugging port to 9001.
 
+To troubleshoot debugger issues, check the `xdebug.log` file.
+
 ## Xdebug profiling
 
 To start profiling, add the `XDEBUG_PROFILE` variable to the request as a GET, POST or COOKIE.
