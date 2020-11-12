@@ -35,9 +35,11 @@ RUN apk add \
     php7-curl \
     php7-dom \
     php7-fileinfo \
+    php7-gettext \
     php7-json \
     php7-mbstring \
     php7-mysqli \
+    php7-opcache \
     php7-openssl \
     php7-pdo \
     php7-pdo_mysql \
@@ -45,6 +47,7 @@ RUN apk add \
     php7-posix \
     php7-session \
     php7-simplexml \
+    php7-sodium \
     php7-tokenizer \
     php7-xml \
     php7-xmlwriter \
