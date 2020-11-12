@@ -9,7 +9,7 @@ A super light docker web server with Apache and php-fpm on top of Alpine Linux f
 - composer 2.0.6
 - zsh
 
-The docker image size is 41 MB.
+The docker image size is 54 MB.
 
 ## cool features
 
