@@ -3,10 +3,10 @@
 A super light docker web server with Apache and php-fpm on top of Alpine Linux for development purposes
 
 - Apache 2.4.46 with SSL
-- php-fpm 7.4.12
+- php-fpm 7.3.25
 - Xdebug 2.9.8 - debugger and profiler
 - [SPX prolifer 0.4.10](https://github.com/NoiseByNorthwest/php-spx)
-- composer 2.0.6
+- composer 1.10.19
 - zsh
 
 The docker image size is 54 MB.
@@ -16,17 +16,19 @@ The docker image size is 54 MB.
 - Apache and php configuration files are exposed on the host.
 - Just works with any domain name.
 - https is configured out of the box.
-- All changes to the config files are automatically applied (hot reload).
+- All changes to config files are automatically applied (hot reload).
 - Xdebug is configured for remote debugging (no headaches).
 
 ## start container
 
-Starting the container with `docker-compose` offer all container functionalities.
+Starting the container with `docker-compose` offers all functionalities.
 
 ```bash
+# start container
 docker-compose up
 CTRL-Z to detach
 
+# stop container
 docker-compose stop
 ```
 
@@ -46,7 +48,7 @@ docker stop container
 
 The source code is located inside the `html` directory.
 
-## set domain name
+## set website domain name
 
 To set the domain name to www.test.com, edit the environment variable in the docker-compose file
 
@@ -59,30 +61,30 @@ Add this line to the system host file. Editing the file requires administrator p
 
     127.0.0.1 test.net www.test.net
 
-## https
+## add https
 
 To remove "Your connection is not private" nag screens, import the certificate authority file under ssl/certificate_authority.pem in the browser's certificates under Trusted Root Certification Authorities.
 
 guide: https://support.globalsign.com/digital-certificates/digital-certificate-installation/install-client-digital-certificate-windows-using-chrome
 
-## Xdebug debugging
+## Xdebug debugger
 
 This repository is configured to debug php code in Visual Studio Code.
 To start debugging, open the VSCode workspace then select `Run > Start debugging` then open the site in the browser.
 
 For other IDEs, set the Xdebug debugging port to 9001.
 
-To troubleshoot debugger issues, check the `xdebug.log` file.
+To troubleshoot debugger issues, check the `log\xdebug.log` file.
 
-## Xdebug profiling
+## Xdebug profiler
 
 To start profiling, add the `XDEBUG_PROFILE` variable to the request as a GET, POST or COOKIE.
 
     http://localhost/?XDEBUG_PROFILE
 
-Profiles are stored in the log directory and can be analyzed with tools such as [webgrind](https://github.com/jokkedk/webgrind).
+Profiles are stored in the `log` directory and can be analyzed with tools such as [webgrind](https://github.com/jokkedk/webgrind).
 
-## SPX profiling
+## SPX profiler
 
 To start profiling with SPX:
 
@@ -90,7 +92,9 @@ To start profiling with SPX:
 - Check checkbox `Whether to enable SPX profiler for your current browser session. No performance impact for other clients.`
 - Run script to profile
 - Refresh the SPX control panel tab and the report will be available at the bottom of the screen. Click it to show the report in a new tab.
-- 
+
+_Note_ Disable Xdebug debugger `xdebug.remote_enable` for accurate measurements.
+
 ## access container through command line
 
 ```bash
@@ -116,7 +120,7 @@ docker-compose stop
 docker commit web apache-php-fpm-alpine-curl:dev
 ```
 
-To use the new image, update the image link in the docker-compose file.
+To use this image, update the reference in `docker-compose.yml`.
 
 ## more info on php-fpm
 
