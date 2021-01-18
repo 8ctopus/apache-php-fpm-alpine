@@ -3,10 +3,10 @@
 A super light docker web server with Apache and php-fpm on top of Alpine Linux for development purposes
 
 - Apache 2.4.46 with SSL
-- php-fpm 7.3.25
-- Xdebug 2.9.8 - debugger and profiler
+- php-fpm 7.4.14
+- Xdebug 3.0.2 - debugger and profiler
 - [SPX prolifer 0.4.10](https://github.com/NoiseByNorthwest/php-spx)
-- composer 1.10.19
+- composer 2.0.8
 - zsh
 
 The docker image size is 54 MB.
@@ -101,7 +101,7 @@ _Note_ Disable Xdebug debugger `xdebug.remote_enable` for accurate measurements.
 docker exec -it web zsh
 ```
 
-## build docker image
+## build docker development image
 
 ```bash
 docker build -t apache-php-fpm-alpine:dev .

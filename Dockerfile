@@ -1,4 +1,4 @@
-FROM alpine:3.12.2
+FROM alpine:3.13.0
 
 # expose ports
 EXPOSE 80/tcp
