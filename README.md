@@ -78,6 +78,12 @@ For other IDEs, set the Xdebug debugging port to 9001.
 
 To troubleshoot debugger issues, check the `log\xdebug.log` file.
 
+If `host.docker.internal` does not resolve within the container, update the xdebug client host within `etc\php\conf.d\xdebug.ini` to the docker host ip address.
+
+```
+xdebug.client_host          = 192.168.65.2
+```
+
 ## Xdebug profiler
 
 To start profiling, add the `XDEBUG_PROFILE` variable to the request as a GET, POST or COOKIE.
