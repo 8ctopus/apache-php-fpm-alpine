@@ -4,4 +4,6 @@
 
 /html/vendor/
 
+/php-spx/lib/
+
 /*.sublime-workspace
