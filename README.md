@@ -9,7 +9,7 @@ A super light docker web server with Apache and php-fpm on top of Alpine Linux f
 - composer 2.1.3
 - zsh 5.8
 
-The docker image size is 54 MB.
+The docker image size is 58 MB.
 
 Note: for the web server plus MariaDB, check https://github.com/8ctopus/php-sandbox
 
