@@ -27,38 +27,38 @@ ADD --chown=root:root include/zshrc /etc/zsh/zshrc
 
 # install php
 RUN apk add \
-    # use php7-fpm instead of php7-apache2
-    php7-fpm \
-    php7-bcmath \
-    php7-common \
-    php7-ctype \
-    php7-curl \
-    php7-dom \
-    php7-fileinfo \
-    php7-gettext \
-    php7-json \
-    php7-mbstring \
-    php7-mysqli \
-    php7-opcache \
-    php7-openssl \
-    php7-pdo \
-    php7-pdo_mysql \
-    php7-pdo_sqlite \
-    php7-posix \
-    php7-session \
-    php7-simplexml \
-    php7-sodium \
-    php7-tokenizer \
-    php7-xml \
-    php7-xmlwriter \
-    php7-zip
+    # use php8-fpm instead of php8-apache2
+    php8-fpm \
+    php8-bcmath \
+    php8-common \
+    php8-ctype \
+    php8-curl \
+    php8-dom \
+    php8-fileinfo \
+    php8-gettext \
+    php8-json \
+    php8-mbstring \
+    php8-mysqli \
+    php8-opcache \
+    php8-openssl \
+    php8-pdo \
+    php8-pdo_mysql \
+    php8-pdo_sqlite \
+    php8-posix \
+    php8-session \
+    php8-simplexml \
+    php8-sodium \
+    php8-tokenizer \
+    php8-xml \
+    php8-xmlwriter \
+    php8-zip
 
 # install xdebug
 RUN apk add \
-    php7-pecl-xdebug
+    php8-pecl-xdebug
 
 # configure xdebug
-ADD --chown=root:root include/xdebug.ini /etc/php7/conf.d/xdebug.ini
+ADD --chown=root:root include/xdebug.ini /etc/php8/conf.d/xdebug.ini
 
 # install composer
 RUN apk add \
@@ -98,8 +98,8 @@ RUN sed -i 's|#LoadModule ext_filter_module modules/mod_ext_filter.so|LoadModule
 RUN sed -i 's|Options Indexes FollowSymLinks|Options All|g' /etc/apache2/httpd.conf
 
 # configure php-fpm to use unix socket
-RUN sed -i 's|listen = 127.0.0.1:9000|listen = /var/run/php-fpm7.sock|g' /etc/php7/php-fpm.d/www.conf
-RUN sed -i 's|;listen.owner = nobody|listen.owner = apache|g' /etc/php7/php-fpm.d/www.conf
+RUN sed -i 's|listen = 127.0.0.1:9000|listen = /var/run/php-fpm8.sock|g' /etc/php8/php-fpm.d/www.conf
+RUN sed -i 's|;listen.owner = nobody|listen.owner = apache|g' /etc/php8/php-fpm.d/www.conf
 
 # switch apache to use php-fpm through proxy
 # don't use proxy pass match because it does not support directory indexing
@@ -107,7 +107,7 @@ RUN sed -i 's|;listen.owner = nobody|listen.owner = apache|g' /etc/php7/php-fpm.
 
 # use set handler to route php requests to php-fpm
 RUN sed -i 's|^DocumentRoot|<FilesMatch "\.php$">\n\
-    SetHandler "proxy:unix:/var/run/php-fpm7.sock\|fcgi://localhost"\n\
+    SetHandler "proxy:unix:/var/run/php-fpm8.sock\|fcgi://localhost"\n\
 </FilesMatch>\n\nDocumentRoot|g' /etc/apache2/httpd.conf
 
 # update directory index to add php files
@@ -117,7 +117,7 @@ RUN sed -i 's|DirectoryIndex index.html|DirectoryIndex index.php index.html|g' /
 RUN sed -i 's|^Timeout .*$|Timeout 600|g' /etc/apache2/conf.d/default.conf
 
 # change php max execution time for easier debugging
-RUN sed -i 's|^max_execution_time .*$|max_execution_time = 600|g' /etc/php7/php.ini
+RUN sed -i 's|^max_execution_time .*$|max_execution_time = 600|g' /etc/php8/php.ini
 
 # add http authentication support
 RUN sed -i 's|^DocumentRoot|<VirtualHost _default_:80>\n    SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1\n</VirtualHost>\n\nDocumentRoot|g' /etc/apache2/httpd.conf
@@ -125,8 +125,8 @@ RUN sed -i 's|<VirtualHost _default_:443>|<VirtualHost _default_:443>\n\nSetEnvI
 
 # add php-spx
 ADD --chown=root:root include/php-spx/assets/ /usr/share/misc/php-spx/assets/
-ADD --chown=root:root include/php-spx/spx.so /usr/lib/php7/modules/spx.so
-ADD --chown=root:root include/php-spx/spx.ini /etc/php7/conf.d/spx.ini
+ADD --chown=root:root include/php-spx/spx.so /usr/lib/php8/modules/spx.so
+ADD --chown=root:root include/php-spx/spx.ini /etc/php8/conf.d/spx.ini
 
 # add test pages to site
 ADD --chown=root:root html/public/ /var/www/html$DOCUMENT_ROOT/

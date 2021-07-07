@@ -3,7 +3,7 @@
 A super light docker web server with Apache and php-fpm on top of Alpine Linux for development purposes
 
 - Apache 2.4.48 with SSL
-- php-fpm 7.4.21
+- php-fpm 8.0.8 or 7.4.21
 - Xdebug 3.0.4 - debugger and profiler
 - [SPX prolifer 0.4.10](https://github.com/NoiseByNorthwest/php-spx)
 - composer 2.1.3
@@ -15,6 +15,7 @@ Note: for the web server plus MariaDB, check https://github.com/8ctopus/php-sand
 
 ## cool features
 
+- php 8 or 7
 - Apache and php configuration files are exposed on the host.
 - Just works with any domain name.
 - https is configured out of the box.
@@ -25,10 +26,11 @@ Note: for the web server plus MariaDB, check https://github.com/8ctopus/php-sand
 
 Starting the container with `docker-compose` offers all functionalities.
 
-```bash
-# start container
+```shell
+# start container (php 8 by default)
 docker-compose up
-CTRL-Z to detach
+
+# CTRL-Z to detach
 
 # stop container
 docker-compose stop
@@ -36,8 +38,13 @@ docker-compose stop
 
 Alternatively the container can also be started with `docker run`.
 
-```bash
+```shell
+# php 8
 docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:latest
+
+# php 7.4
+docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:1.1.3
+
 CTRL-Z to detach
 
 docker stop container
@@ -105,13 +112,13 @@ _Note_ Disable Xdebug debugger `xdebug.remote_enable` for accurate measurements.
 
 ## access container through command line
 
-```bash
+```shell
 docker exec -it web zsh
 ```
 
 ## build docker development image
 
-```bash
+```shell
 docker build -t apache-php-fpm-alpine:dev .
 ```
 
@@ -119,7 +126,7 @@ docker build -t apache-php-fpm-alpine:dev .
 
 In this example, we add the php-curl extension.
 
-```bash
+```shell
 docker-compose up --detach
 docker exec -it web zsh
 apk add php-curl
