@@ -8,7 +8,7 @@ RUN apk add build-base
 RUN apk add git
 
 # add php dev
-RUN apk add php7-dev
+RUN apk add php8-dev
 
 # add zlib dev
 RUN apk add zlib-dev
@@ -22,8 +22,11 @@ WORKDIR /php-spx
 # checkout release
 RUN git checkout tags/v0.4.10
 
+# fix ./configure "Cannot find php-config. Please use --with-php-config=PATH"
+RUN ln -s /usr/bin/php-config8 /usr/bin/php-config
+
 # build php-spx
-RUN phpize
+RUN phpize8
 RUN ./configure
 RUN make
 
