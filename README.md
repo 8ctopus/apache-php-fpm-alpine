@@ -108,7 +108,7 @@ To start profiling with SPX:
 - Run script to profile
 - Refresh the SPX control panel tab and the report will be available at the bottom of the screen. Click it to show the report in a new tab.
 
-_Note_ Disable Xdebug debugger `xdebug.remote_enable` for accurate measurements.
+_Note_: Disable Xdebug debugger `xdebug.remote_enable` for accurate measurements.
 
 ## access container through command line
 
@@ -116,11 +116,24 @@ _Note_ Disable Xdebug debugger `xdebug.remote_enable` for accurate measurements.
 docker exec -it web zsh
 ```
 
-## build docker development image
+## use development image
 
-```sh
-docker build -t apache-php-fpm-alpine:dev .
+- build docker development image
+
+`docker build -t apache-php-fpm-alpine:dev .`
+
+- `rm -rf etc log ssl/localhost*`
+- in docker-compose.yml
+
+```yaml
+services:
+  web:
+    # development image
+    image: apache-php-fpm-alpine:dev
 ```
+
+- `docker-compose up`
+- open browser at `localhost`
 
 ## extend docker image
 
@@ -136,6 +149,14 @@ docker commit web apache-php-fpm-alpine-curl:dev
 ```
 
 To use this image, update the reference in `docker-compose.yml`.
+
+## build php spx
+
+```sh
+cd php-spx
+./build.sh
+cp lib/alpine-3.15.0/spx.so ../include/php-spx/
+```
 
 ## more info on php-fpm
 
