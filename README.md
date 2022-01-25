@@ -1,4 +1,4 @@
-## project description
+# apache php-fpm alpine
 
 A super light docker web server with Apache and php-fpm on top of Alpine Linux for development purposes
 
@@ -94,7 +94,7 @@ To troubleshoot debugger issues, check the `log\xdebug.log` file.
 
 If `host.docker.internal` does not resolve within the container, update the xdebug client host within `etc\php\conf.d\xdebug.ini` to the docker host ip address.
 
-```
+```ini
 xdebug.client_host          = 192.168.65.2
 ```
 
@@ -154,6 +154,17 @@ exit
 
 docker-compose stop
 docker commit web apache-php-fpm-alpine-curl:dev
+```
+
+To use the new image, update the image link in the docker-compose file.
+
+## update docker image
+
+When you update the docker image version, it's important to know that the existing configuration in `etc` may cause problems.
+To solve the problems, backup your config then delete all config files:
+
+```sh
+rm -rf etc/ log/ ssl/
 ```
 
 ## build php spx
