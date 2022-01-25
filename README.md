@@ -12,7 +12,7 @@ A super light docker web server with Apache and php-fpm on top of Alpine Linux f
 
 The docker image size is 61 MB.
 
-Note: for the web server plus MariaDB, check https://github.com/8ctopus/php-sandbox
+_Note_: for the web server plus MariaDB, check https://github.com/8ctopus/php-sandbox
 
 ## cool features
 
@@ -22,6 +22,8 @@ Note: for the web server plus MariaDB, check https://github.com/8ctopus/php-sand
 - https is configured out of the box.
 - All changes to config files are automatically applied (hot reload).
 - Xdebug is configured for remote debugging (no headaches).
+
+_Note_: On Windows [hot reload doesn't work with WSL 2](https://github.com/microsoft/WSL/issues/4739), you need to use the legacy Hyper-V.
 
 ## use container
 
@@ -165,7 +167,3 @@ cp lib/alpine-3.15.0/spx.so ../include/php-spx/
 ## more info on php-fpm
 
     https://php-fpm.org/about/
-
-## notes
-
-In Windows hot reload doesn't work with WSL 2, you need to use the legacy Hyper-V.
