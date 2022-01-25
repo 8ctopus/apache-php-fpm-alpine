@@ -26,7 +26,7 @@ Note: for the web server plus MariaDB, check https://github.com/8ctopus/php-sand
 
 Starting the container with `docker-compose` offers all functionalities.
 
-```shell
+```sh
 # start container (php 8 by default)
 docker-compose up
 
@@ -38,7 +38,7 @@ docker-compose stop
 
 Alternatively the container can also be started with `docker run`.
 
-```shell
+```sh
 # php 8
 docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:latest
 
@@ -112,13 +112,13 @@ _Note_ Disable Xdebug debugger `xdebug.remote_enable` for accurate measurements.
 
 ## access container through command line
 
-```shell
+```sh
 docker exec -it web zsh
 ```
 
 ## build docker development image
 
-```shell
+```sh
 docker build -t apache-php-fpm-alpine:dev .
 ```
 
@@ -126,7 +126,7 @@ docker build -t apache-php-fpm-alpine:dev .
 
 In this example, we add the php-curl extension.
 
-```shell
+```sh
 docker-compose up --detach
 docker exec -it web zsh
 apk add php-curl
