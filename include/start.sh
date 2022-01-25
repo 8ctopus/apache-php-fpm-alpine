@@ -7,6 +7,7 @@ echo "domain: $DOMAIN"
 echo "document root: $DOCUMENT_ROOT"
 
 # check if we should expose apache to host
+# /docker/etc/ must be set in docker-compose
 if [ -d /docker/etc/ ];
 then
     echo "Expose apache to host..."
