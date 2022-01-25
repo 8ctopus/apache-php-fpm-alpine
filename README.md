@@ -1,11 +1,11 @@
-# apache php-fpm alpine
+# docker apache php-fpm alpine
 
 A super light docker web server with Apache and php-fpm on top of Alpine Linux for development purposes
 
 - Apache 2.4.52 with SSL
 - php-fpm 8.0.14 or 7.4.21
 - Xdebug 3.1.2 - debugger and profiler
-- [SPX prolifer 0.4.10](https://github.com/NoiseByNorthwest/php-spx)
+- [SPX prolifer 0.4.11](https://github.com/NoiseByNorthwest/php-spx)
 - composer 2.1.12
 - zsh 5.8
 - Alpine 3.15.0
