@@ -148,8 +148,6 @@ docker-compose stop
 docker commit web apache-php-fpm-alpine-curl:dev
 ```
 
-To use this image, update the reference in `docker-compose.yml`.
-
 ## build php spx
 
 ```sh
