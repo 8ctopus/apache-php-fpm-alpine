@@ -8,8 +8,9 @@ A super light docker web server with Apache and php-fpm on top of Alpine Linux f
 - [SPX prolifer 0.4.10](https://github.com/NoiseByNorthwest/php-spx)
 - composer 2.1.12
 - zsh 5.8
+- Alpine 3.15.0
 
-The docker image size is 58 MB.
+The docker image size is 61 MB.
 
 Note: for the web server plus MariaDB, check https://github.com/8ctopus/php-sandbox
 
@@ -22,18 +23,22 @@ Note: for the web server plus MariaDB, check https://github.com/8ctopus/php-sand
 - All changes to config files are automatically applied (hot reload).
 - Xdebug is configured for remote debugging (no headaches).
 
-## start container
+## use container
 
 Starting the container with `docker-compose` offers all functionalities.
 
 ```sh
-# start container (php 8 by default)
-docker-compose up
+# start container on linux and mac in shell
+docker-compose up &
 
-# CTRL-Z to detach
+# start container on Windows in cmd
+start /B docker-compose up
 
 # stop container
 docker-compose stop
+
+# delete container
+docker-compose down
 ```
 
 Alternatively the container can also be started with `docker run`.
@@ -144,6 +149,7 @@ docker-compose up --detach
 docker exec -it web zsh
 apk add php-curl
 exit
+
 docker-compose stop
 docker commit web apache-php-fpm-alpine-curl:dev
 ```
