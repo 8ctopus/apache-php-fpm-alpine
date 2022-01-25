@@ -20,7 +20,7 @@ RUN git clone https://github.com/NoiseByNorthwest/php-spx.git
 WORKDIR /php-spx
 
 # checkout release
-RUN git checkout tags/v0.4.10
+RUN git checkout tags/v0.4.11
 
 # fix ./configure "Cannot find php-config. Please use --with-php-config=PATH"
 RUN ln -s /usr/bin/php-config8 /usr/bin/php-config
