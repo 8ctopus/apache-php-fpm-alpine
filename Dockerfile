@@ -123,6 +123,9 @@ RUN sed -i 's|<VirtualHost _default_:443>|<VirtualHost _default_:443>\n\nSetEnvI
 # update php max execution time for easier debugging
 RUN sed -i 's|^max_execution_time .*$|max_execution_time = 600|g' /etc/php8/php.ini
 
+# php log everything
+RUN sed -i 's|^error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT$|error_reporting = E_ALL|g' /etc/php8/php.ini
+
 # add php-spx
 ADD --chown=root:root include/php-spx/assets/ /usr/share/misc/php-spx/assets/
 ADD --chown=root:root include/php-spx/spx.so /usr/lib/php8/modules/spx.so
