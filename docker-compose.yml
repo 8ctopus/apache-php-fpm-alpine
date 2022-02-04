@@ -19,8 +19,8 @@ services:
       # development directory
       - ./html/:/var/www/html/
       # expose apache logs to host
-      - ./log/:/var/log/apache2/
+      - ./docker/log/:/var/log/apache2/
       # expose apache2 and php config to host
-      - ./etc/:/docker/etc/
+      - ./docker/etc/:/docker/etc/
       # expose ssl certificates to host
-      - ./ssl/:/etc/ssl/apache2/
+      - ./docker/ssl/:/etc/ssl/apache2/
