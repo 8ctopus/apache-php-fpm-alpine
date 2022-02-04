@@ -30,10 +30,10 @@ _Note_: On Windows [hot reload doesn't work with WSL 2](https://github.com/micro
 Starting the container with `docker-compose` offers all functionalities.
 
 ```sh
-# start container on linux and mac in shell
+# start container in detached mode on linux and mac in shell
 docker-compose up &
 
-# start container on Windows in cmd
+# start container in detached mode on Windows in cmd
 start /B docker-compose up
 
 # stop container
