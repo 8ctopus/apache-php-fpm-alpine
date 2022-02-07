@@ -85,10 +85,10 @@ guide: https://support.globalsign.com/digital-certificates/digital-certificate-i
 
 ## Xdebug debugger
 
-This repository is configured to debug php code in Visual Studio Code.
-To start debugging, open the VSCode workspace then select `Run > Start debugging` then open the site in the browser.
+This repository is configured to debug php code in Visual Studio Code. To start debugging, open the VSCode workspace then select `Run > Start debugging` then open the site in the browser.
+The default config is to stop on entry which stops at the first line in the file. To only stop on breakpoints, set `stopOnEntry` to `false` in `.vscode/launch.json`.
 
-For other IDEs, set the Xdebug debugging port to 9001.
+For other IDEs, set the Xdebug debugging port to `9001`.
 
 To troubleshoot debugger issues, check the `log/xdebug.log` file.
 
