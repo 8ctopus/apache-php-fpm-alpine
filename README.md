@@ -36,6 +36,9 @@ docker-compose up &
 # start container in detached mode on Windows in cmd
 start /B docker-compose up
 
+# view logs
+docker-compose logs -f
+
 # stop container
 docker-compose stop
 
