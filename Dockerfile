@@ -70,6 +70,17 @@ RUN apk add \
     apache2-ssl \
     apache2-proxy
 
+# add user www-data
+# group www-data already exists
+# -H don't create home directory
+# -D don't assign a password
+# -S create a system user
+RUN adduser -H -D -S -G www-data -s /sbin/nologin www-data
+
+# update user and group apache runs under
+RUN sed -i 's|User apache|User www-data|g' /etc/apache2/httpd.conf
+RUN sed -i 's|Group apache|Group www-data|g' /etc/apache2/httpd.conf
+
 # enable mod rewrite
 RUN sed -i 's|#LoadModule rewrite_module modules/mod_rewrite.so|LoadModule rewrite_module modules/mod_rewrite.so|g' /etc/apache2/httpd.conf
 
@@ -97,9 +108,14 @@ RUN sed -i 's|#LoadModule ext_filter_module modules/mod_ext_filter.so|LoadModule
 # authorize all changes in htaccess
 RUN sed -i 's|Options Indexes FollowSymLinks|Options All|g' /etc/apache2/httpd.conf
 
+# configure php-fpm to run as www-data
+RUN sed -i 's|user = nobody|user = www-data|g' /etc/php8/php-fpm.d/www.conf
+RUN sed -i 's|group = nobody|group = www-data|g' /etc/php8/php-fpm.d/www.conf
+RUN sed -i 's|;listen.owner = nobody|listen.owner = www-data|g' /etc/php8/php-fpm.d/www.conf
+RUN sed -i 's|;listen.group = group|listen.group = www-data|g' /etc/php8/php-fpm.d/www.conf
+
 # configure php-fpm to use unix socket
 RUN sed -i 's|listen = 127.0.0.1:9000|listen = /var/run/php-fpm8.sock|g' /etc/php8/php-fpm.d/www.conf
-RUN sed -i 's|;listen.owner = nobody|listen.owner = apache|g' /etc/php8/php-fpm.d/www.conf
 
 # switch apache to use php-fpm through proxy
 # don't use proxy pass match because it does not support directory indexing
