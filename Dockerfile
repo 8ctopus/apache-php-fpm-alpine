@@ -81,11 +81,14 @@ RUN adduser -H -D -S -G www-data -s /sbin/nologin www-data
 RUN sed -i 's|User apache|User www-data|g' /etc/apache2/httpd.conf
 RUN sed -i 's|Group apache|Group www-data|g' /etc/apache2/httpd.conf
 
-# enable mod rewrite
+# enable mod rewrite (rewrite urls in htaccess)
 RUN sed -i 's|#LoadModule rewrite_module modules/mod_rewrite.so|LoadModule rewrite_module modules/mod_rewrite.so|g' /etc/apache2/httpd.conf
 
 # authorize all directives in .htaccess
 RUN sed -i 's|    AllowOverride None|    AllowOverride All|g' /etc/apache2/httpd.conf
+
+# authorize all changes from htaccess
+RUN sed -i 's|Options Indexes FollowSymLinks|Options All|g' /etc/apache2/httpd.conf
 
 # update error and access logs location
 RUN mkdir -p /var/log/apache2
@@ -104,9 +107,6 @@ RUN sed -i 's|#LoadModule mpm_event_module modules/mod_mpm_event.so|LoadModule m
 RUN sed -i 's|#LoadModule deflate_module modules/mod_deflate.so|LoadModule deflate_module modules/mod_deflate.so|g' /etc/apache2/httpd.conf
 RUN sed -i 's|#LoadModule expires_module modules/mod_expires.so|LoadModule expires_module modules/mod_expires.so|g' /etc/apache2/httpd.conf
 RUN sed -i 's|#LoadModule ext_filter_module modules/mod_ext_filter.so|LoadModule ext_filter_module modules/mod_ext_filter.so|g' /etc/apache2/httpd.conf
-
-# authorize all changes from htaccess
-RUN sed -i 's|Options Indexes FollowSymLinks|Options All|g' /etc/apache2/httpd.conf
 
 # configure php-fpm to run as www-data
 RUN sed -i 's|user = nobody|user = www-data|g' /etc/php8/php-fpm.d/www.conf
