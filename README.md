@@ -185,8 +185,8 @@ cp lib/alpine-3.15.0/spx.so ../include/php-spx/
 Only for repository owner
 
 ```sh
-docker build -t 8ct8pus/apache-php-fpm-alpine:1.2.3 .
-docker push 8ct8pus/apache-php-fpm-alpine:1.2.3
+docker build -t 8ct8pus/apache-php-fpm-alpine:1.2.4 .
+docker push 8ct8pus/apache-php-fpm-alpine:1.2.4
 ```
 
 ## more info on php-fpm
