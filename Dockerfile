@@ -99,6 +99,14 @@ RUN sed -i 's| logs/access.log| /var/log/apache2/access_log|g' /etc/apache2/http
 RUN sed -i 's|ErrorLog logs/ssl_error.log|ErrorLog /var/log/apache2/error_log|g' /etc/apache2/conf.d/ssl.conf
 RUN sed -i 's|TransferLog logs/ssl_access.log|TransferLog /var/log/apache2/access_log|g' /etc/apache2/conf.d/ssl.conf
 
+# update error log logging format
+RUN sed -i 's|^<IfModule log_config_module>|<IfModule log_config_module>\n\
+    # custom error log format\n\
+    ErrorLogFormat "[%t] [%l] [client %a] %M, referer: %{Referer}i"\n\
+    \n\
+    # log 404 as errors\n\
+    LogLevel core:info\n|g' /etc/apache2/httpd.conf
+
 # switch from mpm_prefork to mpm_event
 RUN sed -i 's|LoadModule mpm_prefork_module modules/mod_mpm_prefork.so|#LoadModule mpm_prefork_module modules/mod_mpm_prefork.so|g' /etc/apache2/httpd.conf
 RUN sed -i 's|#LoadModule mpm_event_module modules/mod_mpm_event.so|LoadModule mpm_event_module modules/mod_mpm_event.so|g' /etc/apache2/httpd.conf
