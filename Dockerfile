@@ -87,14 +87,14 @@ RUN sed -i 's|#LoadModule rewrite_module modules/mod_rewrite.so|LoadModule rewri
 # authorize all directives in .htaccess
 RUN sed -i 's|    AllowOverride None|    AllowOverride All|g' /etc/apache2/httpd.conf
 
-# change log files location
+# update error and access logs location
 RUN mkdir -p /var/log/apache2
-RUN sed -i 's| logs/error.log| /var/log/apache2/error.log|g' /etc/apache2/httpd.conf
-RUN sed -i 's| logs/access.log| /var/log/apache2/access.log|g' /etc/apache2/httpd.conf
+RUN sed -i 's| logs/error.log| /var/log/apache2/error_log|g' /etc/apache2/httpd.conf
+RUN sed -i 's| logs/access.log| /var/log/apache2/access_log|g' /etc/apache2/httpd.conf
 
-# change SSL log files location
-RUN sed -i 's|ErrorLog logs/ssl_error.log|ErrorLog /var/log/apache2/error.log|g' /etc/apache2/conf.d/ssl.conf
-RUN sed -i 's|TransferLog logs/ssl_access.log|TransferLog /var/log/apache2/access.log|g' /etc/apache2/conf.d/ssl.conf
+# update SSL log location
+RUN sed -i 's|ErrorLog logs/ssl_error.log|ErrorLog /var/log/apache2/error_log|g' /etc/apache2/conf.d/ssl.conf
+RUN sed -i 's|TransferLog logs/ssl_access.log|TransferLog /var/log/apache2/access_log|g' /etc/apache2/conf.d/ssl.conf
 
 # switch from mpm_prefork to mpm_event
 RUN sed -i 's|LoadModule mpm_prefork_module modules/mod_mpm_prefork.so|#LoadModule mpm_prefork_module modules/mod_mpm_prefork.so|g' /etc/apache2/httpd.conf
@@ -105,7 +105,7 @@ RUN sed -i 's|#LoadModule deflate_module modules/mod_deflate.so|LoadModule defla
 RUN sed -i 's|#LoadModule expires_module modules/mod_expires.so|LoadModule expires_module modules/mod_expires.so|g' /etc/apache2/httpd.conf
 RUN sed -i 's|#LoadModule ext_filter_module modules/mod_ext_filter.so|LoadModule ext_filter_module modules/mod_ext_filter.so|g' /etc/apache2/httpd.conf
 
-# authorize all changes in htaccess
+# authorize all changes from htaccess
 RUN sed -i 's|Options Indexes FollowSymLinks|Options All|g' /etc/apache2/httpd.conf
 
 # configure php-fpm to run as www-data
