@@ -162,8 +162,8 @@ then
 fi
 
 # clean log files
-truncate -s 0 /var/log/apache2/access.log 2> /dev/null
-truncate -s 0 /var/log/apache2/error.log 2> /dev/null
+truncate -s 0 /var/log/apache2/access_log 2> /dev/null
+truncate -s 0 /var/log/apache2/error_log 2> /dev/null
 truncate -s 0 /var/log/apache2/ssl_request.log 2> /dev/null
 truncate -s 0 /var/log/apache2/xdebug.log 2> /dev/null
 
