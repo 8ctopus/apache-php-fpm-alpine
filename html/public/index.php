@@ -11,7 +11,15 @@ while ($it->valid()) {
     if (!$it->isDot()) {
         $file = $it->getSubPath() .'/'. $it->getSubPathName();
 
-        echo "<a href=\"{$file}\">{$file}</a>" . PHP_EOL;
+        switch ($it->getSubPathName()) {
+            case 'index.php':
+            case 'favicon.ico':
+                break;
+
+            default:
+                echo "<a href=\"{$file}\">{$file}</a>" . PHP_EOL;
+                break;
+        }
     }
 
     $it->next();
