@@ -1,7 +1,8 @@
 <?php
 
-echo('<pre>');
-echo('REMOTE ADDR: '. $_SERVER['REMOTE_ADDR'] . PHP_EOL . PHP_EOL);
+require_once '../header.php';
+
+echo 'REMOTE ADDR: '. $_SERVER['REMOTE_ADDR'] . PHP_EOL . PHP_EOL;
 
 class Strings
 {
@@ -19,3 +20,5 @@ class Strings
 }
 
 $ret = Strings::fix_strings(['Derick']);
+
+require_once '../footer.php';
