@@ -93,7 +93,7 @@ The default config is to stop on entry which stops at the first line in the file
 
 For other IDEs, set the Xdebug debugging port to `9001`.
 
-To troubleshoot debugger issues, check the `log/xdebug.log` file.
+To troubleshoot debugger issues, check the `docker/log/xdebug.log` file.
 
 If `host.docker.internal` does not resolve within the container, update the xdebug client host within `docker/etc/php/conf.d/xdebug.ini` to the docker host ip address.
 
@@ -161,7 +161,7 @@ docker-compose stop
 docker commit web apache-php-fpm-alpine-curl:dev
 ```
 
-To use the new image, update the image link in the docker-compose file.
+To use this image, update the reference in `docker-compose.yml`.
 
 ## update docker image
 
