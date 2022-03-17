@@ -3,12 +3,12 @@
 A super light docker web server with Apache and php-fpm on top of Alpine Linux for development purposes
 
 - Apache 2.4.52 with SSL
-- php-fpm 8.0.14 or 7.4.21
-- Xdebug 3.1.2 - debugger and profiler
+- php-fpm 8.0.16 or 7.4.21
+- Xdebug 3.1.3 - debugger and profiler
 - [SPX prolifer 0.4.11](https://github.com/NoiseByNorthwest/php-spx)
 - composer 2.1.12
-- zsh 5.8
-- Alpine 3.15.0
+- zsh 5.8.1
+- Alpine 3.15.1
 
 The docker image size is 61 MB.
 
