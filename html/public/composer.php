@@ -8,7 +8,7 @@
 $autoLoad = '../vendor/autoload.php';
 
 if (!file_exists($autoLoad)) {
-    echo 'please run docker exec web composer install';
+    echo 'please run docker exec web composer install and refresh the page';
     exit;
 }
 
