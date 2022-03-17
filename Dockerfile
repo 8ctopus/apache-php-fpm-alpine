@@ -81,6 +81,9 @@ RUN adduser -H -D -S -G www-data -s /sbin/nologin www-data
 RUN sed -i 's|User apache|User www-data|g' /etc/apache2/httpd.conf
 RUN sed -i 's|Group apache|Group www-data|g' /etc/apache2/httpd.conf
 
+# add symbolic link to php
+RUN ln -s /usr/bin/php8 /usr/bin/php
+
 # enable mod rewrite (rewrite urls in htaccess)
 RUN sed -i 's|#LoadModule rewrite_module modules/mod_rewrite.so|LoadModule rewrite_module modules/mod_rewrite.so|g' /etc/apache2/httpd.conf
 
