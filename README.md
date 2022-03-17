@@ -120,7 +120,7 @@ To start profiling with SPX:
 
 _Note_: Disable Xdebug debugger `xdebug.remote_enable` for accurate measurements.
 
-## access container through command line
+## access container command line
 
 ```sh
 docker exec -it web zsh
