@@ -129,7 +129,23 @@ Profiles are stored in the `log` directory and can be analyzed with tools such a
 docker exec -it web zsh
 ```
 
-## use development image
+## extend docker image
+
+Let's extend this docker image by adding the `php-curl` extension.
+
+```sh
+docker-compose up --detach
+docker exec -it web zsh
+apk add php-curl
+exit
+
+docker-compose stop
+docker commit web apache-php-fpm-alpine-curl:dev
+```
+
+To use newly created image, update the image reference in `docker-compose.yml`.
+
+## development image
 
 - build docker development image
 
@@ -147,45 +163,22 @@ services:
     image: apache-php-fpm-alpine:dev
 ```
 
-- `docker-compose up`
-- open browser at `localhost`
-
-## extend docker image
-
-In this example, we add the php-curl extension.
-
-```sh
-docker-compose up --detach
-docker exec -it web zsh
-apk add php-curl
-exit
-
-docker-compose stop
-docker commit web apache-php-fpm-alpine-curl:dev
-```
-
-To use this image, update the reference in `docker-compose.yml`.
-
 ## update docker image
 
 When you update the docker image version, it's important to know that the existing configuration in `docker/etc` may cause problems.
-To solve the problems, backup your config then delete all config files:
+To solve the problems, backup your config then delete all existing config files.
 
-```sh
-rm -rf docker/
-```
+## release docker image
 
-## build php spx
+Only for repository owner
+
+### build php spx
 
 ```sh
 cd php-spx
 ./build.sh
 cp lib/alpine-3.15.0/spx.so ../include/php-spx/
 ```
-
-## release docker image
-
-Only for repository owner
 
 ```sh
 docker build -t 8ct8pus/apache-php-fpm-alpine:1.2.6 .
