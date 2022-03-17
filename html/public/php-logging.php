@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Test php logging
+ */
+
 require_once '../header.php';
 
 echo 'test php logging' . PHP_EOL . PHP_EOL;

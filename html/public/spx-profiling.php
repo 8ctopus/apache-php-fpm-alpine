@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Test php spx
+ */
+
 require_once '../header.php';
 
 echo '<a href="/?SPX_KEY=dev&SPX_UI_URI=/" target="_blank">SPX control panel</a>' . PHP_EOL . PHP_EOL;

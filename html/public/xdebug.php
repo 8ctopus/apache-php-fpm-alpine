@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Test xdebug
+ */
+
 require_once '../header.php';
 
 echo 'REMOTE ADDR: '. $_SERVER['REMOTE_ADDR'] . PHP_EOL . PHP_EOL;
