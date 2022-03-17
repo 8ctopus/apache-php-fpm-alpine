@@ -2,7 +2,7 @@
 
 A super light docker web server with Apache and php-fpm on top of Alpine Linux for development purposes
 
-- Apache 2.4.52 with SSL
+- Apache 2.4.53 with SSL
 - php-fpm 8.0.16 or 7.4.21
 - Xdebug 3.1.3 - debugger and profiler
 - [SPX prolifer 0.4.11](https://github.com/NoiseByNorthwest/php-spx)
@@ -17,11 +17,12 @@ _Note_: for this server plus MariaDB, check https://github.com/8ctopus/php-sandb
 ## cool features
 
 - php 8 or 7
-- Apache and php configuration files are exposed on the host.
-- Just works with any domain name.
-- https is configured out of the box.
-- All changes to config files are automatically applied (hot reload).
-- Xdebug is configured for remote debugging (no headaches).
+- Apache and php configuration files are exposed on the host
+- Just works with any domain name
+- https is configured out of the box
+- All changes to config files are automatically applied (hot reload)
+- Xdebug is configured for php step by step debugging
+- Profile php code with SPX
 
 _Note_: On Windows [hot reload doesn't work with WSL 2](https://github.com/microsoft/WSL/issues/4739), you need to use the legacy Hyper-V.
 
@@ -30,11 +31,11 @@ _Note_: On Windows [hot reload doesn't work with WSL 2](https://github.com/micro
 Starting the container with `docker-compose` offers all functionalities.
 
 ```sh
-# start container in detached mode on linux and mac in shell
-docker-compose up &
-
 # start container in detached mode on Windows in cmd
 start /B docker-compose up
+
+# start container in detached mode on linux and mac in shell
+docker-compose up &
 
 # view logs
 docker-compose logs -f
@@ -67,9 +68,9 @@ docker stop container
 
 The source code is located inside the `html` directory.
 
-## set website domain name
+## set domain name
 
-To set the domain name to www.test.com, edit the environment variable in the docker-compose file
+To set the domain name to www.test.com, edit the environment variable in the `docker-compose.yml` file
 
     environment:
       - DOMAIN=www.test.com
@@ -98,10 +99,16 @@ To troubleshoot debugger issues, check the `docker/log/xdebug.log` file.
 If `host.docker.internal` does not resolve within the container, update the xdebug client host within `docker/etc/php/conf.d/xdebug.ini` to the docker host ip address.
 
 ```ini
-xdebug.client_host          = 192.168.65.2
+xdebug.client_host = 192.168.65.2
 ```
 
-## Xdebug profiler
+## Code profiling
+
+Code profiling comes in 2 variants.
+
+_Note_: Disable Xdebug debugger `xdebug.remote_enable` for accurate measurements.
+
+## Xdebug
 
 To start profiling, add the `XDEBUG_PROFILE` variable to the request as a GET, POST or COOKIE.
 
@@ -109,16 +116,12 @@ To start profiling, add the `XDEBUG_PROFILE` variable to the request as a GET, P
 
 Profiles are stored in the `log` directory and can be analyzed with tools such as [webgrind](https://github.com/jokkedk/webgrind).
 
-## SPX profiler
-
-To start profiling with SPX:
+## SPX
 
 - Access the [SPX control panel](http://localhost/?SPX_KEY=dev&SPX_UI_URI=/)
 - Check checkbox `Whether to enable SPX profiler for your current browser session. No performance impact for other clients.`
-- Run script to profile
+- Run the script to profile
 - Refresh the SPX control panel tab and the report will be available at the bottom of the screen. Click it to show the report in a new tab.
-
-_Note_: Disable Xdebug debugger `xdebug.remote_enable` for accurate measurements.
 
 ## access container command line
 
