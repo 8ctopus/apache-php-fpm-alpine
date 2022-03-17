@@ -6,5 +6,7 @@
             "email": "hello@octopuslabs.io"
         }
     ],
-    "require": {}
+    "require": {
+        "filp/whoops": "^2.14"
+    }
 }
