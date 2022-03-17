@@ -8,7 +8,7 @@
 $autoLoad = '../vendor/autoload.php';
 
 if (!file_exists($autoLoad)) {
-    echo 'please run docker exec web composer install and refresh the page';
+    echo 'please run "docker exec web composer install" and refresh the page';
     exit;
 }
 
@@ -20,7 +20,7 @@ $whoops = new \Whoops\Run();
 $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
 $whoops->register();
 
-// let's generate a division by zero to showcase whoops
+// let's generate a division by zero to showcase what whoops does
 $a = 1;
 $b = 0;
 
