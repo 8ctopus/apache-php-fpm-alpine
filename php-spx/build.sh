@@ -1,8 +1,10 @@
+# https://stackoverflow.com/a/20434740/10126479
+DIR="$( cd "$( dirname "$0" )" && pwd )"
+
 # build for ubuntu 20.04
-#DOCKER_BUILDKIT=1 docker build --file Dockerfile-ubuntu --build-arg "VERSION=20.04" --output type=local,dest=lib .
+#DOCKER_BUILDKIT=1 docker build --file $DIR/Dockerfile-ubuntu --build-arg "VERSION=20.04" --output type=local,dest=lib .
 
-# build for ubuntu 18.04
-#DOCKER_BUILDKIT=1 docker build --file Dockerfile-ubuntu --build-arg "VERSION=18.04" --output type=local,dest=lib .
+# build for alpine 3.15.4
+DOCKER_BUILDKIT=1 docker build --file $DIR/Dockerfile-alpine --build-arg "VERSION=3.15.4" --output type=local,dest=$DIR/lib .
 
-# build for alpine 3.15.1
-DOCKER_BUILDKIT=1 docker build --file Dockerfile-alpine --build-arg "VERSION=3.15.1" --output type=local,dest=lib .
+cp $DIR/lib/alpine-3.15.4/spx.so $DIR/../include/php-spx/
