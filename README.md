@@ -90,7 +90,7 @@ Add this line to the system host file. Editing the file requires administrator p
 
 ## add https
 
-To remove "Your connection is not private" nag screens, import the certificate authority file under ssl/certificate_authority.pem in the browser's certificates under Trusted Root Certification Authorities.
+To remove "Your connection is not private" nag screens, import the certificate authority file under `docker/ssl/certificate_authority.pem` in the browser's certificates under Trusted Root Certification Authorities.
 
 guide: https://support.globalsign.com/digital-certificates/digital-certificate-installation/install-client-digital-certificate-windows-using-chrome
 
