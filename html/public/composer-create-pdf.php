@@ -18,5 +18,8 @@ $dompdf->loadHtml('<h1>hello from Docker container!</h1>');
 // render html as pdf
 $dompdf->render();
 
-// output the generated PDF to browser
-$dompdf->stream();
+// output pdf to browser
+$dompdf->stream('hello.pdf', [
+    'compress' => true,
+    'Attachment' => false,
+]);
