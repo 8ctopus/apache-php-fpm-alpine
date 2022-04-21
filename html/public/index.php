@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * List all examples
+ */
+
 require_once '../header.php';
 
 echo 'Hello from docker container!' . PHP_EOL . PHP_EOL;

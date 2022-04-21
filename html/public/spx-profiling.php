@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test php spx
+ * Test php spx profiler
  */
 
 require_once '../header.php';
