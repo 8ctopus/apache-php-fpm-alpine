@@ -3,14 +3,14 @@
 A super light docker web server with Apache and php-fpm on top of Alpine Linux for development purposes
 
 - Apache 2.4.53 with SSL
-- php-fpm 8.0.16 or 7.4.21
-- Xdebug 3.1.3 - debugger and profiler
+- php-fpm 8.0.17 or 7.4.21
+- Xdebug 3.1.4 - debugger and profiler
 - [SPX prolifer 0.4.11](https://github.com/NoiseByNorthwest/php-spx)
 - composer 2.1.12
 - zsh 5.8.1
-- Alpine 3.15.1
+- Alpine 3.15.4
 
-The docker image size is 61 MB.
+The docker image size is 67 MB.
 
 ## cool features
 
@@ -27,7 +27,7 @@ _Note_: On Windows [hot reload doesn't work with WSL 2](https://github.com/micro
 ## quick start
 
 - download [`docker-compose.yml`](https://github.com/8ctopus/apache-php-fpm-alpine/blob/master/docker-compose.yml)
-- start Docker Desktop and run `docker-compose up`
+- start `Docker Desktop` and run `docker-compose up`
 - open browser at [`http://localhost`](http://localhost)
 - that's it!
 
@@ -41,7 +41,7 @@ Starting the container with `docker-compose` offers all functionalities.
 # start container in detached mode on Windows in cmd
 start /B docker-compose up
 
-# start container in detached mode on linux and mac in shell
+# start container in detached mode on linux, mac and mintty
 docker-compose up &
 
 # view logs
@@ -172,8 +172,8 @@ services:
 
 ## update docker image
 
-When you update the docker image version, it's important to know that the existing configuration in `docker/etc` may cause problems.\
-To solve the problems, backup your config then delete all existing config files.
+When you update the docker image version in `docker-compose.yml`, it's important to know that the existing configuration in the `docker` dir may cause problems.\
+To solve all problems, backup the existing dir then delete it.
 
 ## release docker image
 
@@ -182,13 +182,12 @@ _Note_: Only for repository owner
 ```sh
 # build php spx binaries
 php-spx/build.sh
-```
 
 # build image
-docker build -t 8ct8pus/apache-php-fpm-alpine:1.2.7 .
+docker build -t 8ct8pus/apache-php-fpm-alpine:1.2.8 .
 
 # push image to docker hub
-docker push 8ct8pus/apache-php-fpm-alpine:1.2.7
+docker push 8ct8pus/apache-php-fpm-alpine:1.2.8
 ```
 
 ## more info on php-fpm
