@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Simple example that shows how to use composer
+ * In this case we include [Dompdf](https://github.com/dompdf/dompdf) which is a PDF generator
+ */
+
 use Dompdf\Dompdf;
 
 require '../vendor/autoload.php';
