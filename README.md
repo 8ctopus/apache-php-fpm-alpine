@@ -172,24 +172,23 @@ services:
 
 ## update docker image
 
-When you update the docker image version, it's important to know that the existing configuration in `docker/etc` may cause problems.
+When you update the docker image version, it's important to know that the existing configuration in `docker/etc` may cause problems.\
 To solve the problems, backup your config then delete all existing config files.
 
 ## release docker image
 
-Only for repository owner
-
-### build php spx
+_Note_: Only for repository owner
 
 ```sh
-cd php-spx
-./build.sh
-cp lib/alpine-3.15.0/spx.so ../include/php-spx/
+# build php spx binaries
+php-spx/build.sh
 ```
 
-```sh
-docker build -t 8ct8pus/apache-php-fpm-alpine:1.2.6 .
-docker push 8ct8pus/apache-php-fpm-alpine:1.2.6
+# build image
+docker build -t 8ct8pus/apache-php-fpm-alpine:1.2.7 .
+
+# push image to docker hub
+docker push 8ct8pus/apache-php-fpm-alpine:1.2.7
 ```
 
 ## more info on php-fpm
