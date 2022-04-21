@@ -35,6 +35,7 @@ RUN apk add \
     php8-curl \
     php8-dom \
     php8-fileinfo \
+    php8-gd \
     php8-gettext \
     php8-json \
     php8-mbstring \
