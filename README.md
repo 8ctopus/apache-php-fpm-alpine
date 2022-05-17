@@ -63,9 +63,7 @@ docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:latest
 # php 7.4
 docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:1.1.3
 
-CTRL-Z to detach
-
-docker stop container
+CTRL-C to stop
 ```
 
 ## access website
