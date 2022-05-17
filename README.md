@@ -3,9 +3,9 @@
 A super light docker web server with Apache and php-fpm on top of Alpine Linux for development purposes
 
 - Apache 2.4.53 with SSL
-- php-fpm 8.0.17 or 7.4.21
+- php-fpm 8.1.6, 8.0.17 or 7.4.21
 - Xdebug 3.1.4 - debugger and profiler
-- [SPX prolifer 0.4.11](https://github.com/NoiseByNorthwest/php-spx)
+- [SPX prolifer 0.4.12](https://github.com/NoiseByNorthwest/php-spx)
 - composer 2.1.12
 - zsh 5.8.1
 - Alpine 3.15.4
@@ -14,7 +14,7 @@ The docker image size is 67 MB.
 
 ## cool features
 
-- php 8 or 7
+- php 8.1, 8.0 or 7.4
 - Apache and php configuration files are exposed on the host
 - Just works with any domain name
 - https is configured out of the box
@@ -27,6 +27,7 @@ _Note_: On Windows [hot reload doesn't work with WSL 2](https://github.com/micro
 ## quick start
 
 - download [`docker-compose.yml`](https://github.com/8ctopus/apache-php-fpm-alpine/blob/master/docker-compose.yml)
+- for php 8.0 or 7.4, select image in `docker-compose.yml`
 - start `Docker Desktop` and run `docker-compose up`
 - open browser at [`http://localhost`](http://localhost)
 - that's it!
@@ -57,8 +58,11 @@ docker-compose down
 Alternatively the container can also be started with `docker run`.
 
 ```sh
-# php 8
-docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:latest
+# php 8.1
+docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:1.3.0
+
+# php 8.0
+docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:1.2.8
 
 # php 7.4
 docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:1.1.3
@@ -182,10 +186,10 @@ _Note_: Only for repository owner
 php-spx/build.sh
 
 # build image
-docker build -t 8ct8pus/apache-php-fpm-alpine:1.2.8 .
+docker build -t 8ct8pus/apache-php-fpm-alpine:1.3.0 .
 
 # push image to docker hub
-docker push 8ct8pus/apache-php-fpm-alpine:1.2.8
+docker push 8ct8pus/apache-php-fpm-alpine:1.3.0
 ```
 
 ## more info on php-fpm
