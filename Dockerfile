@@ -63,7 +63,7 @@ RUN apk add php81-fpm@edge
 # i18n
 RUN apk add \
     php81-intl@edge \
-    icu-data-full@edge \
+    icu-data-full@edge
 
 # add symbolic link to php
 RUN ln -s /usr/bin/php81 /usr/bin/php
