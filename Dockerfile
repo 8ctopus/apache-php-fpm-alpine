@@ -30,10 +30,8 @@ RUN apk add \
 ADD --chown=root:root include/zshrc /etc/zsh/zshrc
 
 # install php
-# use php81-fpm instead of php81-apache2
-RUN apk add php81-fpm@edge
-
 RUN apk add \
+    php81@edge \
     php81-bcmath@edge \
     php81-common@edge \
     php81-ctype@edge \
@@ -42,7 +40,6 @@ RUN apk add \
     php81-fileinfo@edge \
     php81-gd@edge \
     php81-gettext@edge \
-    php81-intl@edge \
     php81-json@edge \
     php81-mbstring@edge \
     php81-mysqli@edge \
@@ -59,6 +56,14 @@ RUN apk add \
     php81-xml@edge \
     php81-xmlwriter@edge \
     php81-zip@edge
+
+# use php81-fpm instead of php81-apache2
+RUN apk add php81-fpm@edge
+
+# i18n
+RUN apk add \
+    php81-intl@edge \
+    icu-data-full@edge \
 
 # install xdebug
 RUN apk add php81-pecl-xdebug@edge
