@@ -48,6 +48,7 @@ RUN apk add \
     php81-pdo@edge \
     php81-pdo_mysql@edge \
     php81-pdo_sqlite@edge \
+    php81-phar@edge \
     php81-posix@edge \
     php81-session@edge \
     php81-simplexml@edge \
@@ -74,9 +75,23 @@ RUN apk add php81-pecl-xdebug@edge
 # configure xdebug
 ADD --chown=root:root include/xdebug.ini /etc/php81/conf.d/xdebug.ini
 
+RUN mkdir /var/log/apache2/
+
 # install composer
-RUN apk add \
-    composer
+#RUN apk add \
+#    composer
+
+# add composer script
+ADD --chown=root:root include/composer.sh /tmp/composer.sh
+
+# make composer script executable
+RUN chmod +x /tmp/composer.sh
+
+# install composer
+RUN /tmp/composer.sh
+
+# move composer binary to usr bin
+RUN mv /composer.phar /usr/bin/composer
 
 # install apache
 RUN apk add \
