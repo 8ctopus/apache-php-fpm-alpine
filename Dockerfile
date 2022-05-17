@@ -7,6 +7,9 @@ EXPOSE 443/tcp
 ENV DOMAIN localhost
 ENV DOCUMENT_ROOT /public
 
+# add edge community packages for php 8.1
+RUN echo "@edge https://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories
+
 # update apk repositories
 RUN apk update
 
@@ -26,40 +29,40 @@ RUN apk add \
 ADD --chown=root:root include/zshrc /etc/zsh/zshrc
 
 # install php
+# use php81-fpm instead of php81-apache2
+RUN apk add php81-fpm@edge
+
 RUN apk add \
-    # use php8-fpm instead of php8-apache2
-    php8-fpm \
-    php8-bcmath \
-    php8-common \
-    php8-ctype \
-    php8-curl \
-    php8-dom \
-    php8-fileinfo \
-    php8-gd \
-    php8-gettext \
-    php8-json \
-    php8-mbstring \
-    php8-mysqli \
-    php8-opcache \
-    php8-openssl \
-    php8-pdo \
-    php8-pdo_mysql \
-    php8-pdo_sqlite \
-    php8-posix \
-    php8-session \
-    php8-simplexml \
-    php8-sodium \
-    php8-tokenizer \
-    php8-xml \
-    php8-xmlwriter \
-    php8-zip
+    php81-bcmath@edge \
+    php81-common@edge \
+    php81-ctype@edge \
+    php81-curl@edge \
+    php81-dom@edge \
+    php81-fileinfo@edge \
+    php81-gd@edge \
+    php81-gettext@edge \
+    php81-json@edge \
+    php81-mbstring@edge \
+    php81-mysqli@edge \
+    php81-opcache@edge \
+    php81-openssl@edge \
+    php81-pdo@edge \
+    php81-pdo_mysql@edge \
+    php81-pdo_sqlite@edge \
+    php81-posix@edge \
+    php81-session@edge \
+    php81-simplexml@edge \
+    php81-sodium@edge \
+    php81-tokenizer@edge \
+    php81-xml@edge \
+    php81-xmlwriter@edge \
+    php81-zip@edge
 
 # install xdebug
-RUN apk add \
-    php8-pecl-xdebug
+RUN apk add php81-pecl-xdebug@edge
 
 # configure xdebug
-ADD --chown=root:root include/xdebug.ini /etc/php8/conf.d/xdebug.ini
+ADD --chown=root:root include/xdebug.ini /etc/php81/conf.d/xdebug.ini
 
 # install composer
 RUN apk add \
@@ -121,13 +124,13 @@ RUN sed -i 's|#LoadModule expires_module modules/mod_expires.so|LoadModule expir
 RUN sed -i 's|#LoadModule ext_filter_module modules/mod_ext_filter.so|LoadModule ext_filter_module modules/mod_ext_filter.so|g' /etc/apache2/httpd.conf
 
 # configure php-fpm to run as www-data
-RUN sed -i 's|user = nobody|user = www-data|g' /etc/php8/php-fpm.d/www.conf
-RUN sed -i 's|group = nobody|group = www-data|g' /etc/php8/php-fpm.d/www.conf
-RUN sed -i 's|;listen.owner = nobody|listen.owner = www-data|g' /etc/php8/php-fpm.d/www.conf
-RUN sed -i 's|;listen.group = group|listen.group = www-data|g' /etc/php8/php-fpm.d/www.conf
+RUN sed -i 's|user = nobody|user = www-data|g' /etc/php81/php-fpm.d/www.conf
+RUN sed -i 's|group = nobody|group = www-data|g' /etc/php81/php-fpm.d/www.conf
+RUN sed -i 's|;listen.owner = nobody|listen.owner = www-data|g' /etc/php81/php-fpm.d/www.conf
+RUN sed -i 's|;listen.group = group|listen.group = www-data|g' /etc/php81/php-fpm.d/www.conf
 
 # configure php-fpm to use unix socket
-RUN sed -i 's|listen = 127.0.0.1:9000|listen = /var/run/php-fpm8.sock|g' /etc/php8/php-fpm.d/www.conf
+RUN sed -i 's|listen = 127.0.0.1:9000|listen = /var/run/php-fpm8.sock|g' /etc/php81/php-fpm.d/www.conf
 
 # switch apache to use php-fpm through proxy
 # don't use proxy pass match because it does not support directory indexing
@@ -149,15 +152,15 @@ RUN sed -i 's|^DocumentRoot|<VirtualHost _default_:80>\n    SetEnvIf Authorizati
 RUN sed -i 's|<VirtualHost _default_:443>|<VirtualHost _default_:443>\n\nSetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1|g' /etc/apache2/conf.d/ssl.conf
 
 # update php max execution time for easier debugging
-RUN sed -i 's|^max_execution_time .*$|max_execution_time = 600|g' /etc/php8/php.ini
+RUN sed -i 's|^max_execution_time .*$|max_execution_time = 600|g' /etc/php81/php.ini
 
 # php log everything
-RUN sed -i 's|^error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT$|error_reporting = E_ALL|g' /etc/php8/php.ini
+RUN sed -i 's|^error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT$|error_reporting = E_ALL|g' /etc/php81/php.ini
 
 # add php-spx
 ADD --chown=root:root include/php-spx/assets/ /usr/share/misc/php-spx/assets/
-ADD --chown=root:root include/php-spx/spx.so /usr/lib/php8/modules/spx.so
-ADD --chown=root:root include/php-spx/spx.ini /etc/php8/conf.d/spx.ini
+ADD --chown=root:root include/php-spx/spx.so /usr/lib/php81/modules/spx.so
+ADD --chown=root:root include/php-spx/spx.ini /etc/php81/conf.d/spx.ini
 
 # add test pages to site
 ADD --chown=root:root html/public/ /var/www/html$DOCUMENT_ROOT/
