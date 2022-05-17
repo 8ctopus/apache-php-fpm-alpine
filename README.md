@@ -186,10 +186,10 @@ _Note_: Only for repository owner
 php-spx/build.sh
 
 # build image
-docker build -t 8ct8pus/apache-php-fpm-alpine:1.3.2 .
+docker build -t 8ct8pus/apache-php-fpm-alpine:1.3.3 .
 
 # push image to docker hub
-docker push 8ct8pus/apache-php-fpm-alpine:1.3.2
+docker push 8ct8pus/apache-php-fpm-alpine:1.3.3
 ```
 
 ## more info on php-fpm
