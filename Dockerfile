@@ -65,6 +65,9 @@ RUN apk add \
     php81-intl@edge \
     icu-data-full@edge \
 
+# add symbolic link to php
+RUN ln -s /usr/bin/php81 /usr/bin/php
+
 # install xdebug
 RUN apk add php81-pecl-xdebug@edge
 
@@ -91,9 +94,6 @@ RUN adduser -H -D -S -G www-data -s /sbin/nologin www-data
 # update user and group apache runs under
 RUN sed -i 's|User apache|User www-data|g' /etc/apache2/httpd.conf
 RUN sed -i 's|Group apache|Group www-data|g' /etc/apache2/httpd.conf
-
-# add symbolic link to php
-RUN ln -s /usr/bin/php81 /usr/bin/php
 
 # enable mod rewrite (rewrite urls in htaccess)
 RUN sed -i 's|#LoadModule rewrite_module modules/mod_rewrite.so|LoadModule rewrite_module modules/mod_rewrite.so|g' /etc/apache2/httpd.conf
