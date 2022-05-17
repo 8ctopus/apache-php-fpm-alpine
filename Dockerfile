@@ -8,6 +8,7 @@ ENV DOMAIN localhost
 ENV DOCUMENT_ROOT /public
 
 # add edge community packages for php 8.1
+RUN echo "@edge https://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories
 RUN echo "@edge https://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories
 
 # update apk repositories
@@ -41,6 +42,7 @@ RUN apk add \
     php81-fileinfo@edge \
     php81-gd@edge \
     php81-gettext@edge \
+    php81-intl@edge \
     php81-json@edge \
     php81-mbstring@edge \
     php81-mysqli@edge \
