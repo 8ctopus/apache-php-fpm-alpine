@@ -10,7 +10,7 @@ A super light docker web server with Apache and php-fpm on top of Alpine Linux f
 - zsh 5.8.1
 - Alpine 3.15.4
 
-The docker image size is 78.5 MB.
+The docker image size is 124 MB.
 
 ## cool features
 
@@ -186,10 +186,10 @@ _Note_: Only for repository owner
 php-spx/build.sh
 
 # build image
-docker build -t 8ct8pus/apache-php-fpm-alpine:1.3.3 .
+docker build -t 8ct8pus/apache-php-fpm-alpine:1.3.4 .
 
 # push image to docker hub
-docker push 8ct8pus/apache-php-fpm-alpine:1.3.3
+docker push 8ct8pus/apache-php-fpm-alpine:1.3.4
 ```
 
 ## more info on php-fpm

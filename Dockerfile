@@ -41,6 +41,7 @@ RUN apk add \
     php81-gd@edge \
     php81-gettext@edge \
     php81-json@edge \
+    php81-imap@edge \
     php81-mbstring@edge \
     php81-mysqli@edge \
     php81-opcache@edge \
