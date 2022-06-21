@@ -68,6 +68,11 @@ RUN apk add \
     php81-intl@edge \
     icu-data-full@edge
 
+# fix php iconv
+# https://stackoverflow.com/questions/70046717/iconv-error-when-running-statamic-laravel-seo-pro-plugin-with-phpfpm-alpine
+RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.13/community/ gnu-libiconv=1.15-r3
+ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
+
 # add symbolic link to php
 RUN ln -s /usr/bin/php81 /usr/bin/php
 
