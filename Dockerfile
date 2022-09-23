@@ -13,6 +13,7 @@ RUN truncate -s 0 /etc/apk/repositories
 # use only edge repositories
 RUN echo "https://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories
 RUN echo "https://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories
+RUN echo "@testing https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
 
 # update apk repositories
 RUN apk update
@@ -37,41 +38,41 @@ ADD --chown=root:root include/zshrc /etc/zsh/zshrc
 
 # install php
 RUN apk add \
-    php81 \
-    php81-bcmath \
-    php81-common \
-    php81-ctype \
-    php81-curl \
-    php81-dom \
-    php81-fileinfo \
-    php81-gd \
-    php81-gettext \
-    php81-json \
-    php81-iconv \
-    php81-imap \
-    php81-mbstring \
-    php81-mysqli \
-    php81-opcache \
-    php81-openssl \
-    php81-pdo \
-    php81-pdo_mysql \
-    php81-pdo_sqlite \
-    php81-phar \
-    php81-posix \
-    php81-session \
-    php81-simplexml \
-    php81-sodium \
-    php81-tokenizer \
-    php81-xml \
-    php81-xmlwriter \
-    php81-zip
+    php82@testing \
+    php82-bcmath@testing \
+    php82-common@testing \
+    php82-ctype@testing \
+    php82-curl@testing \
+    php82-dom@testing \
+    php82-fileinfo@testing \
+    php82-gd@testing \
+    php82-gettext@testing \
+    php82-json@testing \
+    php82-iconv@testing \
+    php82-imap@testing \
+    php82-mbstring@testing \
+    php82-mysqli@testing \
+    php82-opcache@testing \
+    php82-openssl@testing \
+    php82-pdo@testing \
+    php82-pdo_mysql@testing \
+    php82-pdo_sqlite@testing \
+    php82-phar@testing \
+    php82-posix@testing \
+    php82-session@testing \
+    php82-simplexml@testing \
+    php82-sodium@testing \
+    php82-tokenizer@testing \
+    php82-xml@testing \
+    php82-xmlwriter@testing \
+    php82-zip@testing
 
-# use php81-fpm instead of php81-apache2
-RUN apk add php81-fpm
+# use php82-fpm@testing instead of php82-apache@testing2
+RUN apk add php82-fpm@testing
 
 # i18n
 RUN apk add \
-    php81-intl \
+    php82-intl@testing \
     icu-data-full
 
 # fix php iconv
@@ -80,31 +81,31 @@ RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.13/c
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 
 # add symbolic link to php
-#RUN ln -s /usr/bin/php81 /usr/bin/php
+RUN ln -s /usr/bin/php82 /usr/bin/php
 
 # install xdebug
-RUN apk add php81-pecl-xdebug
+RUN apk add php82-pecl-xdebug@testing
 
 # configure xdebug
-ADD --chown=root:root include/xdebug.ini /etc/php81/conf.d/xdebug.ini
+ADD --chown=root:root include/xdebug.ini /etc/php82/conf.d/xdebug.ini
 
 RUN mkdir /var/log/apache2/
 
-# install composer
-RUN apk add \
-    composer
+# install composer (currently installs php8.1 which creates a mess, use script approach instead to install)
+#RUN apk add \
+#    composer@testing
 
 # add composer script
-#ADD --chown=root:root include/composer.sh /tmp/composer.sh
+ADD --chown=root:root include/composer.sh /tmp/composer.sh
 
 # make composer script executable
-#RUN chmod +x /tmp/composer.sh
+RUN chmod +x /tmp/composer.sh
 
 # install composer
-#RUN /tmp/composer.sh
+RUN /tmp/composer.sh
 
 # move composer binary to usr bin
-#RUN mv /composer.phar /usr/bin/composer
+RUN mv /composer.phar /usr/bin/composer
 
 # install apache
 RUN apk add \
@@ -159,13 +160,13 @@ RUN sed -i 's|#LoadModule expires_module modules/mod_expires.so|LoadModule expir
 RUN sed -i 's|#LoadModule ext_filter_module modules/mod_ext_filter.so|LoadModule ext_filter_module modules/mod_ext_filter.so|g' /etc/apache2/httpd.conf
 
 # configure php-fpm to run as www-data
-RUN sed -i 's|user = nobody|user = www-data|g' /etc/php81/php-fpm.d/www.conf
-RUN sed -i 's|group = nobody|group = www-data|g' /etc/php81/php-fpm.d/www.conf
-RUN sed -i 's|;listen.owner = nobody|listen.owner = www-data|g' /etc/php81/php-fpm.d/www.conf
-RUN sed -i 's|;listen.group = group|listen.group = www-data|g' /etc/php81/php-fpm.d/www.conf
+RUN sed -i 's|user = nobody|user = www-data|g' /etc/php82/php-fpm.d/www.conf
+RUN sed -i 's|group = nobody|group = www-data|g' /etc/php82/php-fpm.d/www.conf
+RUN sed -i 's|;listen.owner = nobody|listen.owner = www-data|g' /etc/php82/php-fpm.d/www.conf
+RUN sed -i 's|;listen.group = group|listen.group = www-data|g' /etc/php82/php-fpm.d/www.conf
 
 # configure php-fpm to use unix socket
-RUN sed -i 's|listen = 127.0.0.1:9000|listen = /var/run/php-fpm8.sock|g' /etc/php81/php-fpm.d/www.conf
+RUN sed -i 's|listen = 127.0.0.1:9000|listen = /var/run/php-fpm8.sock|g' /etc/php82/php-fpm.d/www.conf
 
 # switch apache to use php-fpm through proxy
 # don't use proxy pass match because it does not support directory indexing
@@ -187,15 +188,15 @@ RUN sed -i 's|^DocumentRoot|<VirtualHost _default_:80>\n    SetEnvIf Authorizati
 RUN sed -i 's|<VirtualHost _default_:443>|<VirtualHost _default_:443>\n\nSetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1|g' /etc/apache2/conf.d/ssl.conf
 
 # update php max execution time for easier debugging
-RUN sed -i 's|^max_execution_time .*$|max_execution_time = 600|g' /etc/php81/php.ini
+RUN sed -i 's|^max_execution_time .*$|max_execution_time = 600|g' /etc/php82/php.ini
 
 # php log everything
-RUN sed -i 's|^error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT$|error_reporting = E_ALL|g' /etc/php81/php.ini
+RUN sed -i 's|^error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT$|error_reporting = E_ALL|g' /etc/php82/php.ini
 
 # add php-spx
 ADD --chown=root:root include/php-spx/assets/ /usr/share/misc/php-spx/assets/
-ADD --chown=root:root include/php-spx/spx.so /usr/lib/php81/modules/spx.so
-ADD --chown=root:root include/php-spx/spx.ini /etc/php81/conf.d/spx.ini
+ADD --chown=root:root include/php-spx/spx.so /usr/lib/php82/modules/spx.so
+ADD --chown=root:root include/php-spx/spx.ini /etc/php82/conf.d/spx.ini
 
 # add test pages to site
 ADD --chown=root:root html/public/ /var/www/html$DOCUMENT_ROOT/
