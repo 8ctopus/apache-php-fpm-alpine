@@ -17,6 +17,9 @@ RUN apk update
 # upgrade all
 RUN apk upgrade
 
+# install latest certificates for ssl
+RUN apk add ca-certificates
+
 # install console tools
 RUN apk add \
     inotify-tools
@@ -74,7 +77,7 @@ RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.13/c
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 
 # add symbolic link to php
-RUN ln -s /usr/bin/php81 /usr/bin/php
+#RUN ln -s /usr/bin/php81 /usr/bin/php
 
 # install xdebug
 RUN apk add php81-pecl-xdebug@edge
@@ -85,20 +88,20 @@ ADD --chown=root:root include/xdebug.ini /etc/php81/conf.d/xdebug.ini
 RUN mkdir /var/log/apache2/
 
 # install composer
-#RUN apk add \
-#    composer
+RUN apk add \
+    composer@edge
 
 # add composer script
-ADD --chown=root:root include/composer.sh /tmp/composer.sh
+#ADD --chown=root:root include/composer.sh /tmp/composer.sh
 
 # make composer script executable
-RUN chmod +x /tmp/composer.sh
+#RUN chmod +x /tmp/composer.sh
 
 # install composer
-RUN /tmp/composer.sh
+#RUN /tmp/composer.sh
 
 # move composer binary to usr bin
-RUN mv /composer.phar /usr/bin/composer
+#RUN mv /composer.phar /usr/bin/composer
 
 # install apache
 RUN apk add \
