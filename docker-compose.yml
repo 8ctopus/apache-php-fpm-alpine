@@ -10,6 +10,7 @@ services:
     #image: 8ct8pus/apache-php-fpm-alpine:1.1.3
     # development image
     #image: apache-php-fpm-alpine:dev
+    hostname: docker-dev
     container_name: web
     ports:
       - 80:80
