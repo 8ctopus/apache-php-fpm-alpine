@@ -1,9 +1,13 @@
 ARG VERSION=latest
 FROM alpine:${VERSION} AS build
 
-# add edge community packages for php 8.1
-RUN echo "@edge https://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories
-RUN echo "@edge https://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories
+# delete apk repositories
+RUN truncate -s 0 /etc/apk/repositories
+
+# use only edge repositories
+RUN echo "https://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories
+RUN echo "https://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories
+RUN echo "@testing https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
 
 # update apk repositories
 RUN apk update
@@ -12,16 +16,16 @@ RUN apk update
 RUN apk upgrade
 
 # add c build tools
-RUN apk add build-base@edge
+RUN apk add build-base
 
 # add git
 RUN apk add git
 
 # add php dev
-RUN apk add php81-dev@edge
+RUN apk add php82-dev@testing
 
 # add zlib dev
-RUN apk add zlib-dev@edge
+RUN apk add zlib-dev@testing
 
 # clone php-spx
 RUN git clone https://github.com/NoiseByNorthwest/php-spx.git
@@ -29,14 +33,17 @@ RUN git clone https://github.com/NoiseByNorthwest/php-spx.git
 # set workdir
 WORKDIR /php-spx
 
-# checkout release
-RUN git checkout tags/v0.4.12
+# checkout release (php 8.2 needs master)
+#RUN git checkout tags/v0.4.12
+
+# fix max supported php version
+RUN sed -i 's|20210903|20220913|g' /php-spx/src/php_spx.h
 
 # fix ./configure "Cannot find php-config. Please use --with-php-config=PATH"
-#RUN ln -s /usr/bin/php-config81 /usr/bin/php-config
+RUN ln -s /usr/bin/php-config82 /usr/bin/php-config
 
 # build php-spx
-RUN phpize81
+RUN phpize82
 RUN ./configure
 RUN make
 
