@@ -18,16 +18,16 @@ RUN apk update
 RUN apk upgrade
 
 # install latest certificates for ssl
-RUN apk add ca-certificates
+RUN apk add ca-certificates@edge
 
 # install console tools
 RUN apk add \
-    inotify-tools
+    inotify-tools@edge
 
 # install zsh
 RUN apk add \
-    zsh \
-    zsh-vcs
+    zsh@edge \
+    zsh-vcs@edge
 
 # configure zsh
 ADD --chown=root:root include/zshrc /etc/zsh/zshrc
