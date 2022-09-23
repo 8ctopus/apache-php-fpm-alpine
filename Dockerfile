@@ -7,9 +7,12 @@ EXPOSE 443/tcp
 ENV DOMAIN localhost
 ENV DOCUMENT_ROOT /public
 
-# add edge community packages for php 8.1
-RUN echo "@edge https://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories
-RUN echo "@edge https://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories
+# delete apk repositories
+RUN truncate -s 0 /etc/apk/repositories
+
+# use only edge repositories
+RUN echo "https://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories
+RUN echo "https://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories
 
 # update apk repositories
 RUN apk update
@@ -18,58 +21,58 @@ RUN apk update
 RUN apk upgrade
 
 # install latest certificates for ssl
-RUN apk add ca-certificates@edge
+RUN apk add ca-certificates
 
 # install console tools
 RUN apk add \
-    inotify-tools@edge
+    inotify-tools
 
 # install zsh
 RUN apk add \
-    zsh@edge \
-    zsh-vcs@edge
+    zsh \
+    zsh-vcs
 
 # configure zsh
 ADD --chown=root:root include/zshrc /etc/zsh/zshrc
 
 # install php
 RUN apk add \
-    php81@edge \
-    php81-bcmath@edge \
-    php81-common@edge \
-    php81-ctype@edge \
-    php81-curl@edge \
-    php81-dom@edge \
-    php81-fileinfo@edge \
-    php81-gd@edge \
-    php81-gettext@edge \
-    php81-json@edge \
-    php81-iconv@edge \
-    php81-imap@edge \
-    php81-mbstring@edge \
-    php81-mysqli@edge \
-    php81-opcache@edge \
-    php81-openssl@edge \
-    php81-pdo@edge \
-    php81-pdo_mysql@edge \
-    php81-pdo_sqlite@edge \
-    php81-phar@edge \
-    php81-posix@edge \
-    php81-session@edge \
-    php81-simplexml@edge \
-    php81-sodium@edge \
-    php81-tokenizer@edge \
-    php81-xml@edge \
-    php81-xmlwriter@edge \
-    php81-zip@edge
+    php81 \
+    php81-bcmath \
+    php81-common \
+    php81-ctype \
+    php81-curl \
+    php81-dom \
+    php81-fileinfo \
+    php81-gd \
+    php81-gettext \
+    php81-json \
+    php81-iconv \
+    php81-imap \
+    php81-mbstring \
+    php81-mysqli \
+    php81-opcache \
+    php81-openssl \
+    php81-pdo \
+    php81-pdo_mysql \
+    php81-pdo_sqlite \
+    php81-phar \
+    php81-posix \
+    php81-session \
+    php81-simplexml \
+    php81-sodium \
+    php81-tokenizer \
+    php81-xml \
+    php81-xmlwriter \
+    php81-zip
 
 # use php81-fpm instead of php81-apache2
-RUN apk add php81-fpm@edge
+RUN apk add php81-fpm
 
 # i18n
 RUN apk add \
-    php81-intl@edge \
-    icu-data-full@edge
+    php81-intl \
+    icu-data-full
 
 # fix php iconv
 # https://stackoverflow.com/questions/70046717/iconv-error-when-running-statamic-laravel-seo-pro-plugin-with-phpfpm-alpine
@@ -80,7 +83,7 @@ ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 #RUN ln -s /usr/bin/php81 /usr/bin/php
 
 # install xdebug
-RUN apk add php81-pecl-xdebug@edge
+RUN apk add php81-pecl-xdebug
 
 # configure xdebug
 ADD --chown=root:root include/xdebug.ini /etc/php81/conf.d/xdebug.ini
@@ -89,7 +92,7 @@ RUN mkdir /var/log/apache2/
 
 # install composer
 RUN apk add \
-    composer@edge
+    composer
 
 # add composer script
 #ADD --chown=root:root include/composer.sh /tmp/composer.sh
@@ -105,9 +108,9 @@ RUN apk add \
 
 # install apache
 RUN apk add \
-    apache2@edge \
-    apache2-ssl@edge \
-    apache2-proxy@edge
+    apache2 \
+    apache2-ssl \
+    apache2-proxy
 
 # add user www-data
 # group www-data already exists
