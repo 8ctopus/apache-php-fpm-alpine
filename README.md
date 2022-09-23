@@ -14,7 +14,7 @@ The docker image size is 124 MB.
 
 ## cool features
 
-- php 8.1, 8.0 or 7.4
+- php 8.2, 8.1, 8.0 or 7.4
 - Apache and php configuration files are exposed on the host
 - Just works with any domain name
 - https is configured out of the box
@@ -27,10 +27,10 @@ _Note_: On Windows [hot reload doesn't work with WSL 2](https://github.com/micro
 ## quick start
 
 - download [`docker-compose.yml`](https://github.com/8ctopus/apache-php-fpm-alpine/blob/master/docker-compose.yml)
-- for php 8.0 or 7.4, select image in `docker-compose.yml`
+- for php 8.1, 8.0 or 7.4, select image in `docker-compose.yml`
 - start `Docker Desktop` and run `docker-compose up`
 - open browser at [`http://localhost`](http://localhost)
-- that's it!
+- check the examples
 
 _Note_: If you also need a database, check my other project [php sandbox](https://github.com/8ctopus/php-sandbox).
 
@@ -58,8 +58,11 @@ docker-compose down
 Alternatively the container can also be started with `docker run`.
 
 ```sh
+# php 8.2
+docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:1.4.0
+
 # php 8.1
-docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:latest
+docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:1.3.6
 
 # php 8.0
 docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:1.2.8
@@ -186,12 +189,12 @@ _Note_: Only for repository owner
 ./php-spx/build.sh
 
 # build image
-docker build -t 8ct8pus/apache-php-fpm-alpine:1.3.6 .
+docker build -t 8ct8pus/apache-php-fpm-alpine:1.4.0 .
 
 # test image
 
 # push image to docker hub
-docker push 8ct8pus/apache-php-fpm-alpine:1.3.6
+docker push 8ct8pus/apache-php-fpm-alpine:1.4.0
 ```
 
 ## more info on php-fpm
