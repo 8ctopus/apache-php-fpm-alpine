@@ -105,9 +105,9 @@ RUN apk add \
 
 # install apache
 RUN apk add \
-    apache2 \
-    apache2-ssl \
-    apache2-proxy
+    apache2@edge \
+    apache2-ssl@edge \
+    apache2-proxy@edge
 
 # add user www-data
 # group www-data already exists
