@@ -7,7 +7,7 @@ A super light docker web server with Apache and php-fpm on top of Alpine Linux f
 - Xdebug 3.2.0 alpha 3 - debugger and profiler
 - [SPX prolifer 0.4.12](https://github.com/NoiseByNorthwest/php-spx)
 - composer 2.4.2
-- zsh 5.8.1
+- zsh 5.9
 - Alpine 3.16.2
 
 The docker image size is 124 MB.
@@ -185,13 +185,13 @@ To solve all problems, backup the existing dir then delete it.
 _Note_: Only for repository owner
 
 ```sh
-# build php spx binaries
+# build php spx module
 ./php-spx/build.sh
 
-# build image
+# build local image
 docker build -t 8ct8pus/apache-php-fpm-alpine:1.4.0 .
 
-# test image
+# test local image
 
 # push image to docker hub
 docker push 8ct8pus/apache-php-fpm-alpine:1.4.0
