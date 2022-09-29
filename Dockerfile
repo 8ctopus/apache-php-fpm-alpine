@@ -39,40 +39,113 @@ ADD --chown=root:root include/zshrc /etc/zsh/zshrc
 # install php
 RUN apk add \
     php82@testing \
+#    php82-apache2@testing \
     php82-bcmath@testing \
+#    php82-brotli@testing \
+#    php82-bz2@testing \
+#    php82-calendar@testing \
+#    php82-cgi@testing \
     php82-common@testing \
     php82-ctype@testing \
     php82-curl@testing \
+#    php82-dba@testing \
+#    php82-dbg@testing \
+#    php82-dev@testing \
+#    php82-doc@testing \
     php82-dom@testing \
+#    php82-embed@testing \
+#    php82-enchant@testing \
+#    php82-exif@testing \
+#    php82-ffi@testing \
     php82-fileinfo@testing \
+#    php82-ftp@testing \
     php82-gd@testing \
     php82-gettext@testing \
+#    php82-gmp@testing \
     php82-json@testing \
     php82-iconv@testing \
     php82-imap@testing \
+    php82-intl@testing \
+#    php82-ldap@testing \
+#    php82-litespeed@testing \
     php82-mbstring@testing \
     php82-mysqli@testing \
+#    php82-mysqlnd@testing \
+#    php82-odbc@testing \
     php82-opcache@testing \
     php82-openssl@testing \
+#    php82-pcntl@testing \
     php82-pdo@testing \
     php82-pdo_mysql@testing \
+#    php82-pdo_odbc@testing \
+#    php82-pdo_pgsql@testing \
     php82-pdo_sqlite@testing \
+#    php82-pear@testing \
+#    php82-pgsql@testing \
     php82-phar@testing \
+#   php82-phpdbg@testing \
     php82-posix@testing \
+#    php82-pspell@testing \
     php82-session@testing \
+#    php82-shmop@testing \
     php82-simplexml@testing \
+#    php82-snmp@testing \
+#    php82-soap@testing \+
+#    php82-sockets@testing \
     php82-sodium@testing \
+#    php82-sqlite3@testing \
+#    php82-sysvmsg@testing \
+#    php82-sysvsem@testing \
+#    php82-sysvshm@testing \
+#    php82-tideways_xhprof@testing \
+#    php82-tidy@testing \
     php82-tokenizer@testing \
     php82-xml@testing \
+#    php82-xmlreader@testing \
     php82-xmlwriter@testing \
     php82-zip@testing
+
+# pecl
+#RUN apk add
+#    php82-pecl-amqp@testing \
+#    php82-pecl-apcu@testing \
+#    php82-pecl-ast@testing \
+#    php82-pecl-couchbase@testing \
+#    php82-pecl-event@testing \
+#    php82-pecl-igbinary@testing \
+#    php82-pecl-imagick@testing \
+#    php82-pecl-imagick-dev@testing \
+#    php82-pecl-lzf@testing \
+#    php82-pecl-mailparse@testing \
+#    php82-pecl-maxminddb@testing \
+#    php82-pecl-mcrypt@testing \
+#    php82-pecl-memcache@testing \
+#    php82-pecl-memcached@testing \
+#    php82-pecl-mongodb@testing \
+#    php82-pecl-msgpack@testing \
+#    php82-pecl-oauth@testing \
+#    php82-pecl-protobuf@testing \
+#    php82-pecl-psr@testing \
+#    php82-pecl-rdkafka@testing \
+#    php82-pecl-redis@testing \
+#    php82-pecl-ssh2@testing \
+#    php82-pecl-timezonedb@testing \
+#    php82-pecl-uploadprogress@testing \
+#    php82-pecl-uploadprogress-doc@testing \
+#    php82-pecl-uuid@testing \
+#    php82-pecl-vips@testing \
+#    php82-pecl-xdebug@testing \
+#    php82-pecl-xhprof@testing \
+#    php82-pecl-xhprof-assets@testing \
+#    php82-pecl-yaml@testing \
+#    php82-pecl-zstd@testing \
+#    php82-pecl-zstd-dev@testing
 
 # use php82-fpm@testing instead of php82-apache@testing2
 RUN apk add php82-fpm@testing
 
 # i18n
 RUN apk add \
-    php82-intl@testing \
     icu-data-full
 
 # fix php iconv
