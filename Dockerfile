@@ -42,8 +42,8 @@ RUN apk add \
 #    php82-apache2@testing \
     php82-bcmath@testing \
 #    php82-brotli@testing \
-#    php82-bz2@testing \
-#    php82-calendar@testing \
+    php82-bz2@testing \
+    php82-calendar@testing \
 #    php82-cgi@testing \
     php82-common@testing \
     php82-ctype@testing \
@@ -55,10 +55,10 @@ RUN apk add \
     php82-dom@testing \
 #    php82-embed@testing \
 #    php82-enchant@testing \
-#    php82-exif@testing \
+    php82-exif@testing \
 #    php82-ffi@testing \
     php82-fileinfo@testing \
-#    php82-ftp@testing \
+    php82-ftp@testing \
     php82-gd@testing \
     php82-gettext@testing \
 #    php82-gmp@testing \
@@ -66,7 +66,7 @@ RUN apk add \
     php82-iconv@testing \
     php82-imap@testing \
     php82-intl@testing \
-#    php82-ldap@testing \
+    php82-ldap@testing \
 #    php82-litespeed@testing \
     php82-mbstring@testing \
     php82-mysqli@testing \
@@ -74,7 +74,7 @@ RUN apk add \
 #    php82-odbc@testing \
     php82-opcache@testing \
     php82-openssl@testing \
-#    php82-pcntl@testing \
+    php82-pcntl@testing \
     php82-pdo@testing \
     php82-pdo_mysql@testing \
 #    php82-pdo_odbc@testing \
@@ -93,7 +93,7 @@ RUN apk add \
 #    php82-soap@testing \+
 #    php82-sockets@testing \
     php82-sodium@testing \
-#    php82-sqlite3@testing \
+    php82-sqlite3@testing \
 #    php82-sysvmsg@testing \
 #    php82-sysvsem@testing \
 #    php82-sysvshm@testing \
@@ -101,7 +101,7 @@ RUN apk add \
 #    php82-tidy@testing \
     php82-tokenizer@testing \
     php82-xml@testing \
-#    php82-xmlreader@testing \
+    php82-xmlreader@testing \
     php82-xmlwriter@testing \
     php82-zip@testing
 
