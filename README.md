@@ -1,4 +1,4 @@
-# docker apache php-fpm alpine
+# docker apache php-fpm alpine ![Docker Image Size (latest semver)](https://img.shields.io/docker/image-size/8ct8pus/apache-php-fpm-alpine?sort=semver) ![Docker Pulls](https://img.shields.io/docker/pulls/8ct8pus/apache-php-fpm-alpine)
 
 A super light docker web server with Apache and php-fpm on top of Alpine Linux for development purposes
 
@@ -9,8 +9,6 @@ A super light docker web server with Apache and php-fpm on top of Alpine Linux f
 - composer 2.4.2
 - zsh 5.9
 - Alpine 3.16.2
-
-The docker image size is ![Docker Image Size (latest semver)](https://img.shields.io/docker/image-size/8ct8pus/apache-php-fpm-alpine?sort=semver) MB. ![Docker Pulls](https://img.shields.io/docker/pulls/8ct8pus/apache-php-fpm-alpine)
 
 ## cool features
 
