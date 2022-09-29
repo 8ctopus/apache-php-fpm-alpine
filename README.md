@@ -16,7 +16,7 @@ A super light docker web server with Apache and php-fpm on top of Alpine Linux f
 - Just works with any domain name
 - https is configured out of the box
 - Apache and php configuration files are exposed on the host for easy edit
-- All changes to config files are automatically applied (hot reload)
+- All changes to configuration files are automatically applied (hot reload)
 - Xdebug is configured for step by step debugging and profiling
 - Profile php code with SPX or Xdebug
 
