@@ -105,8 +105,23 @@ RUN apk add \
     php82-xmlwriter@testing \
     php82-zip@testing
 
-# pecl
-#RUN apk add
+# use php82-fpm instead of php82-apache
+RUN apk add php82-fpm@testing
+
+# i18n
+RUN apk add \
+    icu-data-full
+
+# fix php iconv
+# https://stackoverflow.com/questions/70046717/iconv-error-when-running-statamic-laravel-seo-pro-plugin-with-phpfpm-alpine
+RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.13/community/ gnu-libiconv=1.15-r3
+ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
+
+# add symbolic link for php
+RUN ln -s /usr/bin/php82 /usr/bin/php
+
+# PECL extensions
+RUN apk add \
 #    php82-pecl-amqp@testing \
 #    php82-pecl-apcu@testing \
 #    php82-pecl-ast@testing \
@@ -134,34 +149,17 @@ RUN apk add \
 #    php82-pecl-uploadprogress-doc@testing \
 #    php82-pecl-uuid@testing \
 #    php82-pecl-vips@testing \
-#    php82-pecl-xdebug@testing \
+    php82-pecl-xdebug@testing
 #    php82-pecl-xhprof@testing \
 #    php82-pecl-xhprof-assets@testing \
 #    php82-pecl-yaml@testing \
 #    php82-pecl-zstd@testing \
 #    php82-pecl-zstd-dev@testing
 
-# use php82-fpm@testing instead of php82-apache@testing2
-RUN apk add php82-fpm@testing
-
-# i18n
-RUN apk add \
-    icu-data-full
-
-# fix php iconv
-# https://stackoverflow.com/questions/70046717/iconv-error-when-running-statamic-laravel-seo-pro-plugin-with-phpfpm-alpine
-RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.13/community/ gnu-libiconv=1.15-r3
-ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
-
-# add symbolic link to php
-RUN ln -s /usr/bin/php82 /usr/bin/php
-
-# install xdebug
-RUN apk add php82-pecl-xdebug@testing
-
 # configure xdebug
 ADD --chown=root:root include/xdebug.ini /etc/php82/conf.d/xdebug.ini
 
+# add apache log dir
 RUN mkdir /var/log/apache2/
 
 # install composer (currently installs php8.1 which creates a mess, use script approach instead to install)
