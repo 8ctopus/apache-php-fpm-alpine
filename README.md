@@ -13,12 +13,12 @@ A super light docker web server with Apache and php-fpm on top of Alpine Linux f
 ## cool features
 
 - php 8.2, 8.1, 8.0 or 7.4
-- Apache and php configuration files are exposed on the host
 - Just works with any domain name
 - https is configured out of the box
+- Apache and php configuration files are exposed on the host for easy edit
 - All changes to config files are automatically applied (hot reload)
-- Xdebug is configured for php step by step debugging
-- Profile php code with SPX
+- Xdebug is configured for step by step debugging and profiling
+- Profile php code with SPX or Xdebug
 
 _Note_: On Windows [hot reload doesn't work with WSL 2](https://github.com/microsoft/WSL/issues/4739), you need to use the legacy Hyper-V.
 
@@ -28,7 +28,7 @@ _Note_: On Windows [hot reload doesn't work with WSL 2](https://github.com/micro
 - for php 8.1, 8.0 or 7.4, select image in `docker-compose.yml`
 - start `Docker Desktop` and run `docker-compose up`
 - open browser at [`http://localhost`](http://localhost)
-- check the examples
+- check provided examples
 
 _Note_: If you also need a database, check my other project [php sandbox](https://github.com/8ctopus/php-sandbox).
 
@@ -58,15 +58,6 @@ Alternatively the container can also be started with `docker run`.
 ```sh
 # php 8.2
 docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:1.4.0
-
-# php 8.1
-docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:1.3.6
-
-# php 8.0
-docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:1.2.8
-
-# php 7.4
-docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:1.1.3
 
 CTRL-C to stop
 ```
