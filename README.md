@@ -57,7 +57,7 @@ Alternatively the container can also be started with `docker run`.
 
 ```sh
 # php 8.2
-docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:1.4.0
+docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:1.4.1
 
 CTRL-C to stop
 ```
@@ -186,12 +186,12 @@ _Note_: Only for repository owner
 ./php-spx/build.sh
 
 # build local image
-docker build -t 8ct8pus/apache-php-fpm-alpine:1.4.0 .
+docker build -t 8ct8pus/apache-php-fpm-alpine:1.4.1 .
 
 # test local image
 
 # push image to docker hub
-docker push 8ct8pus/apache-php-fpm-alpine:1.4.0
+docker push 8ct8pus/apache-php-fpm-alpine:1.4.1
 ```
 
 ## more info on php-fpm
