@@ -20,7 +20,7 @@ A super light docker web server with Apache and php-fpm on top of Alpine Linux f
 - Xdebug is configured for step by step debugging and profiling
 - Profile php code with SPX or Xdebug
 
-_Note_: On Windows [hot reload doesn't work with WSL 2](https://github.com/microsoft/WSL/issues/4739), you need to use the legacy Hyper-V.
+_Note_: If you also need a database, check the [php sandbox](https://github.com/8ctopus/php-sandbox) project.
 
 ## quick start
 
@@ -29,7 +29,7 @@ _Note_: On Windows [hot reload doesn't work with WSL 2](https://github.com/micro
 - start `Docker Desktop` and run `docker-compose up`
 - open browser at [`http://localhost`](http://localhost)
 
-_Note_: If you also need a database, check my other project [php sandbox](https://github.com/8ctopus/php-sandbox).
+_Note_: On Windows [hot reload doesn't work with WSL 2](https://github.com/microsoft/WSL/issues/4739), you need to use the legacy Hyper-V.
 
 ## use container
 
@@ -56,7 +56,7 @@ Alternatively the container can also be started with `docker run`.
 
 ```sh
 # php 8.2
-docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:1.4.1
+docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:1.4.2
 
 CTRL-C to stop
 ```
@@ -185,12 +185,12 @@ _Note_: Only for repository owner
 ./php-spx/build.sh
 
 # build local image
-docker build -t 8ct8pus/apache-php-fpm-alpine:1.4.1 .
+docker build --no-cache -t 8ct8pus/apache-php-fpm-alpine:1.4.2 .
 
 # test local image
 
 # push image to docker hub
-docker push 8ct8pus/apache-php-fpm-alpine:1.4.1
+docker push 8ct8pus/apache-php-fpm-alpine:1.4.2
 ```
 
 ## more info on php-fpm
