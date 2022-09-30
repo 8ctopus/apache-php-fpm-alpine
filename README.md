@@ -3,7 +3,7 @@
 A super light docker web server with Apache and php-fpm on top of Alpine Linux for development purposes
 
 - Apache 2.4.54 with SSL
-- php-fpm 8.2.0 RC2, 8.1.10, 8.0.17 or 7.4.21
+- php-fpm 8.2.0 RC3, 8.1.10, 8.0.17 or 7.4.21
 - Xdebug 3.2.0 alpha 3 - debugger and profiler
 - [SPX prolifer 0.4.12](https://github.com/NoiseByNorthwest/php-spx)
 - composer 2.4.2
@@ -28,7 +28,6 @@ _Note_: On Windows [hot reload doesn't work with WSL 2](https://github.com/micro
 - for php 8.1, 8.0 or 7.4, select image in `docker-compose.yml`
 - start `Docker Desktop` and run `docker-compose up`
 - open browser at [`http://localhost`](http://localhost)
-- check provided examples
 
 _Note_: If you also need a database, check my other project [php sandbox](https://github.com/8ctopus/php-sandbox).
 
