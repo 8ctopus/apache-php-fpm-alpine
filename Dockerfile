@@ -1,4 +1,4 @@
-FROM alpine:3.16.2
+FROM alpine:edge
 
 # expose ports
 EXPOSE 80/tcp
@@ -7,12 +7,7 @@ EXPOSE 443/tcp
 ENV DOMAIN localhost
 ENV DOCUMENT_ROOT /public
 
-# delete apk repositories
-RUN truncate -s 0 /etc/apk/repositories
-
-# use only edge repositories
-RUN echo "https://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories
-RUN echo "https://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories
+# add testing repository
 RUN echo "@testing https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
 
 # update apk repositories

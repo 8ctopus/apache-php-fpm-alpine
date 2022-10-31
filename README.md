@@ -3,16 +3,16 @@
 A super light docker web server with Apache and php-fpm on top of Alpine Linux for development purposes
 
 - Apache 2.4.54 with SSL
-- php-fpm 8.2.0 RC3, 8.1.10, 8.0.17 or 7.4.21
-- Xdebug 3.2.0 alpha 3 - debugger and profiler
-- [SPX prolifer 0.4.12](https://github.com/NoiseByNorthwest/php-spx)
+- php-fpm 8.2.0 RC5, 8.1.10, 8.0.17 or 7.4.21
+- Xdebug 3.2.0 RC1 - debugger and profiler
+- [SPX prolifer dev-master](https://github.com/NoiseByNorthwest/php-spx)
 - composer 2.4.2
 - zsh 5.9
-- Alpine 3.16.2
+- Alpine edge
 
 ## cool features
 
-- php 8.2, 8.1, 8.0 or 7.4 along with the most commonly used extensions
+- php 8.2 RC5, 8.1, 8.0 or 7.4 along with the most commonly used extensions
 - Just works with any domain name
 - https is configured out of the box
 - Apache and php configuration files are exposed on the host for easy edit
@@ -27,7 +27,7 @@ _Note_: If you also need a database, check the [php sandbox](https://github.com/
 - download [`docker-compose.yml`](https://github.com/8ctopus/apache-php-fpm-alpine/blob/master/docker-compose.yml)
 - for php 8.1, 8.0 or 7.4, select image in `docker-compose.yml`
 - start `Docker Desktop` and run `docker-compose up`
-- open browser at [`http://localhost`](http://localhost)
+- open browser at [`http://localhost/`](http://localhost/)
 
 _Note_: On Windows [hot reload doesn't work with WSL 2](https://github.com/microsoft/WSL/issues/4739), you need to use the legacy Hyper-V.
 
@@ -55,8 +55,8 @@ docker-compose down
 Alternatively the container can also be started with `docker run`.
 
 ```sh
-# php 8.2
-docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:1.4.2
+# php 8.2 RC5
+docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:1.4.3
 
 CTRL-C to stop
 ```
@@ -187,12 +187,12 @@ _Note_: Only for repository owner
 ./php-spx/build.sh
 
 # build local image
-docker build --no-cache -t 8ct8pus/apache-php-fpm-alpine:1.4.2 .
+docker build --no-cache -t 8ct8pus/apache-php-fpm-alpine:1.4.3 .
 
 # test local image
 
 # push image to docker hub
-docker push 8ct8pus/apache-php-fpm-alpine:1.4.2
+docker push 8ct8pus/apache-php-fpm-alpine:1.4.3
 ```
 
 ## more info on php-fpm
