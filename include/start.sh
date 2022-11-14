@@ -3,9 +3,6 @@
 echo ""
 echo "Start container web server..."
 
-echo "domain: $DOMAIN"
-echo "document root: $DOCUMENT_ROOT"
-
 # check if we should expose apache to host
 # /docker/etc/ must be set in docker-compose
 if [ -d /docker/etc/ ];
@@ -52,37 +49,34 @@ then
 fi
 
 # check for existing certificate authority
-if [ ! -e /etc/ssl/apache2/certificate_authority.pem ];
+if [ ! -e /sites/config/ssl/certificate_authority.pem ];
 then
     # https://stackoverflow.com/questions/7580508/getting-chrome-to-accept-self-signed-localhost-certificate
     echo "Generate certificate authority..."
 
     # generate certificate authority private key
-    openssl genrsa -out /etc/ssl/apache2/certificate_authority.key 2048 2> /dev/null
+    openssl genrsa -out /sites/config/ssl/certificate_authority.key 2048 2> /dev/null
 
     # generate certificate authority certificate
-    # to read content openssl x590 -in /etc/ssl/apache2/certificate_authority.pem -noout -text
-    openssl req -new -x509 -nodes -key /etc/ssl/apache2/certificate_authority.key -sha256 -days 825 -out /etc/ssl/apache2/certificate_authority.pem -subj "/C=RU/O=8ctopus" 2> /dev/null
-
-    # copy certificate authority for docker user access
-#    cp /etc/ssl/apache2/certificate_authority.pem /var/www/html/
+    # to read content openssl x590 -in /sites/config/ssl/certificate_authority.pem -noout -text
+    openssl req -new -x509 -nodes -key /sites/config/ssl/certificate_authority.key -sha256 -days 825 -out /sites/config/ssl/certificate_authority.pem -subj "/C=RU/O=8ctopus" 2> /dev/null
 
     echo "Generate certificate authority - OK"
 fi
 
-if [ ! -e /etc/ssl/apache2/$DOMAIN.pem ];
+if [ ! -e /sites/$DOMAIN/ssl/ssl.pem ];
 then
     echo "Generate self-signed SSL certificate for $DOMAIN..."
 
     # generate domain private key
-    openssl genrsa -out /etc/ssl/apache2/$DOMAIN.key 2048 2> /dev/null
+    openssl genrsa -out /sites/$DOMAIN/ssl/private.key 2048 2> /dev/null
 
     # create certificate signing request
     # to read content openssl x590 -in certificate_authority.pem -noout -text
-    openssl req -new -key /etc/ssl/apache2/$DOMAIN.key -out /etc/ssl/apache2/$DOMAIN.csr -subj "/C=RU/O=8ctopus/CN=$DOMAIN" 2> /dev/null
+    openssl req -new -key /sites/$DOMAIN/ssl/private.key -out /sites/$DOMAIN/ssl/request.csr -subj "/C=RU/O=8ctopus/CN=$DOMAIN" 2> /dev/null
 
     # create certificate config file
-    >/etc/ssl/apache2/$DOMAIN.ext cat <<-EOF
+    >/sites/$DOMAIN/ssl/ssl.ext cat <<-EOF
 authorityKeyIdentifier=keyid,issuer
 basicConstraints=CA:FALSE
 keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
@@ -94,28 +88,15 @@ IP.1 = 192.168.0.13 # you can also add an IP address (if the connection which yo
 EOF
 
     # create signed certificate by certificate authority
-    openssl x509 -req -in /etc/ssl/apache2/$DOMAIN.csr -CA /etc/ssl/apache2/certificate_authority.pem -CAkey /etc/ssl/apache2/certificate_authority.key \
-        -CAcreateserial -out /etc/ssl/apache2/$DOMAIN.pem -days 825 -sha256 -extfile /etc/ssl/apache2/$DOMAIN.ext 2> /dev/null
+    openssl x509 -req -in /sites/$DOMAIN/ssl/request.csr -CA /sites/config/ssl/certificate_authority.pem -CAkey /sites/config/ssl/certificate_authority.key \
+        -CAcreateserial -out /sites/$DOMAIN/ssl/certificate.pem -days 825 -sha256 -extfile /sites/$DOMAIN/ssl/ssl.ext 2> /dev/null
 
     # use certificate
-    sed -i "s|SSLCertificateFile .*|SSLCertificateFile /etc/ssl/apache2/$DOMAIN.pem|g" /etc/apache2/conf.d/ssl.conf
-    sed -i "s|SSLCertificateKeyFile .*|SSLCertificateKeyFile /etc/ssl/apache2/$DOMAIN.key|g" /etc/apache2/conf.d/ssl.conf
+    sed -i "s|SSLCertificateFile .*|SSLCertificateFile /sites/$DOMAIN/ssl/certificate.pem|g" /etc/apache2/conf.d/ssl.conf
+    sed -i "s|SSLCertificateKeyFile .*|SSLCertificateKeyFile /sites/$DOMAIN/ssl/private.key|g" /etc/apache2/conf.d/ssl.conf
 
     echo "Generate self-signed SSL certificate for $DOMAIN - OK"
 fi
-
-echo "Configure apache for domain..."
-
-# set document root dir
-sed -i "s|/var/www/localhost/htdocs|/var/www/html$DOCUMENT_ROOT|g" /etc/apache2/httpd.conf
-
-# set SSL document root dir
-sed -i "s|DocumentRoot \".*\"|DocumentRoot \"/var/www/html$DOCUMENT_ROOT\"|g" /etc/apache2/conf.d/ssl.conf
-
-sed -i "s|#ServerName .*:80|ServerName $DOMAIN:80|g" /etc/apache2/httpd.conf
-sed -i "s|ServerName .*:443|ServerName $DOMAIN:443|g" /etc/apache2/conf.d/ssl.conf
-
-echo "Configure apache for domain - OK"
 
 # check if we should expose php to host
 if [ -d /docker/etc/ ];
@@ -162,13 +143,13 @@ then
 fi
 
 # clean log files
-truncate -s 0 /var/log/apache2/access_log 2> /dev/null
-truncate -s 0 /var/log/apache2/error_log 2> /dev/null
-truncate -s 0 /var/log/apache2/ssl_request.log 2> /dev/null
-truncate -s 0 /var/log/apache2/xdebug.log 2> /dev/null
+#truncate -s 0 /var/log/apache2/access_log 2> /dev/null
+#truncate -s 0 /var/log/apache2/error_log 2> /dev/null
+#truncate -s 0 /var/log/apache2/ssl_request.log 2> /dev/null
+#truncate -s 0 /var/log/apache2/xdebug.log 2> /dev/null
 
 # allow xdebug to write to log file
-chmod 666 /var/log/apache2/xdebug.log 2> /dev/null
+#chmod 666 /var/log/apache2/xdebug.log 2> /dev/null
 
 # start php-fpm
 php-fpm82
@@ -258,5 +239,5 @@ restart_processes()
 # infinite loop, will only stop on termination signal
 while true; do
     # restart apache and php-fpm if any file in /etc/apache2 or /etc/php82 changes
-    inotifywait --quiet --event modify,create,delete --timeout 3 --recursive /etc/apache2/ /etc/php82/ && restart_processes
+    inotifywait --quiet --event modify,create,delete --timeout 3 --recursive /etc/apache2/ /etc/php82/ /sites/config/ && restart_processes
 done

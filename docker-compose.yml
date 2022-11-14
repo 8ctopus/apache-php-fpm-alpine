@@ -3,7 +3,7 @@ version: '3.7'
 services:
   web:
     # php 8.2.0 RC6
-    image: 8ct8pus/apache-php-fpm-alpine:1.4.4
+    #image: 8ct8pus/apache-php-fpm-alpine:1.4.4
     # php 8.1.10
     #image: 8ct8pus/apache-php-fpm-alpine:1.3.6
     # php 8.0.17
@@ -11,21 +11,14 @@ services:
     # php 7.4.21
     #image: 8ct8pus/apache-php-fpm-alpine:1.1.3
     # development image
-    #image: apache-php-fpm-alpine:dev
+    image: apache-php-fpm-alpine:dev
     hostname: testing
     container_name: web
     ports:
       - 80:80
       - 443:443
-    environment:
-      - DOMAIN=localhost
-      - DOCUMENT_ROOT=/public
     volumes:
       # development directory
-      - ./html/:/var/www/html/
-      # expose apache logs to host
-      - ./docker/log/:/var/log/apache2/
+      - ./sites/:/sites/
       # expose apache2 and php config to host
       - ./docker/etc/:/docker/etc/
-      # expose ssl certificates to host
-      - ./docker/ssl/:/etc/ssl/apache2/

@@ -72,28 +72,25 @@ The source code is located inside the `html` directory.
 
 ## set domain name
 
-To set the domain name to www.test.com, edit the environment variable in the `docker-compose.yml` file
+Setting of the domain name is done by using virtual hosts. The virtual hosts config is located in `sites/config/vhosts/`.\
+By default, `test.com` is already defined as a virtual host.
 
-    environment:
-      - DOMAIN=www.test.com
+For your browser to resolve `test.com`, add this line to the system host file. Editing the file requires administrator privileges.
+On Windows, `C:\Windows\System32\drivers\etc\hosts` while on Linux based systems `/etc/hosts`.
 
-Add this line to the system host file. Editing the file requires administrator privileges.
-
-    C:\Windows\System32\drivers\etc\hosts
-
-    127.0.0.1 test.net www.test.net
+    127.0.0.1 test.com www.test.com
 
 ## add https
 
-To remove "Your connection is not private" nag screens, import the certificate authority file `docker/ssl/certificate_authority.pem` in your computer's Trusted Root Certification Authorities.
+To remove "Your connection is not private" nag screens, import the certificate authority file `sites/config/ssl/certificate_authority.pem` in your computer's Trusted Root Certification Authorities.
 
 In Windows `certmgr.msc` > click `Trusted Root Certification Authorities`, then right click on that folder and select `Import...` under `All Tasks`.
 
-_Note_: This creates a slight security risk since all certificates issues by this new authority are shown as perfectly valid in your browsers.
+_Note_: This creates a slight security risk since all certificates issued by this new authority are shown as perfectly valid in your browsers.
 
 ## Xdebug debugger
 
-This repository is configured to debug php code in Visual Studio Code. To start debugging, open the VSCode workspace then select `Run > Start debugging` then open the site in the browser.
+This repository is configured to debug php code in Visual Studio Code. To start debugging, open the VSCode workspace then select `Run > Start debugging` then open the site in the browser.\
 The default config is to stop on entry which stops at the first line in the file. To only stop on breakpoints, set `stopOnEntry` to `false` in `.vscode/launch.json`.
 
 For other IDEs, set the Xdebug debugging port to `9001`.

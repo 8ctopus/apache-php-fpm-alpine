@@ -155,9 +155,6 @@ RUN apk add \
 # configure xdebug
 ADD --chown=root:root include/xdebug.ini /etc/php82/conf.d/xdebug.ini
 
-# add apache log dir
-RUN mkdir /var/log/apache2/
-
 # install composer (currently installs php8.1 which creates a mess, use script approach instead to install)
 #RUN apk add \
 #    composer@testing
@@ -205,12 +202,12 @@ RUN sed -i 's|Options Indexes FollowSymLinks|Options All|g' /etc/apache2/httpd.c
 
 # update error and access logs location
 RUN mkdir -p /var/log/apache2
-RUN sed -i 's| logs/error.log| /var/log/apache2/error_log|g' /etc/apache2/httpd.conf
-RUN sed -i 's| logs/access.log| /var/log/apache2/access_log|g' /etc/apache2/httpd.conf
+RUN sed -i 's| logs/error.log| /sites/localhost/logs/error_log|g' /etc/apache2/httpd.conf
+RUN sed -i 's| logs/access.log| /sites/localhost/logs/access_log|g' /etc/apache2/httpd.conf
 
 # update SSL log location
-RUN sed -i 's|ErrorLog logs/ssl_error.log|ErrorLog /var/log/apache2/error_log|g' /etc/apache2/conf.d/ssl.conf
-RUN sed -i 's|TransferLog logs/ssl_access.log|TransferLog /var/log/apache2/access_log|g' /etc/apache2/conf.d/ssl.conf
+RUN sed -i 's|ErrorLog logs/ssl_error.log|ErrorLog /sites/localhost/logs/error_log|g' /etc/apache2/conf.d/ssl.conf
+RUN sed -i 's|TransferLog logs/ssl_access.log|TransferLog /sites/localhost/logs/access_log|g' /etc/apache2/conf.d/ssl.conf
 
 # update error log logging format
 RUN sed -i 's|^<IfModule log_config_module>|<IfModule log_config_module>\n\
@@ -257,6 +254,20 @@ RUN sed -i 's|^Timeout .*$|Timeout 600|g' /etc/apache2/conf.d/default.conf
 RUN sed -i 's|^DocumentRoot|<VirtualHost _default_:80>\n    SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1\n</VirtualHost>\n\nDocumentRoot|g' /etc/apache2/httpd.conf
 RUN sed -i 's|<VirtualHost _default_:443>|<VirtualHost _default_:443>\n\nSetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1|g' /etc/apache2/conf.d/ssl.conf
 
+# add support for vhosts to apache
+RUN echo -e "\n# Include the virtual host configurations:\nIncludeOptional /sites/config/vhosts/*.conf" >> /etc/apache2/httpd.conf
+RUN mkdir /etc/apache2/sites/
+
+# set localhost document root dir
+RUN sed -i "s|/var/www/localhost/htdocs|/sites/localhost/html$DOCUMENT_ROOT|g" /etc/apache2/httpd.conf
+
+# set localhost document root dir for SSL
+RUN sed -i "s|DocumentRoot \".*\"|DocumentRoot \"/sites/localhost/html$DOCUMENT_ROOT\"|g" /etc/apache2/conf.d/ssl.conf
+
+# set localhost server name
+RUN sed -i "s|#ServerName .*:80|ServerName localhost:80|g" /etc/apache2/httpd.conf
+RUN sed -i "s|ServerName .*:443|ServerName localhost:443|g" /etc/apache2/conf.d/ssl.conf
+
 # update php max execution time for easier debugging
 RUN sed -i 's|^max_execution_time .*$|max_execution_time = 600|g' /etc/php82/php.ini
 
@@ -268,9 +279,6 @@ ADD --chown=root:root include/php-spx/assets/ /usr/share/misc/php-spx/assets/
 ADD --chown=root:root include/php-spx/spx.so /usr/lib/php82/modules/spx.so
 ADD --chown=root:root include/php-spx/spx.ini /etc/php82/conf.d/spx.ini
 
-# add test pages to site
-ADD --chown=root:root html/public/ /var/www/html$DOCUMENT_ROOT/
-
 # add entry point script
 ADD --chown=root:root include/start.sh /tmp/start.sh
 
@@ -278,7 +286,7 @@ ADD --chown=root:root include/start.sh /tmp/start.sh
 RUN chmod +x /tmp/start.sh
 
 # set working dir
-WORKDIR /var/www/html/
+WORKDIR /sites/
 
 # set entrypoint
 ENTRYPOINT ["/tmp/start.sh"]
