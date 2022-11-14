@@ -10,7 +10,7 @@ A super light docker web server with Apache and php-fpm on top of Alpine Linux f
 - zsh 5.9
 - Alpine 3.16.3
 
-[docker hub](https://hub.docker.com/repository/docker/8ct8pus/apache-php-fpm-alpine)
+[image on docker hub](https://hub.docker.com/r/8ct8pus/apache-php-fpm-alpine)
 
 ## cool features
 
