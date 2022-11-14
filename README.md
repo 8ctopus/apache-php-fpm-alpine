@@ -14,10 +14,11 @@ A super light docker web server with Apache and php-fpm on top of Alpine Linux f
 
 ## cool features
 
-- php 8.2 RC6, 8.1, 8.0 or 7.4 along with the most commonly used extensions
+- php along with the most commonly used extensions
 - Just works with any domain name
+- Support for multiple virtual hosts
 - https is configured out of the box
-- Apache and php configuration files are exposed on the host for easy edit
+- Apache and php configuration files are exposed on the host for easy editing
 - All changes to configuration files are automatically applied (hot reload)
 - Xdebug is configured for step by step debugging and profiling
 - Profile php code with SPX or Xdebug
@@ -72,7 +73,7 @@ The source code is located inside the `html` directory.
 
 ## set domain name
 
-Setting of the domain name is done by using virtual hosts. The virtual hosts config is located in `sites/config/vhosts/`.\
+Setting of the domain name is done by using virtual hosts. The virtual hosts are located in `sites/config/vhosts/`.\
 By default, `test.com` is already defined as a virtual host.
 
 For your browser to resolve `test.com`, add this line to the system host file. Editing the file requires administrator privileges.
@@ -87,6 +88,13 @@ To remove "Your connection is not private" nag screens, import the certificate a
 In Windows `certmgr.msc` > click `Trusted Root Certification Authorities`, then right click on that folder and select `Import...` under `All Tasks`.
 
 _Note_: This creates a slight security risk since all certificates issued by this new authority are shown as perfectly valid in your browsers.
+
+For new virtual hosts, you will need to create the SSL certificate:
+
+```sh
+docker-exec -it web zsh
+./generate-ssl.sh test test.com
+```
 
 ## Xdebug debugger
 
