@@ -244,7 +244,7 @@ RUN sed -i 's|^DocumentRoot|<FilesMatch "\.php$">\n\
     SetHandler "proxy:unix:/var/run/php-fpm8.sock\|fcgi://localhost"\n\
 </FilesMatch>\n\nDocumentRoot|g' /etc/apache2/httpd.conf
 
-# update directory index to add php files
+# update directory index to support php files
 RUN sed -i 's|DirectoryIndex index.html|DirectoryIndex index.php index.html|g' /etc/apache2/httpd.conf
 
 # update apache timeout for easier debugging
