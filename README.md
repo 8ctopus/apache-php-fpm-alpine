@@ -157,9 +157,7 @@ docker commit web apache-php-fpm-alpine-curl:dev
 
 To use newly created image, update the image reference in `docker-compose.yml`.
 
-## development image
-
-- build docker development image
+## build development image
 
 ```sh
 docker build -t apache-php-fpm-alpine:dev .
@@ -180,7 +178,7 @@ services:
 When you update the docker image version in `docker-compose.yml`, it's important to know that the existing configuration in the `docker` dir may cause problems.\
 To solve all problems, backup the existing dir then delete it.
 
-## release docker image
+## build docker image
 
 _Note_: Only for repository owner
 
