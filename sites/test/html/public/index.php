@@ -2,6 +2,6 @@
 
 $hostname = gethostname();
 
-echo "Hello from {$hostname}!";
+echo "Hello from test.com on {$hostname}!";
 
 phpinfo();
