@@ -64,38 +64,14 @@ then
     echo "Generate certificate authority - OK"
 fi
 
-if [ ! -e /sites/$DOMAIN/ssl/ssl.pem ];
+if [ ! -e /sites/localhost/ssl/ssl.pem ];
 then
-    echo "Generate self-signed SSL certificate for $DOMAIN..."
-
-    # generate domain private key
-    openssl genrsa -out /sites/$DOMAIN/ssl/private.key 2048 2> /dev/null
-
-    # create certificate signing request
-    # to read content openssl x590 -in certificate_authority.pem -noout -text
-    openssl req -new -key /sites/$DOMAIN/ssl/private.key -out /sites/$DOMAIN/ssl/request.csr -subj "/C=RU/O=8ctopus/CN=$DOMAIN" 2> /dev/null
-
-    # create certificate config file
-    >/sites/$DOMAIN/ssl/ssl.ext cat <<-EOF
-authorityKeyIdentifier=keyid,issuer
-basicConstraints=CA:FALSE
-keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
-subjectAltName = @alt_names
-[alt_names]
-DNS.1 = $DOMAIN # Be sure to include the domain name here because Common Name is not so commonly honoured by itself
-DNS.2 = www.$DOMAIN # add additional domains and subdomains if needed
-IP.1 = 192.168.0.13 # you can also add an IP address (if the connection which you have planned requires it)
-EOF
-
-    # create signed certificate by certificate authority
-    openssl x509 -req -in /sites/$DOMAIN/ssl/request.csr -CA /sites/config/ssl/certificate_authority.pem -CAkey /sites/config/ssl/certificate_authority.key \
-        -CAcreateserial -out /sites/$DOMAIN/ssl/certificate.pem -days 825 -sha256 -extfile /sites/$DOMAIN/ssl/ssl.ext 2> /dev/null
+    # create certificate
+    /sites/generate-ssl.sh localhost localhost
 
     # use certificate
-    sed -i "s|SSLCertificateFile .*|SSLCertificateFile /sites/$DOMAIN/ssl/certificate.pem|g" /etc/apache2/conf.d/ssl.conf
-    sed -i "s|SSLCertificateKeyFile .*|SSLCertificateKeyFile /sites/$DOMAIN/ssl/private.key|g" /etc/apache2/conf.d/ssl.conf
-
-    echo "Generate self-signed SSL certificate for $DOMAIN - OK"
+    sed -i "s|SSLCertificateFile .*|SSLCertificateFile /sites/localhost/ssl/certificate.pem|g" /etc/apache2/conf.d/ssl.conf
+    sed -i "s|SSLCertificateKeyFile .*|SSLCertificateKeyFile /sites/localhost/ssl/private.key|g" /etc/apache2/conf.d/ssl.conf
 fi
 
 # check if we should expose php to host

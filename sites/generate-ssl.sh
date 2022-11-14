@@ -28,8 +28,4 @@ EOF
 openssl x509 -req -in /sites/$DIR/ssl/request.csr -CA /sites/config/ssl/certificate_authority.pem -CAkey /sites/config/ssl/certificate_authority.key \
     -CAcreateserial -out /sites/$DIR/ssl/certificate.pem -days 825 -sha256 -extfile /sites/$DIR/ssl/config.ext 2> /dev/null
 
-## use certificate
-#sed -i "s|SSLCertificateFile .*|SSLCertificateFile /sites/$DIR/ssl/certificate.pem|g" /etc/apache2/conf.d/ssl.conf
-#sed -i "s|SSLCertificateKeyFile .*|SSLCertificateKeyFile /sites/$DIR/ssl/private.key|g" /etc/apache2/conf.d/ssl.conf
-
 echo "Generate self-signed SSL certificate for $DOMAIN - OK"
