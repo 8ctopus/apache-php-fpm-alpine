@@ -1,4 +1,4 @@
-FROM alpine:3.16.3
+FROM alpine:edge
 LABEL maintainer="8ctopus <hello@octopuslabs.io>"
 
 # expose ports
@@ -18,16 +18,16 @@ RUN apk update
 RUN apk upgrade
 
 # install latest certificates for ssl
-RUN apk add ca-certificates
+RUN apk add ca-certificates@testing
 
 # install console tools
 RUN apk add \
-    inotify-tools
+    inotify-tools@testing
 
 # install zsh
 RUN apk add \
-    zsh \
-    zsh-vcs
+    zsh@testing \
+    zsh-vcs@testing
 
 # configure zsh
 ADD --chown=root:root include/zshrc /etc/zsh/zshrc
@@ -176,9 +176,9 @@ RUN mv /composer.phar /usr/bin/composer
 
 # install apache
 RUN apk add \
-    apache2 \
-    apache2-ssl \
-    apache2-proxy
+    apache2@testing \
+    apache2-ssl@testing \
+    apache2-proxy@testing
 
 # add user www-data
 # group www-data already exists
