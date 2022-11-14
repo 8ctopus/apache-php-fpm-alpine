@@ -64,7 +64,8 @@ then
     echo "Generate certificate authority - OK"
 fi
 
-if [ ! -e /sites/localhost/ssl/ssl.pem ];
+# check if localhost ssl certificate exists
+if [ ! -e /sites/localhost/ssl/certificate.pem ];
 then
     # create certificate
     /sites/generate-ssl.sh localhost localhost
@@ -72,6 +73,17 @@ then
     # use certificate
     sed -i "s|SSLCertificateFile .*|SSLCertificateFile /sites/localhost/ssl/certificate.pem|g" /etc/apache2/conf.d/ssl.conf
     sed -i "s|SSLCertificateKeyFile .*|SSLCertificateKeyFile /sites/localhost/ssl/private.key|g" /etc/apache2/conf.d/ssl.conf
+fi
+
+# check if test site exists
+if [ -d /sites/test/ ];
+then
+    # check if test.com ssl certificate exists
+    if [ ! -e /sites/test/ssl/certificate.pem ];
+    then
+        # create certificate
+        /sites/generate-ssl.sh test test.com
+    fi
 fi
 
 # check if we should expose php to host
