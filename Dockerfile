@@ -1,5 +1,5 @@
 FROM alpine:3.16.3
-LABEL maintainer="hello@octopuslabs.io"
+LABEL maintainer="8ctopus <hello@octopuslabs.io>"
 
 # expose ports
 EXPOSE 80/tcp
