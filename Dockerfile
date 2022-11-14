@@ -256,7 +256,6 @@ RUN sed -i 's|<VirtualHost _default_:443>|<VirtualHost _default_:443>\n\nSetEnvI
 
 # add support for vhosts to apache
 RUN echo -e "\n# Include the virtual host configurations:\nIncludeOptional /sites/config/vhosts/*.conf" >> /etc/apache2/httpd.conf
-RUN mkdir /etc/apache2/sites/
 
 # set localhost document root dir
 RUN sed -i "s|/var/www/localhost/htdocs|/sites/localhost/html$DOCUMENT_ROOT|g" /etc/apache2/httpd.conf
