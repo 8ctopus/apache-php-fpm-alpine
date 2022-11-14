@@ -14,7 +14,7 @@ A super light docker web server with Apache and php-fpm on top of Alpine Linux f
 
 ## cool features
 
-- php 8.2 RC5, 8.1, 8.0 or 7.4 along with the most commonly used extensions
+- php 8.2 RC6, 8.1, 8.0 or 7.4 along with the most commonly used extensions
 - Just works with any domain name
 - https is configured out of the box
 - Apache and php configuration files are exposed on the host for easy edit
