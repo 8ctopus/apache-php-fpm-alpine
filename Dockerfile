@@ -180,6 +180,9 @@ RUN apk add \
     apache2-ssl@testing \
     apache2-proxy@testing
 
+# delete apk cache
+RUN rm -rf /var/cache/apk/*
+
 # add user www-data
 # group www-data already exists
 # -H don't create home directory
@@ -276,9 +279,6 @@ RUN chmod +x /tmp/start.sh
 
 # set working dir
 WORKDIR /var/www/html/
-
-# delete apk cache
-RUN rm -rf /var/cache/apk/*
 
 # set entrypoint
 ENTRYPOINT ["/tmp/start.sh"]
