@@ -277,5 +277,8 @@ RUN chmod +x /tmp/start.sh
 # set working dir
 WORKDIR /var/www/html/
 
+# delete apk cache
+RUN rm -rf /var/cache/apk/*
+
 # set entrypoint
 ENTRYPOINT ["/tmp/start.sh"]
