@@ -201,7 +201,6 @@ RUN sed -i 's|    AllowOverride None|    AllowOverride All|g' /etc/apache2/httpd
 RUN sed -i 's|Options Indexes FollowSymLinks|Options All|g' /etc/apache2/httpd.conf
 
 # update error and access logs location
-RUN mkdir -p /var/log/apache2
 RUN sed -i 's| logs/error.log| /sites/localhost/logs/error_log|g' /etc/apache2/httpd.conf
 RUN sed -i 's| logs/access.log| /sites/localhost/logs/access_log|g' /etc/apache2/httpd.conf
 

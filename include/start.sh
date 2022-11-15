@@ -141,11 +141,11 @@ fi
 # clean log files
 truncate -s 0 /sites/*/logs/access_log 2> /dev/null
 truncate -s 0 /sites/*/logs/error_log 2> /dev/null
-truncate -s 0 /var/log/apache2/ssl_request.log 2> /dev/null
-truncate -s 0 /var/log/apache2/xdebug.log 2> /dev/null
+truncate -s 0 /var/log/ssl_request.log 2> /dev/null
+truncate -s 0 /var/log/xdebug.log 2> /dev/null
 
 # allow xdebug to write to log file
-chmod 666 /var/log/apache2/xdebug.log 2> /dev/null
+chmod 666 /var/log/xdebug.log 2> /dev/null
 
 # start php-fpm
 php-fpm82

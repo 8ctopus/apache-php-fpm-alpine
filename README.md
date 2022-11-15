@@ -28,7 +28,7 @@ _Note_: If you also need MariaDB database, check the [php sandbox](https://githu
 ## quick start
 
 - download [`docker-compose.yml`](https://github.com/8ctopus/apache-php-fpm-alpine/blob/master/docker-compose.yml)
-- for php 8.1, 8.0 or 7.4, select image in `docker-compose.yml`
+- to use php 8.1, 8.0 or 7.4, select the image in `docker-compose.yml`
 - start `Docker Desktop` and run `docker-compose up`
 - open browser at [`http://localhost/`](http://localhost/)
 
@@ -59,7 +59,7 @@ Alternatively the container can also be started with `docker run`.
 
 ```sh
 # php 8.2 RC66
-docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:1.4.4
+docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:2.0.0
 
 CTRL-C to stop
 ```
@@ -195,12 +195,12 @@ _Note_: Only for repository owner
 ./php-spx/build.sh
 
 # build local image
-docker build --no-cache -t 8ct8pus/apache-php-fpm-alpine:1.4.4 .
+docker build --no-cache -t 8ct8pus/apache-php-fpm-alpine:2.0.0 .
 
 # test local image
 
 # push image to docker hub
-docker push 8ct8pus/apache-php-fpm-alpine:1.4.4
+docker push 8ct8pus/apache-php-fpm-alpine:2.0.0
 ```
 
 ## more info on php-fpm
