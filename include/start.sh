@@ -232,8 +232,11 @@ restart_processes()
     fi
 }
 
-# infinite loop, will only stop on termination signal
-while true; do
+# infinite loop, will only stop on termination signal or deletion of sites/config
+while [ -d /sites/config/ ]
+do
     # restart apache and php-fpm if any file in /etc/apache2 or /etc/php82 changes
     inotifywait --quiet --event modify,create,delete --timeout 3 --recursive /etc/apache2/ /etc/php82/ /sites/config/ && restart_processes
 done
+
+echo "Exit container web server"
