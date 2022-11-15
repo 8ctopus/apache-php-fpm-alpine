@@ -54,6 +54,20 @@ if [ ! -d /sites/config/ ];
 then
     # copy default config from the backup
     cp -r /sites.bak/config/ /sites/config/
+
+    # check if localhost does not exist
+    if [ ! -d /sites/localhost/ ];
+    then
+        # copy localhost from the backup
+        cp -r /sites.bak/localhost/ /sites/localhost/
+    fi
+
+    # check if test does not exist
+    if [ ! -d /sites/test/ ];
+    then
+        # copy test from the backup
+        cp -r /sites.bak/test/ /sites/test/
+    fi
 fi
 
 # check if SSL certificate authority does not exist
@@ -74,13 +88,6 @@ then
     cp /sites.bak/generate-ssl.sh /sites/
 fi
 
-# check if localhost does not exist
-if [ ! -d /sites/localhost/ ];
-then
-    # copy default localhost from the backup
-    cp -r /sites.bak/localhost/ /sites/localhost/
-fi
-
 # check if localhost ssl certificate exists
 if [ ! -e /sites/localhost/ssl/certificate.pem ];
 then
@@ -92,22 +99,11 @@ then
     sed -i "s|SSLCertificateKeyFile .*|SSLCertificateKeyFile /sites/localhost/ssl/private.key|g" /etc/apache2/conf.d/ssl.conf
 fi
 
-# check if test site does not exist
-if [ ! -d /sites/test/ ];
+# check if test.com ssl certificate exists
+if [ ! -e /sites/test/ssl/certificate.pem ];
 then
-    # delete test.com vhost
-    rm -f /sites/config/vhosts/test.com*
-fi
-
-# check if test site exists
-if [ -d /sites/test/ ];
-then
-    # check if test.com ssl certificate exists
-    if [ ! -e /sites/test/ssl/certificate.pem ];
-    then
-        # create certificate
-        /sites/generate-ssl.sh test test.com
-    fi
+    # create certificate
+    /sites/generate-ssl.sh test test.com
 fi
 
 # check if we should expose php to host
