@@ -88,22 +88,26 @@ then
     cp /sites.bak/generate-ssl.sh /sites/
 fi
 
-# check if localhost ssl certificate exists
-if [ ! -e /sites/localhost/ssl/certificate.pem ];
+# check if localhost config exists
+if [ -d /sites/localhost/ ];
 then
-    # create certificate
-    /sites/generate-ssl.sh localhost localhost
-
-    # use certificate
-    sed -i "s|SSLCertificateFile .*|SSLCertificateFile /sites/localhost/ssl/certificate.pem|g" /etc/apache2/conf.d/ssl.conf
-    sed -i "s|SSLCertificateKeyFile .*|SSLCertificateKeyFile /sites/localhost/ssl/private.key|g" /etc/apache2/conf.d/ssl.conf
+    # check if localhost ssl certificate exists
+    if [ ! -e /sites/localhost/ssl/certificate.pem ];
+    then
+        # create certificate
+        /sites/generate-ssl.sh localhost localhost
+    fi
 fi
 
-# check if test.com ssl certificate exists
-if [ ! -e /sites/test/ssl/certificate.pem ];
+# check if test.com config exists
+if [ -d /sites/test/ ];
 then
-    # create certificate
-    /sites/generate-ssl.sh test test.com
+    # check if test.com ssl certificate exists
+    if [ ! -e /sites/test/ssl/certificate.pem ];
+    then
+        # create certificate
+        /sites/generate-ssl.sh test test.com
+    fi
 fi
 
 # check if we should expose php to host
