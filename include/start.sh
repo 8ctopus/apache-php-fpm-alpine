@@ -54,7 +54,6 @@ if [ ! -d /sites/config/ ];
 then
     # copy default config from the backup
     cp -r /sites.bak/config/ /sites/config/
-    cp /sites.bak/generate-ssl.sh /sites/
 fi
 
 # check if SSL certificate authority does not exist
@@ -71,6 +70,8 @@ then
     openssl req -new -x509 -nodes -key /sites/config/ssl/certificate_authority.key -sha256 -days 825 -out /sites/config/ssl/certificate_authority.pem -subj "/C=RU/O=8ctopus" 2> /dev/null
 
     echo "Generate SSL certificate authority - OK"
+
+    cp /sites.bak/generate-ssl.sh /sites/
 fi
 
 # check if localhost does not exist
