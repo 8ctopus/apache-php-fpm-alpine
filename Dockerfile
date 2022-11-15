@@ -262,8 +262,8 @@ RUN echo -e "\n# Include the virtual host configurations:\nIncludeOptional /site
 ## set localhost document root dir for SSL
 #RUN sed -i "s|DocumentRoot \".*\"|DocumentRoot \"/sites/localhost/html$DOCUMENT_ROOT\"|g" /etc/apache2/conf.d/ssl.conf
 
-## set localhost server name
-#RUN sed -i "s|#ServerName .*:80|ServerName localhost:80|g" /etc/apache2/httpd.conf
+# set localhost server name
+RUN sed -i "s|#ServerName .*:80|ServerName localhost:80|g" /etc/apache2/httpd.conf
 #RUN sed -i "s|ServerName .*:443|ServerName localhost:443|g" /etc/apache2/conf.d/ssl.conf
 
 # update php max execution time for easier debugging
