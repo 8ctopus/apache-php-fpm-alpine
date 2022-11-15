@@ -75,10 +75,9 @@ The source code is located inside the `sites/*/html/public/` directories.
 
 ## domain names
 
-Setting a domain name is done by using virtual hosts. The virtual hosts configuration is located in `sites/config/vhosts/`.\
-By default, `test.com` is already defined as a virtual host.
+Setting a domain name is done by using virtual hosts. The virtual hosts configuration is located in `sites/config/vhosts/`. By default, `test.com` is already defined as a virtual host.
 
-For your browser to resolve `test.com`, add this line to your system's host file. Editing the file requires administrator privileges.
+For your browser to resolve `test.com`, add this line to your system's host file. Editing the file requires administrator privileges.\
 On Windows: `C:\Windows\System32\drivers\etc\hosts`\
 Linux and Mac: `/etc/hosts`
 
@@ -91,14 +90,14 @@ To remove "Your connection is not private" nag screens, import the certificate a
 
 In Windows, open `certmgr.msc` > click `Trusted Root Certification Authorities`, then right click on that folder and select `Import...` under `All Tasks`.
 
-_Note_: This creates a slight security risk since all certificates issued by this new authority are shown as perfectly valid in your browsers.
-
 For newly created virtual hosts, you will need to create the SSL certificate:
 
 ```sh
 docker-exec -it web zsh
 ./generate-ssl.sh test test.com
 ```
+
+_Note_: This creates a slight security risk since all certificates issued by this new authority are shown as perfectly valid in your browsers.
 
 ## Xdebug debugger
 
