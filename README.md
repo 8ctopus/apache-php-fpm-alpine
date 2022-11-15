@@ -75,9 +75,10 @@ The source code is located inside the `sites/*/html/public/` directories.
 
 ## domain names
 
-Setting a domain name is done by using virtual hosts. The virtual hosts configuration is located in `sites/config/vhosts/`. By default, `test.com` is already defined as a virtual host.
+Setting a domain name is done by using virtual hosts. The virtual hosts configuration files are located in `sites/config/vhosts/`. By default, `localhost` and `test.com` are already defined as virtual hosts.
 
 For your browser to resolve `test.com`, add this line to your system's host file. Editing the file requires administrator privileges.\
+\
 On Windows: `C:\Windows\System32\drivers\etc\hosts`\
 Linux and Mac: `/etc/hosts`
 
@@ -86,18 +87,20 @@ Linux and Mac: `/etc/hosts`
 ## https
 
 A self-signed https certificate is already configured for `localhost` and `test.com`.\
-To remove "Your connection is not private" nag screens, import the certificate authority file `sites/config/ssl/certificate_authority.pem` in your computer's Trusted Root Certification Authorities.
+To remove "Your connection is not private" nag screens, import the certificate authority file `sites/config/ssl/certificate_authority.pem` to your computer's Trusted Root Certification Authorities.
 
 In Windows, open `certmgr.msc` > click `Trusted Root Certification Authorities`, then right click on that folder and select `Import...` under `All Tasks`.
 
-For newly created virtual hosts, you will need to create the SSL certificate:
+On Linux and Mac: \[fill blank\]
+
+For newly created domains, you will need to create the SSL certificate:
 
 ```sh
 docker-exec -it web zsh
 ./generate-ssl.sh test test.com
 ```
 
-_Note_: This creates a slight security risk since all certificates issued by this new authority are shown as perfectly valid in your browsers.
+_Note_: Importing the certificate authority creates a security risk since all certificates issued by this new authority are shown as perfectly valid in your browsers.
 
 ## Xdebug debugger
 
