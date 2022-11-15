@@ -1,6 +1,6 @@
 # docker apache php-fpm alpine ![Docker Image Size (latest semver)](https://img.shields.io/docker/image-size/8ct8pus/apache-php-fpm-alpine?sort=semver) ![Docker Pulls](https://img.shields.io/docker/pulls/8ct8pus/apache-php-fpm-alpine)
 
-A super light docker web server with Apache and php-fpm on top of Alpine Linux for development purposes
+A super light docker web server with Apache and php-fpm on top of Alpine Linux for php developers.
 
 - Apache 2.4.54 with SSL
 - php-fpm 8.2.0 RC6, 8.1.10, 8.0.17 or 7.4.21
@@ -10,7 +10,7 @@ A super light docker web server with Apache and php-fpm on top of Alpine Linux f
 - zsh 5.9
 - Alpine edge
 
-[image on docker hub](https://hub.docker.com/r/8ct8pus/apache-php-fpm-alpine)
+[image on dockerhub](https://hub.docker.com/r/8ct8pus/apache-php-fpm-alpine)
 
 ## cool features
 
@@ -23,7 +23,7 @@ A super light docker web server with Apache and php-fpm on top of Alpine Linux f
 - Xdebug is configured for step by step debugging and profiling
 - Profile php code with SPX or Xdebug
 
-_Note_: If you also need a database, check the [php sandbox](https://github.com/8ctopus/php-sandbox) project.
+_Note_: If you also need MariaDB database, check the [php sandbox](https://github.com/8ctopus/php-sandbox) project.
 
 ## quick start
 
@@ -58,38 +58,42 @@ docker-compose down
 Alternatively the container can also be started with `docker run`.
 
 ```sh
-# php 8.2 RC5
+# php 8.2 RC66
 docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:1.4.4
 
 CTRL-C to stop
 ```
 
-## access website
+## access sites
 
-    http://localhost/
-    https://localhost/
+There are 2 sites you can access from your browser
 
-The source code is located inside the `html` directory.
+    http(s)://localhost/
+    http(s)://(www.)test.com/
 
-## set domain name
+The source code is located inside the `sites/*/html/public/` directories.
 
-Setting of the domain name is done by using virtual hosts. The virtual hosts are located in `sites/config/vhosts/`.\
+## domain names
+
+Setting a domain name is done by using virtual hosts. The virtual hosts configuration is located in `sites/config/vhosts/`.\
 By default, `test.com` is already defined as a virtual host.
 
-For your browser to resolve `test.com`, add this line to the system host file. Editing the file requires administrator privileges.
-On Windows, `C:\Windows\System32\drivers\etc\hosts` while on Linux based systems `/etc/hosts`.
+For your browser to resolve `test.com`, add this line to your system's host file. Editing the file requires administrator privileges.
+On Windows: `C:\Windows\System32\drivers\etc\hosts`\
+Linux and Mac: `/etc/hosts`
 
     127.0.0.1 test.com www.test.com
 
-## add https
+## https
 
+A self-signed https certificate is already configured for `localhost` and `test.com`.\
 To remove "Your connection is not private" nag screens, import the certificate authority file `sites/config/ssl/certificate_authority.pem` in your computer's Trusted Root Certification Authorities.
 
-In Windows `certmgr.msc` > click `Trusted Root Certification Authorities`, then right click on that folder and select `Import...` under `All Tasks`.
+In Windows, open `certmgr.msc` > click `Trusted Root Certification Authorities`, then right click on that folder and select `Import...` under `All Tasks`.
 
 _Note_: This creates a slight security risk since all certificates issued by this new authority are shown as perfectly valid in your browsers.
 
-For new virtual hosts, you will need to create the SSL certificate:
+For newly created virtual hosts, you will need to create the SSL certificate:
 
 ```sh
 docker-exec -it web zsh
@@ -162,6 +166,11 @@ docker commit web apache-php-fpm-alpine-curl:dev
 
 To use newly created image, update the image reference in `docker-compose.yml`.
 
+## update docker image
+
+When you update the docker image version in `docker-compose.yml`, it's important to know that the existing configuration in the `docker` dir may cause problems.\
+To solve all problems, backup the existing dir then delete it.
+
 ## build development image
 
 ```sh
@@ -177,11 +186,6 @@ services:
     # development image
     image: apache-php-fpm-alpine:dev
 ```
-
-## update docker image
-
-When you update the docker image version in `docker-compose.yml`, it's important to know that the existing configuration in the `docker` dir may cause problems.\
-To solve all problems, backup the existing dir then delete it.
 
 ## build docker image
 
