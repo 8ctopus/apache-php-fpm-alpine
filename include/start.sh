@@ -49,7 +49,7 @@ then
 fi
 
 # check if sites directory is empty
-# it happens when docker-compose.yml mounts sites on the host
+# it happens when docker-compose.yml mounts sites dir on the host
 if [ ! -d /sites/config/ ];
 then
     # copy default sites from the backup
@@ -139,13 +139,13 @@ then
 fi
 
 # clean log files
-#truncate -s 0 /var/log/apache2/access_log 2> /dev/null
-#truncate -s 0 /var/log/apache2/error_log 2> /dev/null
-#truncate -s 0 /var/log/apache2/ssl_request.log 2> /dev/null
-#truncate -s 0 /var/log/apache2/xdebug.log 2> /dev/null
+truncate -s 0 /sites/*/logs/access_log 2> /dev/null
+truncate -s 0 /sites/*/logs/error_log 2> /dev/null
+truncate -s 0 /var/log/apache2/ssl_request.log 2> /dev/null
+truncate -s 0 /var/log/apache2/xdebug.log 2> /dev/null
 
 # allow xdebug to write to log file
-#chmod 666 /var/log/apache2/xdebug.log 2> /dev/null
+chmod 666 /var/log/apache2/xdebug.log 2> /dev/null
 
 # start php-fpm
 php-fpm82
