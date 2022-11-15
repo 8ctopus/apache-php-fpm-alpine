@@ -48,19 +48,20 @@ then
     echo "Expose apache to host - OK"
 fi
 
-# check if sites directory is empty
+# check if sites config does not exist
 # it happens when docker-compose.yml mounts sites dir on the host
 if [ ! -d /sites/config/ ];
 then
-    # copy default sites from the backup
-    cp -r /sites.bak/* /sites/
+    # copy default config from the backup
+    cp -r /sites.bak/config/ /sites/config/
+    cp /sites.bak/generate-ssl.sh /sites/
 fi
 
-# check for existing certificate authority
+# check if SSL certificate authority does not exist
 if [ ! -e /sites/config/ssl/certificate_authority.pem ];
 then
     # https://stackoverflow.com/questions/7580508/getting-chrome-to-accept-self-signed-localhost-certificate
-    echo "Generate certificate authority..."
+    echo "Generate SSL certificate authority..."
 
     # generate certificate authority private key
     openssl genrsa -out /sites/config/ssl/certificate_authority.key 2048 2> /dev/null
@@ -69,7 +70,14 @@ then
     # to read content openssl x590 -in /sites/config/ssl/certificate_authority.pem -noout -text
     openssl req -new -x509 -nodes -key /sites/config/ssl/certificate_authority.key -sha256 -days 825 -out /sites/config/ssl/certificate_authority.pem -subj "/C=RU/O=8ctopus" 2> /dev/null
 
-    echo "Generate certificate authority - OK"
+    echo "Generate SSL certificate authority - OK"
+fi
+
+# check if localhost does not exist
+if [ ! -d /sites/localhost/ ];
+then
+    # copy default localhost from the backup
+    cp -r /sites.bak/localhost/ /sites/localhost/
 fi
 
 # check if localhost ssl certificate exists
@@ -81,6 +89,13 @@ then
     # use certificate
     sed -i "s|SSLCertificateFile .*|SSLCertificateFile /sites/localhost/ssl/certificate.pem|g" /etc/apache2/conf.d/ssl.conf
     sed -i "s|SSLCertificateKeyFile .*|SSLCertificateKeyFile /sites/localhost/ssl/private.key|g" /etc/apache2/conf.d/ssl.conf
+fi
+
+# check if test site does not exist
+if [ ! -d /sites/test/ ];
+then
+    # delete test.com vhost
+    rm -f /sites/config/vhosts/test.com*
 fi
 
 # check if test site exists
