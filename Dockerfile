@@ -30,7 +30,7 @@ RUN apk add \
     zsh-vcs@testing
 
 # configure zsh
-ADD --chown=root:root include/zshrc /etc/zsh/zshrc
+COPY --chown=root:root include/zshrc /etc/zsh/zshrc
 
 # install php
 RUN apk add \
@@ -153,14 +153,14 @@ RUN apk add \
 #    php82-pecl-zstd-dev@testing
 
 # configure xdebug
-ADD --chown=root:root include/xdebug.ini /etc/php82/conf.d/xdebug.ini
+COPY --chown=root:root include/xdebug.ini /etc/php82/conf.d/xdebug.ini
 
 # install composer (currently installs php8.1 which creates a mess, use script approach instead to install)
 #RUN apk add \
 #    composer@testing
 
 # add composer script
-ADD --chown=root:root include/composer.sh /tmp/composer.sh
+COPY --chown=root:root include/composer.sh /tmp/composer.sh
 
 # make composer script executable
 RUN chmod +x /tmp/composer.sh
@@ -274,12 +274,15 @@ RUN sed -i 's|^max_execution_time .*$|max_execution_time = 600|g' /etc/php82/php
 RUN sed -i 's|^error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT$|error_reporting = E_ALL|g' /etc/php82/php.ini
 
 # add php-spx
-ADD --chown=root:root include/php-spx/assets/ /usr/share/misc/php-spx/assets/
-ADD --chown=root:root include/php-spx/spx.so /usr/lib/php82/modules/spx.so
-ADD --chown=root:root include/php-spx/spx.ini /etc/php82/conf.d/spx.ini
+COPY --chown=root:root include/php-spx/assets/ /usr/share/misc/php-spx/assets/
+COPY --chown=root:root include/php-spx/spx.so /usr/lib/php82/modules/spx.so
+COPY --chown=root:root include/php-spx/spx.ini /etc/php82/conf.d/spx.ini
+
+# add default sites
+COPY --chown=root:root include/sites/ /sites/
 
 # add entry point script
-ADD --chown=root:root include/start.sh /tmp/start.sh
+COPY --chown=root:root include/start.sh /tmp/start.sh
 
 # make entry point script executable
 RUN chmod +x /tmp/start.sh
