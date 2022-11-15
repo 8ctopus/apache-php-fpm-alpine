@@ -279,7 +279,7 @@ COPY --chown=root:root include/php-spx/spx.so /usr/lib/php82/modules/spx.so
 COPY --chown=root:root include/php-spx/spx.ini /etc/php82/conf.d/spx.ini
 
 # add default sites
-COPY --chown=root:root include/sites/ /sites/
+COPY --chown=root:root include/sites/ /sites.bak/
 
 # add entry point script
 COPY --chown=root:root include/start.sh /tmp/start.sh

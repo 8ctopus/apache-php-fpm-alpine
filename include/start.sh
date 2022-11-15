@@ -48,6 +48,14 @@ then
     echo "Expose apache to host - OK"
 fi
 
+# check if sites directory is empty
+# it happens when docker-compose.yml mounts sites on the host
+if [ ! -d /sites/config/ ];
+then
+    # copy default sites from the backup
+    cp -r /sites.bak/* /sites/
+fi
+
 # check for existing certificate authority
 if [ ! -e /sites/config/ssl/certificate_authority.pem ];
 then

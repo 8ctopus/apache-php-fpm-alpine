@@ -1,15 +1,8 @@
+# sites
+/sites/
+
 # docker
 /docker/
-
-# logs
-/sites/*/logs/
-!/sites/*/logs/.gitkeep
-
-# ssl
-/sites/*/ssl/
-!/sites/*/ssl/.gitkeep
-/sites/config/ssl/
-!/sites/config/ssl/.gitkeep
 
 # other
 /php-spx/lib/
