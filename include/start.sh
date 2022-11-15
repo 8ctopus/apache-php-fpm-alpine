@@ -4,7 +4,7 @@ echo ""
 echo "Start container web server..."
 
 # check if we should expose apache to host
-# /docker/etc/ must be set in docker-compose
+# /docker/etc/ must be set in docker-compose.yml
 if [ -d /docker/etc/ ];
 then
     echo "Expose apache to host..."

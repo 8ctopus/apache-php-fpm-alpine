@@ -177,8 +177,7 @@ To solve all problems, backup the existing dir then delete it.
 docker build -t apache-php-fpm-alpine:dev .
 ```
 
-- `rm -rf docker/`
-- in docker-compose.yml
+- update `docker-compose.yml`
 
 ```yaml
 services:
