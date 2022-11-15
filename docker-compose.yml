@@ -22,3 +22,5 @@ services:
       - ./sites/:/sites/
       # expose apache2 and php config to host
       - ./docker/etc/:/docker/etc/
+      # expose logs to host
+      - ./docker/log/:/var/log/apache2/
