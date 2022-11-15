@@ -154,7 +154,7 @@ fi
 truncate -s 0 /sites/*/logs/access_log 2> /dev/null
 truncate -s 0 /sites/*/logs/error_log 2> /dev/null
 truncate -s 0 /var/log/ssl_request.log 2> /dev/null
-truncate -s 0 /var/log/xdebug.log 2> /dev/null
+truncate -s 0 /sites/localhost/logs/xdebug.log 2> /dev/null
 
 # allow xdebug to write to log file
 chmod 666 /var/log/xdebug.log 2> /dev/null
