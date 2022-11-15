@@ -194,36 +194,36 @@ RUN sed -i 's|Group apache|Group www-data|g' /etc/apache2/httpd.conf
 # enable mod rewrite (rewrite urls in htaccess)
 RUN sed -i 's|#LoadModule rewrite_module modules/mod_rewrite.so|LoadModule rewrite_module modules/mod_rewrite.so|g' /etc/apache2/httpd.conf
 
+# enable important apache modules
+RUN sed -i 's|#LoadModule deflate_module modules/mod_deflate.so|LoadModule deflate_module modules/mod_deflate.so|g' /etc/apache2/httpd.conf
+RUN sed -i 's|#LoadModule expires_module modules/mod_expires.so|LoadModule expires_module modules/mod_expires.so|g' /etc/apache2/httpd.conf
+RUN sed -i 's|#LoadModule ext_filter_module modules/mod_ext_filter.so|LoadModule ext_filter_module modules/mod_ext_filter.so|g' /etc/apache2/httpd.conf
+
+# switch from mpm_prefork to mpm_event
+RUN sed -i 's|LoadModule mpm_prefork_module modules/mod_mpm_prefork.so|#LoadModule mpm_prefork_module modules/mod_mpm_prefork.so|g' /etc/apache2/httpd.conf
+RUN sed -i 's|#LoadModule mpm_event_module modules/mod_mpm_event.so|LoadModule mpm_event_module modules/mod_mpm_event.so|g' /etc/apache2/httpd.conf
+
 # authorize all directives in .htaccess
 RUN sed -i 's|    AllowOverride None|    AllowOverride All|g' /etc/apache2/httpd.conf
 
 # authorize all changes from htaccess
 RUN sed -i 's|Options Indexes FollowSymLinks|Options All|g' /etc/apache2/httpd.conf
 
-# update error and access logs location
-RUN sed -i 's| logs/error.log| /sites/localhost/logs/error_log|g' /etc/apache2/httpd.conf
-RUN sed -i 's| logs/access.log| /sites/localhost/logs/access_log|g' /etc/apache2/httpd.conf
+## update error and access logs location
+#RUN sed -i 's| logs/error.log| /sites/localhost/logs/error_log|g' /etc/apache2/httpd.conf
+#RUN sed -i 's| logs/access.log| /sites/localhost/logs/access_log|g' /etc/apache2/httpd.conf
 
-# update SSL log location
-RUN sed -i 's|ErrorLog logs/ssl_error.log|ErrorLog /sites/localhost/logs/error_log|g' /etc/apache2/conf.d/ssl.conf
-RUN sed -i 's|TransferLog logs/ssl_access.log|TransferLog /sites/localhost/logs/access_log|g' /etc/apache2/conf.d/ssl.conf
+## update SSL log location
+#RUN sed -i 's|ErrorLog logs/ssl_error.log|ErrorLog /sites/localhost/logs/error_log|g' /etc/apache2/conf.d/ssl.conf
+#RUN sed -i 's|TransferLog logs/ssl_access.log|TransferLog /sites/localhost/logs/access_log|g' /etc/apache2/conf.d/ssl.conf
 
-# update error log logging format
-RUN sed -i 's|^<IfModule log_config_module>|<IfModule log_config_module>\n\
-    # custom error log format\n\
-    ErrorLogFormat "[%t] [%l] [client %a] %M, referer: %{Referer}i"\n\
-    \n\
-    # log 404 as errors\n\
-    LogLevel core:info\n|g' /etc/apache2/httpd.conf
-
-# switch from mpm_prefork to mpm_event
-RUN sed -i 's|LoadModule mpm_prefork_module modules/mod_mpm_prefork.so|#LoadModule mpm_prefork_module modules/mod_mpm_prefork.so|g' /etc/apache2/httpd.conf
-RUN sed -i 's|#LoadModule mpm_event_module modules/mod_mpm_event.so|LoadModule mpm_event_module modules/mod_mpm_event.so|g' /etc/apache2/httpd.conf
-
-# enable important apache modules
-RUN sed -i 's|#LoadModule deflate_module modules/mod_deflate.so|LoadModule deflate_module modules/mod_deflate.so|g' /etc/apache2/httpd.conf
-RUN sed -i 's|#LoadModule expires_module modules/mod_expires.so|LoadModule expires_module modules/mod_expires.so|g' /etc/apache2/httpd.conf
-RUN sed -i 's|#LoadModule ext_filter_module modules/mod_ext_filter.so|LoadModule ext_filter_module modules/mod_ext_filter.so|g' /etc/apache2/httpd.conf
+## update error log logging format
+#RUN sed -i 's|^<IfModule log_config_module>|<IfModule log_config_module>\n\
+#    # custom error log format\n\
+#    ErrorLogFormat "[%t] [%l] [client %a] %M, referer: %{Referer}i"\n\
+#    \n\
+#    # log 404 as errors\n\
+#    LogLevel core:info\n|g' /etc/apache2/httpd.conf
 
 # configure php-fpm to run as www-data
 RUN sed -i 's|user = nobody|user = www-data|g' /etc/php82/php-fpm.d/www.conf
@@ -238,33 +238,33 @@ RUN sed -i 's|listen = 127.0.0.1:9000|listen = /var/run/php-fpm8.sock|g' /etc/ph
 # don't use proxy pass match because it does not support directory indexing
 #RUN sed -i 's|^DocumentRoot|ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://127.0.0.1:9000/var/www/localhost/htdocs/$1\n\nDocumentRoot|g' /etc/apache2/httpd.conf
 
-# use set handler to route php requests to php-fpm
-RUN sed -i 's|^DocumentRoot|<FilesMatch "\.php$">\n\
-    SetHandler "proxy:unix:/var/run/php-fpm8.sock\|fcgi://localhost"\n\
-</FilesMatch>\n\nDocumentRoot|g' /etc/apache2/httpd.conf
+## use set handler to route php requests to php-fpm
+#RUN sed -i 's|^DocumentRoot|<FilesMatch "\.php$">\n\
+#    SetHandler "proxy:unix:/var/run/php-fpm8.sock\|fcgi://localhost"\n\
+#</FilesMatch>\n\nDocumentRoot|g' /etc/apache2/httpd.conf
 
-# update directory index to support php files
-RUN sed -i 's|DirectoryIndex index.html|DirectoryIndex index.php index.html|g' /etc/apache2/httpd.conf
+## update directory index to support php files
+#RUN sed -i 's|DirectoryIndex index.html|DirectoryIndex index.php index.html|g' /etc/apache2/httpd.conf
 
 # update apache timeout for easier debugging
 RUN sed -i 's|^Timeout .*$|Timeout 600|g' /etc/apache2/conf.d/default.conf
 
-# add http authentication support
-RUN sed -i 's|^DocumentRoot|<VirtualHost _default_:80>\n    SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1\n</VirtualHost>\n\nDocumentRoot|g' /etc/apache2/httpd.conf
-RUN sed -i 's|<VirtualHost _default_:443>|<VirtualHost _default_:443>\n\nSetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1|g' /etc/apache2/conf.d/ssl.conf
+## add http authentication support
+#RUN sed -i 's|^DocumentRoot|<VirtualHost _default_:80>\n    SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1\n</VirtualHost>\n\nDocumentRoot|g' /etc/apache2/httpd.conf
+#RUN sed -i 's|<VirtualHost _default_:443>|<VirtualHost _default_:443>\n\nSetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1|g' /etc/apache2/conf.d/ssl.conf
 
-# add support for vhosts to apache
+# add vhosts to apache
 RUN echo -e "\n# Include the virtual host configurations:\nIncludeOptional /sites/config/vhosts/*.conf" >> /etc/apache2/httpd.conf
 
-# set localhost document root dir
-RUN sed -i "s|/var/www/localhost/htdocs|/sites/localhost/html$DOCUMENT_ROOT|g" /etc/apache2/httpd.conf
+## set localhost document root dir
+#RUN sed -i "s|/var/www/localhost/htdocs|/sites/localhost/html$DOCUMENT_ROOT|g" /etc/apache2/httpd.conf
 
-# set localhost document root dir for SSL
-RUN sed -i "s|DocumentRoot \".*\"|DocumentRoot \"/sites/localhost/html$DOCUMENT_ROOT\"|g" /etc/apache2/conf.d/ssl.conf
+## set localhost document root dir for SSL
+#RUN sed -i "s|DocumentRoot \".*\"|DocumentRoot \"/sites/localhost/html$DOCUMENT_ROOT\"|g" /etc/apache2/conf.d/ssl.conf
 
-# set localhost server name
-RUN sed -i "s|#ServerName .*:80|ServerName localhost:80|g" /etc/apache2/httpd.conf
-RUN sed -i "s|ServerName .*:443|ServerName localhost:443|g" /etc/apache2/conf.d/ssl.conf
+## set localhost server name
+#RUN sed -i "s|#ServerName .*:80|ServerName localhost:80|g" /etc/apache2/httpd.conf
+#RUN sed -i "s|ServerName .*:443|ServerName localhost:443|g" /etc/apache2/conf.d/ssl.conf
 
 # update php max execution time for easier debugging
 RUN sed -i 's|^max_execution_time .*$|max_execution_time = 600|g' /etc/php82/php.ini
