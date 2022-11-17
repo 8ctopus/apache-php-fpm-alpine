@@ -14,6 +14,9 @@ RUN apk update
 # upgrade all
 RUN apk upgrade
 
+# add tini https://github.com/krallin/tini/issues/8
+RUN apk add tini
+
 # install latest certificates for ssl
 RUN apk add ca-certificates@testing
 
@@ -248,4 +251,7 @@ RUN chmod +x /tmp/start.sh
 WORKDIR /sites/
 
 # set entrypoint
-ENTRYPOINT ["/tmp/start.sh"]
+ENTRYPOINT ["tini", "-vw"]
+
+# run script
+CMD ["/tmp/start.sh"]
