@@ -3,7 +3,7 @@ version: '3.7'
 services:
   web:
     # php 8.2.0 RC6 with virtual hosts
-    image: 8ct8pus/apache-php-fpm-alpine:2.0.3
+    image: 8ct8pus/apache-php-fpm-alpine:2.0.4
     # php 8.2.0 RC6
     #image: 8ct8pus/apache-php-fpm-alpine:1.4.4
     # php 8.1.10
