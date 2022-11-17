@@ -175,7 +175,7 @@ then
     echo "Start php-fpm - OK"
 else
     echo "Start php-fpm - FAILED"
-    exit
+    exit 1
 fi
 
 echo "-------------------------------------------------------"
@@ -189,7 +189,7 @@ then
     echo "Start container web server - OK - ready for connections"
 else
     echo "Start container web server - FAILED"
-    exit
+    exit 1
 fi
 
 echo "-------------------------------------------------------"
@@ -199,12 +199,13 @@ stop_container()
     echo ""
     echo "Stop container web server... - received SIGTERM signal"
     echo "Stop container web server - OK"
-    exit
+    exit 0
 }
 
 # catch termination signals
 # https://unix.stackexchange.com/questions/317492/list-of-kill-signals
 trap stop_container SIGTERM
+
 
 restart_processes()
 {
@@ -254,5 +255,3 @@ do
     # restart apache and php-fpm if any file in /etc/apache2 or /etc/php82 changes
     inotifywait --quiet --event modify,create,delete --timeout 3 --recursive /etc/apache2/ /etc/php82/ /sites/config/ && restart_processes
 done
-
-echo "Exit container web server"
