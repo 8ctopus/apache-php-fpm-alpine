@@ -197,12 +197,12 @@ _Note_: Only for repository owner
 ./php-spx/build.sh
 
 # build local image
-docker build --no-cache -t 8ct8pus/apache-php-fpm-alpine:2.0.4 .
+docker build --no-cache -t 8ct8pus/apache-php-fpm-alpine:2.0.5 .
 
 # test local image
 
 # push image to docker hub
-docker push 8ct8pus/apache-php-fpm-alpine:2.0.4
+docker push 8ct8pus/apache-php-fpm-alpine:2.0.5
 ```
 
 ## more info on php-fpm

@@ -1,12 +1,12 @@
-FROM alpine:edge
+FROM alpine:3.17.0_rc1
 LABEL maintainer="8ctopus <hello@octopuslabs.io>"
 
 # expose ports
 EXPOSE 80/tcp
 EXPOSE 443/tcp
 
-# add testing repository
-RUN echo "@testing https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
+## add testing repository
+#RUN echo " https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
 
 # update apk repositories
 RUN apk update
@@ -18,91 +18,91 @@ RUN apk upgrade
 RUN apk add tini
 
 # install latest certificates for ssl
-RUN apk add ca-certificates@testing
+RUN apk add ca-certificates
 
 # install console tools
 RUN apk add \
-    inotify-tools@testing
+    inotify-tools
 
 # install zsh
 RUN apk add \
-    zsh@testing \
-    zsh-vcs@testing
+    zsh \
+    zsh-vcs
 
 # configure zsh
 COPY --chown=root:root include/zshrc /etc/zsh/zshrc
 
 # install php
 RUN apk add \
-    php82@testing \
-#    php82-apache2@testing \
-    php82-bcmath@testing \
-#    php82-brotli@testing \
-    php82-bz2@testing \
-    php82-calendar@testing \
-#    php82-cgi@testing \
-    php82-common@testing \
-    php82-ctype@testing \
-    php82-curl@testing \
-#    php82-dba@testing \
-#    php82-dbg@testing \
-#    php82-dev@testing \
-#    php82-doc@testing \
-    php82-dom@testing \
-#    php82-embed@testing \
-#    php82-enchant@testing \
-    php82-exif@testing \
-#    php82-ffi@testing \
-    php82-fileinfo@testing \
-    php82-ftp@testing \
-    php82-gd@testing \
-    php82-gettext@testing \
-#    php82-gmp@testing \
-    php82-json@testing \
-    php82-iconv@testing \
-    php82-imap@testing \
-    php82-intl@testing \
-    php82-ldap@testing \
-#    php82-litespeed@testing \
-    php82-mbstring@testing \
-    php82-mysqli@testing \
-#    php82-mysqlnd@testing \
-#    php82-odbc@testing \
-    php82-opcache@testing \
-    php82-openssl@testing \
-    php82-pcntl@testing \
-    php82-pdo@testing \
-    php82-pdo_mysql@testing \
-#    php82-pdo_odbc@testing \
-#    php82-pdo_pgsql@testing \
-    php82-pdo_sqlite@testing \
-#    php82-pear@testing \
-#    php82-pgsql@testing \
-    php82-phar@testing \
-#   php82-phpdbg@testing \
-    php82-posix@testing \
-#    php82-pspell@testing \
-    php82-session@testing \
-#    php82-shmop@testing \
-    php82-simplexml@testing \
-#    php82-snmp@testing \
-#    php82-soap@testing \+
-#    php82-sockets@testing \
-    php82-sodium@testing \
-    php82-sqlite3@testing \
-#    php82-sysvmsg@testing \
-#    php82-sysvsem@testing \
-#    php82-sysvshm@testing \
-#    php82-tideways_xhprof@testing \
-#    php82-tidy@testing \
-    php82-tokenizer@testing \
-    php82-xml@testing \
-    php82-xmlreader@testing \
-    php82-xmlwriter@testing \
-    php82-zip@testing
+    php81 \
+#    php81-apache2 \
+    php81-bcmath \
+#    php81-brotli \
+    php81-bz2 \
+    php81-calendar \
+#    php81-cgi \
+    php81-common \
+    php81-ctype \
+    php81-curl \
+#    php81-dba \
+#    php81-dbg \
+#    php81-dev \
+#    php81-doc \
+    php81-dom \
+#    php81-embed \
+#    php81-enchant \
+    php81-exif \
+#    php81-ffi \
+    php81-fileinfo \
+    php81-ftp \
+    php81-gd \
+    php81-gettext \
+#    php81-gmp \
+    php81-json \
+    php81-iconv \
+    php81-imap \
+    php81-intl \
+    php81-ldap \
+#    php81-litespeed \
+    php81-mbstring \
+    php81-mysqli \
+#    php81-mysqlnd \
+#    php81-odbc \
+    php81-opcache \
+    php81-openssl \
+    php81-pcntl \
+    php81-pdo \
+    php81-pdo_mysql \
+#    php81-pdo_odbc \
+#    php81-pdo_pgsql \
+    php81-pdo_sqlite \
+#    php81-pear \
+#    php81-pgsql \
+    php81-phar \
+#   php81-phpdbg \
+    php81-posix \
+#    php81-pspell \
+    php81-session \
+#    php81-shmop \
+    php81-simplexml \
+#    php81-snmp \
+#    php81-soap \+
+#    php81-sockets \
+    php81-sodium \
+    php81-sqlite3 \
+#    php81-sysvmsg \
+#    php81-sysvsem \
+#    php81-sysvshm \
+#    php81-tideways_xhprof \
+#    php81-tidy \
+    php81-tokenizer \
+    php81-xml \
+    php81-xmlreader \
+    php81-xmlwriter \
+    php81-zip
 
-# use php82-fpm instead of php82-apache
-RUN apk add php82-fpm@testing
+# use php81-fpm instead of php81-apache
+RUN apk add php81-fpm
 
 # i18n
 RUN apk add \
@@ -114,50 +114,50 @@ RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.13/c
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 
 # add symbolic link for php
-RUN ln -s /usr/bin/php82 /usr/bin/php
+#RUN ln -s /usr/bin/php81 /usr/bin/php
 
 # PECL extensions
 RUN apk add \
-#    php82-pecl-amqp@testing \
-#    php82-pecl-apcu@testing \
-#    php82-pecl-ast@testing \
-#    php82-pecl-couchbase@testing \
-#    php82-pecl-event@testing \
-#    php82-pecl-igbinary@testing \
-#    php82-pecl-imagick@testing \
-#    php82-pecl-imagick-dev@testing \
-#    php82-pecl-lzf@testing \
-#    php82-pecl-mailparse@testing \
-#    php82-pecl-maxminddb@testing \
-#    php82-pecl-mcrypt@testing \
-#    php82-pecl-memcache@testing \
-#    php82-pecl-memcached@testing \
-#    php82-pecl-mongodb@testing \
-#    php82-pecl-msgpack@testing \
-#    php82-pecl-oauth@testing \
-#    php82-pecl-protobuf@testing \
-#    php82-pecl-psr@testing \
-#    php82-pecl-rdkafka@testing \
-#    php82-pecl-redis@testing \
-#    php82-pecl-ssh2@testing \
-#    php82-pecl-timezonedb@testing \
-#    php82-pecl-uploadprogress@testing \
-#    php82-pecl-uploadprogress-doc@testing \
-#    php82-pecl-uuid@testing \
-#    php82-pecl-vips@testing \
-    php82-pecl-xdebug@testing
-#    php82-pecl-xhprof@testing \
-#    php82-pecl-xhprof-assets@testing \
-#    php82-pecl-yaml@testing \
-#    php82-pecl-zstd@testing \
-#    php82-pecl-zstd-dev@testing
+#    php81-pecl-amqp \
+#    php81-pecl-apcu \
+#    php81-pecl-ast \
+#    php81-pecl-couchbase \
+#    php81-pecl-event \
+#    php81-pecl-igbinary \
+#    php81-pecl-imagick \
+#    php81-pecl-imagick-dev \
+#    php81-pecl-lzf \
+#    php81-pecl-mailparse \
+#    php81-pecl-maxminddb \
+#    php81-pecl-mcrypt \
+#    php81-pecl-memcache \
+#    php81-pecl-memcached \
+#    php81-pecl-mongodb \
+#    php81-pecl-msgpack \
+#    php81-pecl-oauth \
+#    php81-pecl-protobuf \
+#    php81-pecl-psr \
+#    php81-pecl-rdkafka \
+#    php81-pecl-redis \
+#    php81-pecl-ssh2 \
+#    php81-pecl-timezonedb \
+#    php81-pecl-uploadprogress \
+#    php81-pecl-uploadprogress-doc \
+#    php81-pecl-uuid \
+#    php81-pecl-vips \
+    php81-pecl-xdebug
+#    php81-pecl-xhprof \
+#    php81-pecl-xhprof-assets \
+#    php81-pecl-yaml \
+#    php81-pecl-zstd \
+#    php81-pecl-zstd-dev
 
 # configure xdebug
-COPY --chown=root:root include/xdebug.ini /etc/php82/conf.d/xdebug.ini
+COPY --chown=root:root include/xdebug.ini /etc/php81/conf.d/xdebug.ini
 
 # install composer (currently installs php8.1 which creates a mess, use script approach instead to install)
 #RUN apk add \
-#    composer@testing
+#    composer
 
 # add composer script
 COPY --chown=root:root include/composer.sh /tmp/composer.sh
@@ -173,9 +173,9 @@ RUN mv /composer.phar /usr/bin/composer
 
 # install apache
 RUN apk add \
-    apache2@testing \
-    apache2-ssl@testing \
-    apache2-proxy@testing
+    apache2 \
+    apache2-ssl \
+    apache2-proxy
 
 # delete apk cache
 RUN rm -rf /var/cache/apk/*
@@ -210,13 +210,13 @@ RUN sed -i 's|    AllowOverride None|    AllowOverride All|g' /etc/apache2/httpd
 RUN sed -i 's|Options Indexes FollowSymLinks|Options All|g' /etc/apache2/httpd.conf
 
 # configure php-fpm to run as www-data
-RUN sed -i 's|user = nobody|user = www-data|g' /etc/php82/php-fpm.d/www.conf
-RUN sed -i 's|group = nobody|group = www-data|g' /etc/php82/php-fpm.d/www.conf
-RUN sed -i 's|;listen.owner = nobody|listen.owner = www-data|g' /etc/php82/php-fpm.d/www.conf
-RUN sed -i 's|;listen.group = group|listen.group = www-data|g' /etc/php82/php-fpm.d/www.conf
+RUN sed -i 's|user = nobody|user = www-data|g' /etc/php81/php-fpm.d/www.conf
+RUN sed -i 's|group = nobody|group = www-data|g' /etc/php81/php-fpm.d/www.conf
+RUN sed -i 's|;listen.owner = nobody|listen.owner = www-data|g' /etc/php81/php-fpm.d/www.conf
+RUN sed -i 's|;listen.group = group|listen.group = www-data|g' /etc/php81/php-fpm.d/www.conf
 
 # configure php-fpm to use unix socket
-RUN sed -i 's|listen = 127.0.0.1:9000|listen = /var/run/php-fpm8.sock|g' /etc/php82/php-fpm.d/www.conf
+RUN sed -i 's|listen = 127.0.0.1:9000|listen = /var/run/php-fpm8.sock|g' /etc/php81/php-fpm.d/www.conf
 
 # update apache timeout for easier debugging
 RUN sed -i 's|^Timeout .*$|Timeout 600|g' /etc/apache2/conf.d/default.conf
@@ -228,15 +228,15 @@ RUN echo -e "\n# Include the virtual host configurations:\nIncludeOptional /site
 RUN sed -i "s|#ServerName .*:80|ServerName localhost:80|g" /etc/apache2/httpd.conf
 
 # update php max execution time for easier debugging
-RUN sed -i 's|^max_execution_time .*$|max_execution_time = 600|g' /etc/php82/php.ini
+RUN sed -i 's|^max_execution_time .*$|max_execution_time = 600|g' /etc/php81/php.ini
 
 # php log everything
-RUN sed -i 's|^error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT$|error_reporting = E_ALL|g' /etc/php82/php.ini
+RUN sed -i 's|^error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT$|error_reporting = E_ALL|g' /etc/php81/php.ini
 
 # add php-spx
 COPY --chown=root:root include/php-spx/assets/ /usr/share/misc/php-spx/assets/
-COPY --chown=root:root include/php-spx/spx.so /usr/lib/php82/modules/spx.so
-COPY --chown=root:root include/php-spx/spx.ini /etc/php82/conf.d/spx.ini
+COPY --chown=root:root include/php-spx/spx.so /usr/lib/php81/modules/spx.so
+COPY --chown=root:root include/php-spx/spx.ini /etc/php81/conf.d/spx.ini
 
 # add default sites
 COPY --chown=root:root include/sites/ /sites.bak/

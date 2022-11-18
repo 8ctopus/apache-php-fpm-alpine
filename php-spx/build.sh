@@ -1,7 +1,9 @@
+VERSION="3.17.0_rc1"
+
 # https://stackoverflow.com/a/20434740/10126479
 DIR="$( cd "$( dirname "$0" )" && pwd )"
 
 # build for alpine
-DOCKER_BUILDKIT=1 docker build --file $DIR/Dockerfile-alpine --build-arg "VERSION=edge" --output type=local,dest=$DIR/lib .
+DOCKER_BUILDKIT=1 docker build --file $DIR/Dockerfile-alpine --build-arg "VERSION=$VERSION" --output type=local,dest=$DIR/lib .
 
-cp $DIR/lib/alpine-edge/spx.so $DIR/../include/php-spx/
+cp $DIR/lib/alpine-$VERSION/spx.so $DIR/../include/php-spx/
