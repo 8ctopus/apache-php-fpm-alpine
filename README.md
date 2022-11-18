@@ -87,7 +87,7 @@ Linux and Mac: `/etc/hosts`
 ## https
 
 A self-signed https certificate is already configured for `localhost` and `test.com`.\
-To remove "Your connection is not private" nag screens, import the certificate authority file `sites/config/ssl/certificate_authority.pem` to your computer's Trusted Root Certification Authorities.
+To remove "Your connection is not private" nag screens, import the certificate authority file `sites/config/ssl/certificate_authority.pem` to your computer's Trusted Root Certification Authorities then restart your browser.
 
 In Windows, open `certmgr.msc` > click `Trusted Root Certification Authorities`, then right click on that folder and select `Import...` under `All Tasks`.
 
