@@ -1,4 +1,4 @@
-# docker apache php-fpm alpine ![Docker Image Size (latest semver)](https://img.shields.io/docker/image-size/8ct8pus/apache-php-fpm-alpine?sort=semver) ![Docker Pulls](https://img.shields.io/docker/pulls/8ct8pus/apache-php-fpm-alpine)
+# docker apache php-fpm alpine ![Docker Image Size (latest semver)](https://img.shields.io/docker/image-size/8ct8pus/apache-php-fpm-alpine?sort=semver) ![Docker Pulls](https://img.shields.io/docker/pulls/8ct8pus/apache-php-fpm-alpine) [image on dockerhub](https://hub.docker.com/r/8ct8pus/apache-php-fpm-alpine)
 
 A super light docker web server with Apache and php-fpm on top of Alpine Linux for php developers.
 
@@ -10,7 +10,7 @@ A super light docker web server with Apache and php-fpm on top of Alpine Linux f
 - zsh 5.9
 - Alpine edge
 
-[image on dockerhub](https://hub.docker.com/r/8ct8pus/apache-php-fpm-alpine)
+_Note_: If you need a fully-fledged development environment, checkout the [php sandbox](https://github.com/8ctopus/php-sandbox) project.
 
 ## cool features
 
@@ -22,8 +22,6 @@ A super light docker web server with Apache and php-fpm on top of Alpine Linux f
 - All changes to configuration files are automatically applied (hot reload)
 - Xdebug is configured for step by step debugging and profiling
 - Profile php code with SPX or Xdebug
-
-_Note_: If you also need MariaDB database, check the [php sandbox](https://github.com/8ctopus/php-sandbox) project.
 
 ## quick start
 
