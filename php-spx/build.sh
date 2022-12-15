@@ -4,6 +4,6 @@ VERSION="edge"
 DIR="$( cd "$( dirname "$0" )" && pwd )"
 
 # build for alpine
-DOCKER_BUILDKIT=1 docker build --file $DIR/Dockerfile-alpine --build-arg "VERSION=$VERSION" --output type=local,dest=$DIR/lib .
+DOCKER_BUILDKIT=1 docker build --no-cache --file $DIR/Dockerfile-alpine --build-arg "VERSION=$VERSION" --output type=local,dest=$DIR/lib .
 
 cp $DIR/lib/alpine-$VERSION/spx.so $DIR/../include/php-spx/
