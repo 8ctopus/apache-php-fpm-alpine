@@ -239,7 +239,7 @@ COPY --chown=root:root include/php-spx/spx.so /usr/lib/php82/modules/spx.so
 COPY --chown=root:root include/php-spx/spx.ini /etc/php82/conf.d/spx.ini
 
 # add default sites
-COPY --chown=root:root include/sites/ /sites.bak/
+COPY --chown=www-data:www-data include/sites/ /sites.bak/
 
 # add entry point script
 COPY --chown=root:root include/start.sh /tmp/start.sh
@@ -248,6 +248,8 @@ COPY --chown=root:root include/start.sh /tmp/start.sh
 RUN chmod +x /tmp/start.sh
 
 # set working dir
+RUN mkdir /sites/
+RUN chown www-data:www-data /sites/
 WORKDIR /sites/
 
 # set entrypoint

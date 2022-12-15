@@ -59,14 +59,14 @@ then
     if [ ! -d /sites/localhost/ ];
     then
         # copy localhost from the backup
-        cp -r /sites.bak/localhost/ /sites/localhost/
+        cp -rp /sites.bak/localhost/ /sites/localhost/
     fi
 
     # check if test does not exist
     if [ ! -d /sites/test/ ];
     then
         # copy test from the backup
-        cp -r /sites.bak/test/ /sites/test/
+        cp -rp /sites.bak/test/ /sites/test/
     fi
 fi
 
