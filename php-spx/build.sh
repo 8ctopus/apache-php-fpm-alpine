@@ -1,4 +1,4 @@
-VERSION="edge"
+VERSION="3.17.1"
 
 # https://stackoverflow.com/a/20434740/10126479
 DIR="$( cd "$( dirname "$0" )" && pwd )"

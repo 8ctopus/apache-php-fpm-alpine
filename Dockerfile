@@ -1,12 +1,16 @@
-FROM alpine:edge
+# don't use alpine:edge as it is not refreshed that often
+FROM alpine:3.17.1
 LABEL maintainer="8ctopus <hello@octopuslabs.io>"
 
 # expose ports
 EXPOSE 80/tcp
 EXPOSE 443/tcp
 
+# update repositories to edge
+RUN printf "https://dl-cdn.alpinelinux.org/alpine/edge/main\nhttps://dl-cdn.alpinelinux.org/alpine/edge/community\n" > /etc/apk/repositories
+
 # add testing repository
-RUN echo "@testing https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
+RUN printf "@testing https://dl-cdn.alpinelinux.org/alpine/edge/testing\n" >> /etc/apk/repositories
 
 # update apk repositories
 RUN apk update
