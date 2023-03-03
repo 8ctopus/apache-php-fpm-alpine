@@ -1,9 +1,13 @@
 #!/bin/sh
+# ./generate-ssl.sh DIR DOMAIN
+# ./generate-ssl.sh test test.com
 
 DIR=$1
 DOMAIN=$2
 
 echo "Generate self-signed SSL certificate for $DOMAIN..."
+
+mkdir /sites/$DIR/ssl
 
 # generate domain private key
 openssl genrsa -out /sites/$DIR/ssl/private.key 2048 2> /dev/null
