@@ -76,16 +76,9 @@ then
     # https://stackoverflow.com/questions/7580508/getting-chrome-to-accept-self-signed-localhost-certificate
     echo "Generate SSL certificate authority..."
 
-    # generate certificate authority private key
-    openssl genrsa -out /sites/config/ssl/certificate_authority.key 2048 2> /dev/null
-
-    # generate certificate authority certificate
-    # to read content openssl x590 -in /sites/config/ssl/certificate_authority.pem -noout -text
-    openssl req -new -x509 -nodes -key /sites/config/ssl/certificate_authority.key -sha256 -days 825 -out /sites/config/ssl/certificate_authority.pem -subj "/C=RU/O=8ctopus" 2> /dev/null
+    selfsign authority /sites/config/ssl
 
     echo "Generate SSL certificate authority - OK"
-
-    cp /sites.bak/generate-ssl.sh /sites/
 fi
 
 # check if localhost config exists
@@ -95,7 +88,7 @@ then
     if [ ! -e /sites/localhost/ssl/certificate.pem ];
     then
         # create certificate
-        /sites/generate-ssl.sh localhost localhost
+        selfsign certificate /sites/localhost/ssl localhost /sites/config/ssl
     fi
 fi
 
@@ -106,7 +99,7 @@ then
     if [ ! -e /sites/test/ssl/certificate.pem ];
     then
         # create certificate
-        /sites/generate-ssl.sh test test.com
+        selfsign certificate /sites/test/ssl test.com,www.test.com /sites/config/ssl
     fi
 fi
 

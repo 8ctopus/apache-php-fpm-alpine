@@ -175,6 +175,13 @@ RUN /tmp/composer.sh
 # move composer binary to usr bin
 RUN mv /composer.phar /usr/bin/composer
 
+# install self-signed certificate generator
+COPY --chown=root:root include/selfsign.sh /tmp/selfsign.sh
+RUN chmod +x /tmp/selfsign.sh
+RUN /tmp/selfsign.sh
+RUN mv /selfsign.phar /usr/bin/selfsign
+RUN chmod +x /usr/bin/selfsign
+
 # install apache
 RUN apk add \
     apache2@testing \

@@ -61,7 +61,7 @@ Alternatively the container can also be started with `docker run`.
 
 ```sh
 # php 8.2
-docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:2.0.13
+docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:2.1.0
 
 # php 8.1
 docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:2.0.5
@@ -102,7 +102,7 @@ For newly created domains, you will need to create the SSL certificate:
 
 ```sh
 docker-exec -it web zsh
-./generate-ssl.sh test test.com
+selfsign certificate /sites/domain/ssl domain.com,www.domain.com,api.domain.com /sites/config/ssl
 ```
 
 _Note_: Importing the certificate authority creates a security risk since all certificates issued by this new authority are shown as perfectly valid in your browsers.
@@ -202,12 +202,12 @@ _Note_: Only for repository owner
 ./php-spx/build.sh
 
 # build local image
-docker build --no-cache -t 8ct8pus/apache-php-fpm-alpine:2.0.13 .
+docker build --no-cache -t 8ct8pus/apache-php-fpm-alpine:2.1.0 .
 
 # test local image
 
 # push image to docker hub
-docker push 8ct8pus/apache-php-fpm-alpine:2.0.13
+docker push 8ct8pus/apache-php-fpm-alpine:2.1.0
 ```
 
 ## more info on php-fpm
