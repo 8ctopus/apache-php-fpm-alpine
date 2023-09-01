@@ -61,7 +61,7 @@ Alternatively the container can also be started with `docker run`.
 
 ```sh
 # php 8.2
-docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:2.1.1
+docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:2.1.2
 
 # php 8.1
 docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:2.0.5
@@ -184,7 +184,7 @@ To solve all problems, backup the existing dir then delete it.
 docker build -t apache-php-fpm-alpine:dev .
 ```
 
-- update `docker-compose.yml`
+- update `docker-compose.yml` and uncomment the development image
 
 ```yaml
 services:
@@ -202,12 +202,12 @@ _Note_: Only for repository owner
 ./php-spx/build.sh
 
 # build local image
-docker build --no-cache -t 8ct8pus/apache-php-fpm-alpine:2.1.1 .
+docker build --no-cache -t 8ct8pus/apache-php-fpm-alpine:2.1.2 .
 
 # test local image
 
 # push image to docker hub
-docker push 8ct8pus/apache-php-fpm-alpine:2.1.1
+docker push 8ct8pus/apache-php-fpm-alpine:2.1.2
 ```
 
 ## more info on php-fpm
