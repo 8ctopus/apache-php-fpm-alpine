@@ -34,8 +34,8 @@ WORKDIR /php-spx
 # checkout release (php 8.2 needs master)
 #RUN git checkout tags/v0.4.12
 
-# fix ./configure "Cannot find php-config. Please use --with-php-config=PATH"
-RUN ln -s /usr/bin/php-config82 /usr/bin/php-config
+#REM fix ./configure "Cannot find php-config. Please use --with-php-config=PATH"
+#REM RUN ln -s /usr/bin/php-config82 /usr/bin/php-config
 
 # build php-spx
 RUN phpize82
