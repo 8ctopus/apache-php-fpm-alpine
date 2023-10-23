@@ -12,7 +12,7 @@ A super light docker web server with Apache and php-fpm on top of Alpine Linux f
 - composer 2.5.8
 - [SPX prolifer dev-master](https://github.com/NoiseByNorthwest/php-spx)
 - zsh 5.9
-- Alpine 3.18.3 using edge repositories
+- Alpine 3.18.4 using edge repositories
 
 _Note_: If you need a fully-fledged development environment, checkout the [php sandbox](https://github.com/8ctopus/php-sandbox) project.
 
