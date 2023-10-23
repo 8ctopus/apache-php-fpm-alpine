@@ -61,7 +61,7 @@ Alternatively the container can also be started with `docker run`.
 
 ```sh
 # php 8.2
-docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:2.1.2
+docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:2.1.3
 
 # php 8.1
 docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:2.0.5
@@ -201,13 +201,15 @@ _Note_: Only for repository owner
 # build php spx module
 ./php-spx/build.sh
 
+# bump version
+
 # build local image
-docker build --no-cache -t 8ct8pus/apache-php-fpm-alpine:2.1.2 .
+docker build --no-cache -t 8ct8pus/apache-php-fpm-alpine:2.1.3 .
 
 # test local image
 
 # push image to docker hub
-docker push 8ct8pus/apache-php-fpm-alpine:2.1.2
+docker push 8ct8pus/apache-php-fpm-alpine:2.1.3
 ```
 
 ## more info on php-fpm

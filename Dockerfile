@@ -118,7 +118,7 @@ RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.13/c
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 
 # add symbolic link for php
-RUN ln -s /usr/bin/php82 /usr/bin/php
+#REM RUN ln -s /usr/bin/php82 /usr/bin/php
 
 # PECL extensions
 RUN apk add \
