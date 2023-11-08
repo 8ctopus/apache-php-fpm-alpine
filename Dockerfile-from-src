@@ -1,0 +1,362 @@
+FROM alpine:3.18.4 AS build
+
+# update apk repositories
+RUN apk update
+
+# upgrade all
+RUN apk upgrade
+
+# add c build tools
+RUN apk add build-base
+
+# add git
+RUN apk add git
+
+# add development packages
+RUN apk add \
+    argon2-dev \
+    autoconf \
+    bison \
+    bzip2-dev \
+    curl-dev \
+    freetype-dev \
+    gettext-dev \
+    git \
+    icu-dev \
+    imap-dev \
+    krb5-dev \
+    libavif-dev \
+    libffi-dev \
+    libjpeg-turbo-dev \
+    libpng-dev \
+    #db-dev \
+    libsodium-dev \
+    libxml2-dev \
+    libwebp-dev \
+    libxpm-dev \
+    libzip-dev \
+    oniguruma-dev \
+    openldap-dev \
+    pcre2-dev \
+    pkgconfig \
+    re2c \
+    sqlite-dev
+
+# build php from src
+WORKDIR /php-src
+RUN git clone --depth 200 https://github.com/php/php-src.git /php-src
+
+# shallow clones do not have tags, so fetch the tag we need
+RUN git fetch --depth 1 origin tag php-8.3.0RC5
+RUN git checkout php-8.3.0RC5
+
+# FIX ME why --force?
+RUN ./buildconf --force
+
+# configuration can be extracted from alpine using command `php-fpm82 -i`
+# build as shared module = not included inside the php binary
+RUN ./configure \
+    --disable-gd-jis-conv \
+    --disable-rpath \
+    --disable-short-tags \
+
+    --datadir=/usr/share/php83 \
+    --libdir=/usr/lib/php83 \
+    --localstatedir=/var \
+    --prefix=/usr \
+    --program-suffix=83 \
+    --sysconfdir=/etc/php83 \
+    --with-config-file-path=/etc/php83 \
+    --with-config-file-scan-dir=/etc/php83/conf.d \
+
+    #--host=x86_64-alpine-linux-musl \
+    #--build=x86_64-alpine-linux-musl \
+
+    --enable-fpm \
+
+    --enable-bcmath=shared \
+    --enable-calendar=shared \
+    --enable-ctype=shared \
+    #--enable-dba=shared \
+    --enable-dom=shared \
+    --enable-embed \
+    --enable-exif=shared \
+    --enable-fileinfo=shared \
+    --enable-ftp=shared \
+    --enable-gd=shared \
+    --enable-intl=shared \
+    --enable-litespeed \
+    --enable-mbstring=shared \
+    --enable-mysqlnd=shared \
+    --enable-opcache=shared \
+    --enable-pcntl=shared \
+    --enable-pdo=shared \
+    --enable-phar=shared \
+    --enable-phpdbg \
+    --enable-posix=shared \
+    --enable-session=shared \
+    --enable-shmop=shared \
+    --enable-simplexml=shared \
+    --enable-soap=shared \
+    --enable-sockets=shared \
+    --enable-sysvmsg=shared \
+    --enable-sysvsem=shared \
+    --enable-sysvshm=shared \
+    --enable-tokenizer=shared \
+    --enable-xml=shared \
+    --enable-xmlreader=shared \
+    --enable-xmlwriter=shared \
+
+    --with-avif \
+    --with-bz2=shared \
+    --with-curl=shared \
+    #--with-dbmaker=shared \
+    #--with-enchant=shared \
+    --with-external-pcre \
+    --with-ffi=shared \
+    --with-fpm-acl \
+    --with-freetype \
+    #--with-gdbm \
+    --with-gettext=shared \
+    #--with-gmp=shared \
+    --with-iconv=shared \
+    --with-imap=shared \
+    --with-imap-ssl \
+    --with-jpeg \
+    --with-kerberos \
+    --with-layout=GNU \
+    --with-ldap-sasl \
+    --with-ldap=shared \
+    --with-libedit \
+    --with-libxml \
+    #--with-lmdb \
+    --with-mysql-sock=/run/mysqld/mysqld.sock \
+    --with-mysqli=shared \
+    --with-openssl=shared \
+    --with-password-argon2 \
+    #--with-pdo-dblib=shared,/usr \
+    --with-pdo-mysql=shared,mysqlnd \
+    #--with-pdo-odbc=shared,unixODBC,/usr \
+    #--with-pdo-pgsql=shared \
+    --with-pdo-sqlite=shared \
+    --with-pear=/usr/share/php83 \
+    #--with-pgsql=shared \
+    --with-pic \
+    #--with-pspell=shared \
+    #--with-snmp=shared \
+    --with-sodium=shared \
+    --with-sqlite3=shared \
+    --with-system-ciphers \
+    --with-tidy=shared \
+    #--with-unixODBC=shared,/usr \
+    --with-webp \
+    --with-xpm \
+    --with-xsl=shared \
+    --with-zip=shared \
+    --with-zlib \
+
+    --without-readline
+
+RUN make -j $(nproc)
+RUN make install
+
+# build xdebug
+WORKDIR /xdebug
+RUN apk add linux-headers
+
+RUN git clone --depth 200 https://github.com/xdebug/xdebug.git /xdebug
+RUN git checkout 3.3.0alpha3
+
+RUN phpize
+RUN ./configure --enable-xdebug
+RUN make
+RUN make install
+
+# build php-spx
+WORKDIR /php-spx
+RUN git clone --depth 100 https://github.com/NoiseByNorthwest/php-spx.git /php-spx
+RUN git checkout master
+
+# build php-spx
+RUN phpize
+RUN ./configure
+RUN make
+RUN make install
+
+# start again with a new image
+FROM alpine:3.18.4
+LABEL maintainer="8ctopus <hello@octopuslabs.io>"
+
+# copy php files
+COPY --from=build /usr/local/bin/php /usr/local/bin/php
+COPY --from=build /usr/local/sbin/php-fpm /usr/local/sbin/php-fpm
+
+COPY --from=build /php-src/php.ini-development /etc/php83/php.ini
+COPY --from=build /php-src/sapi/fpm/php-fpm.conf /etc/php83/php-fpm.conf
+COPY --from=build /php-src/sapi/fpm/www.conf /etc/php83/php-fpm.d/www.conf
+
+COPY --chown=root:root include/extensions.ini /etc/php83/conf.d/extensions.ini
+COPY --from=build /usr/local/lib/php/extensions/no-debug-non-zts-20230831/*.so /usr/local/lib/php/extensions/
+
+# expose ports
+EXPOSE 80/tcp
+EXPOSE 443/tcp
+
+# update apk repositories
+RUN apk update
+
+# upgrade all
+RUN apk upgrade
+
+# add tini https://github.com/krallin/tini/issues/8
+RUN apk add tini
+
+# install latest certificates for ssl
+RUN apk add ca-certificates
+
+# install console tools
+RUN apk add \
+    inotify-tools
+
+# install zsh
+RUN apk add \
+    zsh \
+    zsh-vcs
+
+# configure zsh
+COPY --chown=root:root include/zshrc /etc/zsh/zshrc
+
+# add i18n
+RUN apk add \
+    icu-data-full
+
+# configure extensions load path
+RUN sed -i 's|;extension_dir = "./"|extension_dir = "/usr/local/lib/php/extensions/"|g' /etc/php83/php.ini
+
+# configure php-fpm to run as www-data
+RUN sed -i 's|user = nobody|user = www-data|g' /etc/php83/php-fpm.d/www.conf
+RUN sed -i 's|group = nobody|group = www-data|g' /etc/php83/php-fpm.d/www.conf
+RUN sed -i 's|;listen.owner = nobody|listen.owner = www-data|g' /etc/php83/php-fpm.d/www.conf
+RUN sed -i 's|;listen.group = group|listen.group = www-data|g' /etc/php83/php-fpm.d/www.conf
+
+# configure php-fpm to use unix socket
+RUN sed -i 's|listen = 127.0.0.1:9000|listen = /var/run/php-fpm8.sock|g' /etc/php83/php-fpm.d/www.conf
+
+# update php max execution time for easier debugging
+RUN sed -i 's|^max_execution_time .*$|max_execution_time = 600|g' /etc/php83/php.ini
+
+# php log everything
+RUN sed -i 's|^error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT$|error_reporting = E_ALL|g' /etc/php83/php.ini
+
+# add xdebug extension
+COPY --chown=root:root include/xdebug.ini /etc/php83/conf.d/xdebug.ini
+
+# add spx extension
+COPY --chown=root:root include/php-spx/assets/ /usr/share/misc/php-spx/assets/
+COPY --chown=root:root include/php-spx/spx.ini /etc/php83/conf.d/spx.ini
+
+RUN php -i
+
+# php requires these libraries
+#RUN apk add \
+#    gettext-libs \
+#    icu \
+#    libbz2 \
+#    libcurl \
+#    libintl \
+#    libpng \
+#    libsodium \
+#    libxml2 \
+#    libzip \
+#    oniguruma \
+#    openldap \
+#    sqlite-libs
+
+# install composer (currently installs php8.1 which creates a mess, use script approach instead to install)
+#RUN apk add composer
+
+# add composer script
+COPY --chown=root:root include/composer.sh /tmp/composer.sh
+
+# make composer script executable
+RUN chmod +x /tmp/composer.sh
+
+# install composer
+RUN /tmp/composer.sh
+
+# move composer binary to usr bin
+RUN mv /composer.phar /usr/bin/composer
+
+# install apache
+RUN apk add \
+    apache2 \
+    apache2-ssl \
+    apache2-proxy
+
+# delete apk cache
+RUN rm -rf /var/cache/apk/*
+
+# add user www-data
+# group www-data already exists
+# -H don't create home directory
+# -D don't assign a password
+# -S create a system user
+RUN adduser -H -D -S -G www-data -s /sbin/nologin www-data
+
+# update user and group apache runs under
+RUN sed -i 's|User apache|User www-data|g' /etc/apache2/httpd.conf
+RUN sed -i 's|Group apache|Group www-data|g' /etc/apache2/httpd.conf
+
+# enable url rewrite module
+RUN sed -i 's|#LoadModule rewrite_module modules/mod_rewrite.so|LoadModule rewrite_module modules/mod_rewrite.so|g' /etc/apache2/httpd.conf
+
+# enable important apache modules
+RUN sed -i 's|#LoadModule deflate_module modules/mod_deflate.so|LoadModule deflate_module modules/mod_deflate.so|g' /etc/apache2/httpd.conf
+RUN sed -i 's|#LoadModule expires_module modules/mod_expires.so|LoadModule expires_module modules/mod_expires.so|g' /etc/apache2/httpd.conf
+RUN sed -i 's|#LoadModule ext_filter_module modules/mod_ext_filter.so|LoadModule ext_filter_module modules/mod_ext_filter.so|g' /etc/apache2/httpd.conf
+
+# switch from mpm_prefork to mpm_event
+RUN sed -i 's|LoadModule mpm_prefork_module modules/mod_mpm_prefork.so|#LoadModule mpm_prefork_module modules/mod_mpm_prefork.so|g' /etc/apache2/httpd.conf
+RUN sed -i 's|#LoadModule mpm_event_module modules/mod_mpm_event.so|LoadModule mpm_event_module modules/mod_mpm_event.so|g' /etc/apache2/httpd.conf
+
+# authorize all directives in htaccess
+RUN sed -i 's|    AllowOverride None|    AllowOverride All|g' /etc/apache2/httpd.conf
+
+# authorize all changes from htaccess
+RUN sed -i 's|Options Indexes FollowSymLinks|Options All|g' /etc/apache2/httpd.conf
+
+# update apache timeout for easier debugging
+RUN sed -i 's|^Timeout .*$|Timeout 600|g' /etc/apache2/conf.d/default.conf
+
+# add vhosts to apache
+RUN echo -e "\n# Include the virtual host configurations:\nIncludeOptional /sites/config/vhosts/*.conf" >> /etc/apache2/httpd.conf
+
+# set localhost server name
+RUN sed -i "s|#ServerName .*:80|ServerName localhost:80|g" /etc/apache2/httpd.conf
+
+# add default sites
+COPY --chown=www-data:www-data include/sites/ /sites.bak/
+
+# add entry point script
+COPY --chown=root:root include/start.sh /tmp/start.sh
+
+# make entry point script executable
+RUN chmod +x /tmp/start.sh
+
+# set working dir
+RUN mkdir /sites/
+RUN chown www-data:www-data /sites/
+WORKDIR /sites/
+
+# install self-signed certificate generator
+COPY --chown=root:root include/selfsign.sh /tmp/selfsign.sh
+RUN chmod +x /tmp/selfsign.sh
+RUN /tmp/selfsign.sh
+RUN mv /selfsign.phar /usr/bin/selfsign
+RUN chmod +x /usr/bin/selfsign
+
+# set entrypoint
+ENTRYPOINT ["tini", "-vw"]
+
+# run script
+CMD ["/tmp/start.sh"]
