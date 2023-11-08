@@ -112,10 +112,10 @@ RUN apk add php83-fpm@testing
 RUN apk add \
     icu-data-full
 
-# fix php iconv
+# REM fix php iconv
 # https://stackoverflow.com/questions/70046717/iconv-error-when-running-statamic-laravel-seo-pro-plugin-with-phpfpm-alpine
-RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.13/community/ gnu-libiconv=1.15-r3
-ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
+#RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.13/community/ gnu-libiconv=1.15-r3
+#ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 
 # create php aliases
 RUN ln -s /usr/bin/php83 /usr/bin/php
