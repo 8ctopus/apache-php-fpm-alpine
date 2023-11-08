@@ -110,39 +110,39 @@ then
     sleep 3
 
     # check if config backup exists
-    if [ ! -d /etc/php82.bak/ ];
+    if [ ! -d /etc/php83.bak/ ];
     then
         # create config backup
         echo "Expose php to host - backup container config"
-        cp -r /etc/php82/ /etc/php82.bak/
+        cp -r /etc/php83/ /etc/php83.bak/
     fi
 
     # check if php config exists on host
-    if [ -z "$(ls -A /docker/etc/php82/ 2> /dev/null)" ];
+    if [ -z "$(ls -A /docker/etc/php83/ 2> /dev/null)" ];
     then
         # config doesn't exist on host
         echo "Expose php to host - no host config"
 
         # check if config backup exists
-        if [ -d /etc/php82.bak/ ];
+        if [ -d /etc/php83.bak/ ];
         then
             # restore config from backup
             echo "Expose php to host - restore config from backup"
-            rm /etc/php82/ 2> /dev/null
-            cp -r /etc/php82.bak/ /etc/php8/
+            rm /etc/php83/ 2> /dev/null
+            cp -r /etc/php83.bak/ /etc/php8/
         fi
 
         # copy config to host
         echo "Expose php to host - copy config to host"
-        cp -r /etc/php82/ /docker/etc/
+        cp -r /etc/php83/ /docker/etc/
     else
         echo "Expose php to host - config exists on host"
     fi
 
     # create symbolic link so host config is used
     echo "Expose php to host - create symlink"
-    rm -rf /etc/php82/ 2> /dev/null
-    ln -s /docker/etc/php82 /etc/php82
+    rm -rf /etc/php83/ 2> /dev/null
+    ln -s /docker/etc/php83 /etc/php83
 
     echo "Expose php to host - OK"
 fi
@@ -245,6 +245,6 @@ restart_processes()
 # infinite loop, will only stop on termination signal or deletion of sites/config
 while [ -d /sites/config/ ]
 do
-    # restart apache and php-fpm if any file in /etc/apache2 or /etc/php82 changes
-    inotifywait --quiet --event modify,create,delete --timeout 3 --recursive /etc/apache2/ /etc/php82/ /sites/config/ && restart_processes
+    # restart apache and php-fpm if any file in /etc/apache2 or /etc/php83 changes
+    inotifywait --quiet --event modify,create,delete --timeout 3 --recursive /etc/apache2/ /etc/php83/ /sites/config/ && restart_processes
 done
