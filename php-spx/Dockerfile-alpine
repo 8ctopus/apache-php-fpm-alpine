@@ -16,14 +16,13 @@ RUN apk upgrade
 # add c build tools
 RUN apk add build-base
 
+# add dev libraries
+RUN apk add \
+    php83-dev@testing \
+    zlib-dev@testing
+
 # add git
 RUN apk add git
-
-# add php dev
-RUN apk add php82-dev@testing
-
-# add zlib dev
-RUN apk add zlib-dev@testing
 
 # clone php-spx
 RUN git clone --depth 1 https://github.com/NoiseByNorthwest/php-spx.git
@@ -34,11 +33,11 @@ WORKDIR /php-spx
 # checkout release (php 8.2 needs master)
 #RUN git checkout tags/v0.4.12
 
-#REM fix ./configure "Cannot find php-config. Please use --with-php-config=PATH"
-#REM RUN ln -s /usr/bin/php-config82 /usr/bin/php-config
+# fix ./configure "Cannot find php-config. Please use --with-php-config=PATH"
+RUN ln -s /usr/bin/php-config83 /usr/bin/php-config
 
 # build php-spx
-RUN phpize82
+RUN phpize83
 RUN ./configure
 RUN make
 
