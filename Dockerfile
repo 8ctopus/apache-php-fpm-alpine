@@ -119,7 +119,7 @@ RUN apk add \
 
 # create php aliases
 RUN ln -s /usr/bin/php83 /usr/bin/php
-RUN ln -s /usr/sbin/php-fpm83 /usr/sbin/php-fpm82
+RUN ln -s /usr/sbin/php-fpm83 /usr/sbin/php-fpm
 
 # PECL extensions
 RUN apk add \

@@ -157,13 +157,13 @@ truncate -s 0 /sites/localhost/logs/xdebug.log 2> /dev/null
 chmod 666 /var/log/xdebug.log 2> /dev/null
 
 # start php-fpm
-php-fpm82
+php-fpm83
 
 # sleep
 sleep 2
 
 # check if php-fpm is running
-if pgrep -x php-fpm82 > /dev/null
+if pgrep -x php-fpm83 > /dev/null
 then
     echo "Start php-fpm - OK"
 else
@@ -205,15 +205,15 @@ restart_processes()
     sleep 0.5
 
     # test php-fpm config
-    if php-fpm82 -t
+    if php-fpm83 -t
     then
         # restart php-fpm
         echo "Restart php-fpm..."
-        killall php-fpm82 > /dev/null
-        php-fpm82
+        killall php-fpm83 > /dev/null
+        php-fpm83
 
         # check if php-fpm is running
-        if pgrep -x php-fpm82 > /dev/null
+        if pgrep -x php-fpm83 > /dev/null
         then
             echo "Restart php-fpm - OK"
         else
