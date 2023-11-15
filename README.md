@@ -7,7 +7,7 @@
 A super light docker web server with Apache and php-fpm on top of Alpine Linux for php developers.
 
 - Apache 2.4.57 with SSL
-- php-fpm 8.3.0RC5, 8.2.10, 8.1.10, 8.0.17 or 7.4.21
+- php-fpm 8.3.0 RC6, 8.2.10, 8.1.10, 8.0.17 or 7.4.21
 - Xdebug 3.2.2 - debugger and profiler
 - composer 2.5.8
 - [SPX prolifer dev-master](https://github.com/NoiseByNorthwest/php-spx)
@@ -30,7 +30,7 @@ _Note_: If you need a fully-fledged development environment, checkout the [php s
 ## quick start
 
 - download [`docker-compose.yml`](https://github.com/8ctopus/apache-php-fpm-alpine/blob/master/docker-compose.yml)
-- to use php 8.3, 8.1, 8.0 or 7.4, select the image in `docker-compose.yml`
+- php 8.2 is the default setup, to use php 8.3.0 RC6, 8.1, 8.0 or 7.4, select the image in `docker-compose.yml`
 - start `Docker Desktop` and run `docker-compose up`
 - open browser at [`http://localhost/`](http://localhost/)
 
