@@ -47,8 +47,8 @@ WORKDIR /php-src
 RUN git clone --depth 200 https://github.com/php/php-src.git /php-src
 
 # shallow clones do not have tags, so fetch the tag we need
-RUN git fetch --depth 1 origin tag php-8.3.0RC5
-RUN git checkout php-8.3.0RC5
+RUN git fetch --depth 1 origin tag php-8.3.0RC6
+RUN git checkout php-8.3.0RC6
 
 # FIX ME why --force?
 RUN ./buildconf --force
