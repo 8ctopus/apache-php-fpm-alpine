@@ -2,6 +2,8 @@ version: '3.7'
 
 services:
   web:
+    # php 8.3.7
+    image: 8ct8pus/apache-php-fpm-alpine:2.3.0
     # php 8.3.0
     image: 8ct8pus/apache-php-fpm-alpine:2.2.0
     # php 8.2.11 with virtual hosts with selfsign

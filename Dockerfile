@@ -118,7 +118,7 @@ RUN apk add \
 #ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 
 # create php aliases
-RUN ln -s /usr/bin/php83 /usr/bin/php
+#RUN ln -s /usr/bin/php84 /usr/bin/php
 RUN ln -s /usr/sbin/php-fpm83 /usr/sbin/php-fpm
 
 # PECL extensions

@@ -4,17 +4,15 @@
 ![Docker image pulls](https://img.shields.io/docker/pulls/8ct8pus/apache-php-fpm-alpine)
 [image on dockerhub](https://hub.docker.com/r/8ct8pus/apache-php-fpm-alpine)
 
-A super light docker web server with Apache and php-fpm on top of Alpine Linux for php developers.
+A super light docker web server with `Apache` and `php-fpm` on top of Alpine Linux for php developers.
 
-- Apache 2.4.58 with SSL
-- php-fpm 8.3, 8.2, 8.1, 8.0 or 7.4
-- Xdebug 3.3.0 - debugger and profiler
-- composer 2.6.5
+- Apache 2.4.59 with SSL
+- php-fpm 8.3.7, 8.2, 8.1, 8.0 or 7.4
+- Xdebug 3.3.2 - debugger and profiler
+- composer 2.7.6
 - [SPX prolifer dev-master](https://github.com/NoiseByNorthwest/php-spx)
 - zsh 5.9
 - Alpine 3.19.1 using edge repositories
-
-_Note_: If you need a fully-fledged development environment, checkout the [php sandbox](https://github.com/8ctopus/php-sandbox) project.
 
 ## cool features
 
@@ -27,14 +25,17 @@ _Note_: If you need a fully-fledged development environment, checkout the [php s
 - Xdebug is configured for step by step debugging and profiling
 - Profile php code with SPX or Xdebug
 
-## quick start
+## getting started
 
 - download [`docker-compose.yml`](https://github.com/8ctopus/apache-php-fpm-alpine/blob/master/docker-compose.yml)
-- php 8.3 is the default flavor, to use php 8.2, 8.1, 8.0 or 7.4, select the image in `docker-compose.yml`
+- select php version: `8.3` is the default flavor, to use php `8.2`, `8.1`, `8.0` or `7.4`, select the image in `docker-compose.yml`
 - start `Docker Desktop` and run `docker-compose up`
-- open browser at [`http://localhost/`](http://localhost/)
+- open the browser at [`http://localhost/`](http://localhost/)
+- update the source code in `sites/localhost/html/public/`
 
-_Note_: On Windows [file changes notification to the container doesn't work with the WSL 2 engine](https://github.com/8ctopus/apache-php-fpm-alpine/issues), you need to use the `Hyper-V` engine. Uncheck `Use WSL 2 based engine`.
+_Note_: On Windows [file changes notification to the container doesn't work with the WSL 2 engine](https://github.com/8ctopus/apache-php-fpm-alpine/issues), you need to use the `Hyper-V` engine. Uncheck `Use WSL 2 based engine`. What this means, is that files you update on Windows are not updated inside the container unless you use `Hyper-V`.
+
+_Note_: If you need a fully-fledged development environment, checkout the [php sandbox](https://github.com/8ctopus/php-sandbox) project.
 
 ## use container
 
@@ -61,7 +62,7 @@ Alternatively the container can also be started with `docker run`.
 
 ```sh
 # php 8.3
-docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:2.2.0
+docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:2.3.0
 
 # php 8.2
 docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:2.1.3
@@ -157,7 +158,7 @@ docker exec -it web zsh
 apk add php82-<extension>
 ```
 
-## extend docker image
+## extend the docker image
 
 Let's extend this docker image by adding the `php-curl` extension.
 
@@ -208,10 +209,10 @@ _Note_: Only for repository owner
 # bump version
 
 # build local image
-docker build --no-cache -t 8ct8pus/apache-php-fpm-alpine:2.2.0 .
+docker build --no-cache -t 8ct8pus/apache-php-fpm-alpine:2.3.0 .
 
 # test local image
 
 # push image to docker hub
-docker push 8ct8pus/apache-php-fpm-alpine:2.2.0
+docker push 8ct8pus/apache-php-fpm-alpine:2.3.0
 ```
