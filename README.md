@@ -34,7 +34,7 @@ _Note_: If you need a fully-fledged development environment, checkout the [php s
 - start `Docker Desktop` and run `docker-compose up`
 - open browser at [`http://localhost/`](http://localhost/)
 
-_Note_: On Windows [hot reload doesn't work with WSL 2](https://github.com/microsoft/WSL/issues/4739), you need to use the legacy Hyper-V.
+_Note_: On Windows [file changes notification to the container doesn't work with the WSL 2 engine](https://github.com/8ctopus/apache-php-fpm-alpine/issues), you need to use the `Hyper-V` engine. Uncheck `Use WSL 2 based engine`.
 
 ## use container
 
