@@ -198,9 +198,9 @@ services:
 
     https://php-fpm.org/about/
 
-## build docker image
+## build the docker image
 
-_Note_: Only for repository owner
+_Note_: This is only for the maintainer of this project.
 
 ```sh
 # build php spx module
