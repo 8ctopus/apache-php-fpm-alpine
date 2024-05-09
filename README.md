@@ -193,6 +193,10 @@ services:
     image: apache-php-fpm-alpine:dev
 ```
 
+## more info on php-fpm
+
+    https://php-fpm.org/about/
+
 ## build docker image
 
 _Note_: Only for repository owner
@@ -211,7 +215,3 @@ docker build --no-cache -t 8ct8pus/apache-php-fpm-alpine:2.2.0 .
 # push image to docker hub
 docker push 8ct8pus/apache-php-fpm-alpine:2.2.0
 ```
-
-## more info on php-fpm
-
-    https://php-fpm.org/about/
