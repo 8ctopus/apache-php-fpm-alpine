@@ -4,6 +4,6 @@ VERSION="3.19.1"
 DIR="$( cd "$( dirname "$0" )" && pwd )"
 
 # build for alpine
-DOCKER_BUILDKIT=1 docker build --no-cache --file $DIR/Dockerfile-alpine --build-arg "VERSION=$VERSION" --output type=local,dest=$DIR/lib .
+DOCKER_BUILDKIT=1 docker build --no-cache --file $DIR/Dockerfile-alpine --build-arg VERSION=$VERSION --output type=local,dest=$DIR .
 
-cp $DIR/lib/alpine-$VERSION/spx.so $DIR/../include/php-spx/
+cp $DIR/spx.so $DIR/../include/php-spx/

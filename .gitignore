@@ -5,5 +5,5 @@
 /docker/
 
 # other
-/php-spx/lib/
+/php-spx/spx.so
 /*.sublime-workspace

@@ -34,7 +34,7 @@ WORKDIR /php-spx
 #RUN git checkout tags/v0.4.12
 
 # fix ./configure "Cannot find php-config. Please use --with-php-config=PATH"
-RUN ln -s /usr/bin/php-config83 /usr/bin/php-config
+#RUN ln -s /usr/bin/php-config83 /usr/bin/php-config
 
 # build php-spx
 RUN phpize83
@@ -48,4 +48,4 @@ FROM scratch
 ARG VERSION
 
 # copy spx module from alpine image to the scratch image so files can be copied back to host
-COPY --from=build /php-spx/modules/spx.so alpine-$VERSION/spx.so
+COPY --from=build /php-spx/modules/spx.so spx.so
