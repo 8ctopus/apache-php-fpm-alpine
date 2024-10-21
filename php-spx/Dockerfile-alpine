@@ -1,4 +1,4 @@
-ARG VERSION
+ARG VERSION=latest
 FROM alpine:${VERSION} AS build
 
 # update repositories to edge
