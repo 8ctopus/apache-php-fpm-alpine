@@ -7,9 +7,9 @@
 A super light docker web server with `Apache` and `php-fpm` on top of Alpine Linux for php developers.
 
 - Apache 2.4.62 with SSL
-- php-fpm 8.3.13 RC1, 8.2, 8.1, 8.0 or 7.4
+- php-fpm 8.4.1, 8.3, 8.2, 8.1, 8.0 or 7.4
 - Xdebug 3.4.0 beta 1 - debugger and profiler
-- composer 2.8.1
+- composer 2.8.3
 - [SPX prolifer dev-master](https://github.com/NoiseByNorthwest/php-spx)
 - zsh 5.9
 - Alpine 3.20.3 using edge repositories
@@ -28,7 +28,7 @@ A super light docker web server with `Apache` and `php-fpm` on top of Alpine Lin
 ## getting started
 
 - download [`docker-compose.yml`](https://github.com/8ctopus/apache-php-fpm-alpine/blob/master/docker-compose.yml)
-- select php version: `8.3` is the default flavor, to use php `8.2`, `8.1`, `8.0` or `7.4`, select the image in `docker-compose.yml`
+- select php version: `8.4` is the default flavor, to use php `8.3`, `8.2`, `8.1`, `8.0` or `7.4`, select the image in `docker-compose.yml`
 - start `Docker Desktop` and run `docker-compose up`
 - open the browser at [`http://localhost/`](http://localhost/)
 - update the source code in `sites/localhost/html/public/`
@@ -61,6 +61,9 @@ docker-compose down
 Alternatively the container can also be started with `docker run`.
 
 ```sh
+# php 8.4
+docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:2.4.0
+
 # php 8.3
 docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:2.3.2
 
@@ -209,10 +212,10 @@ _Note_: This is only for the maintainer of this project.
 # bump version
 
 # build local image
-docker build --no-cache -t 8ct8pus/apache-php-fpm-alpine:2.3.2 .
+docker build --no-cache -t 8ct8pus/apache-php-fpm-alpine:2.4.0 .
 
 # test local image
 
 # push image to docker hub
-docker push 8ct8pus/apache-php-fpm-alpine:2.3.2
+docker push 8ct8pus/apache-php-fpm-alpine:2.4.0
 ```

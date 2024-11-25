@@ -1,6 +1,6 @@
 services:
   web:
-    # php 8.4.1 RC0
+    # php 8.4.1
     image: 8ct8pus/apache-php-fpm-alpine:2.4.0
     # php 8.3.13 RC1
     #image: 8ct8pus/apache-php-fpm-alpine:2.3.2
