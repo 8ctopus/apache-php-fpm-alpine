@@ -119,7 +119,7 @@ RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.13/c
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 
 # create php aliases
-#RUN ln -s /usr/bin/php84 /usr/bin/php
+RUN ln -s /usr/bin/php84 /usr/bin/php
 RUN ln -s /usr/sbin/php-fpm84 /usr/sbin/php-fpm
 
 # PECL extensions
