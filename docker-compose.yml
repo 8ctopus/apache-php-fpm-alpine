@@ -1,7 +1,9 @@
 services:
   web:
+    # php 8.4.1 RC0
+    image: 8ct8pus/apache-php-fpm-alpine:2.4.0
     # php 8.3.13 RC1
-    image: 8ct8pus/apache-php-fpm-alpine:2.3.2
+    #image: 8ct8pus/apache-php-fpm-alpine:2.3.2
     # php 8.3.7 - iconv bug fix
     #image: 8ct8pus/apache-php-fpm-alpine:2.3.1
     # php 8.3.7

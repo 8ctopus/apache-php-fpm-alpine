@@ -38,75 +38,75 @@ COPY --chown=root:root include/zshrc /etc/zsh/zshrc
 
 # install php
 RUN apk add \
-    php83@testing \
-#    php83-apache2@testing \
-    php83-bcmath@testing \
-#    php83-brotli@testing \
-    php83-bz2@testing \
-    php83-calendar@testing \
-#    php83-cgi@testing \
-    php83-common@testing \
-    php83-ctype@testing \
-    php83-curl@testing \
-#    php83-dba@testing \
-#    php83-dbg@testing \
-#    php83-dev@testing \
-#    php83-doc@testing \
-    php83-dom@testing \
-#    php83-embed@testing \
-#    php83-enchant@testing \
-    php83-exif@testing \
-#    php83-ffi@testing \
-    php83-fileinfo@testing \
-    php83-ftp@testing \
-    php83-gd@testing \
-    php83-gettext@testing \
-#    php83-gmp@testing \
-    php83-json@testing \
-    php83-iconv@testing \
-    php83-imap@testing \
-    php83-intl@testing \
-    php83-ldap@testing \
-#    php83-litespeed@testing \
-    php83-mbstring@testing \
-    php83-mysqli@testing \
-#    php83-mysqlnd@testing \
-#    php83-odbc@testing \
-    php83-opcache@testing \
-    php83-openssl@testing \
-    php83-pcntl@testing \
-    php83-pdo@testing \
-    php83-pdo_mysql@testing \
-#    php83-pdo_odbc@testing \
-#    php83-pdo_pgsql@testing \
-    php83-pdo_sqlite@testing \
-#    php83-pear@testing \
-#    php83-pgsql@testing \
-    php83-phar@testing \
-#   php83-phpdbg@testing \
-    php83-posix@testing \
-#    php83-pspell@testing \
-    php83-session@testing \
-#    php83-shmop@testing \
-    php83-simplexml@testing \
-#    php83-snmp@testing \
-#    php83-soap@testing \+
-#    php83-sockets@testing \
-    php83-sodium@testing \
-    php83-sqlite3@testing \
-#    php83-sysvmsg@testing \
-#    php83-sysvsem@testing \
-#    php83-sysvshm@testing \
-#    php83-tideways_xhprof@testing \
-#    php83-tidy@testing \
-    php83-tokenizer@testing \
-    php83-xml@testing \
-    php83-xmlreader@testing \
-    php83-xmlwriter@testing \
-    php83-zip@testing
+    php84@testing \
+#    php84-apache2@testing \
+    php84-bcmath@testing \
+#    php84-brotli@testing \
+    php84-bz2@testing \
+    php84-calendar@testing \
+#    php84-cgi@testing \
+    php84-common@testing \
+    php84-ctype@testing \
+    php84-curl@testing \
+#    php84-dba@testing \
+#    php84-dbg@testing \
+#    php84-dev@testing \
+#    php84-doc@testing \
+    php84-dom@testing \
+#    php84-embed@testing \
+#    php84-enchant@testing \
+    php84-exif@testing \
+#    php84-ffi@testing \
+    php84-fileinfo@testing \
+    php84-ftp@testing \
+    php84-gd@testing \
+    php84-gettext@testing \
+#    php84-gmp@testing \
+    php84-json@testing \
+    php84-iconv@testing \
+    php84-imap@testing \
+    php84-intl@testing \
+    php84-ldap@testing \
+#    php84-litespeed@testing \
+    php84-mbstring@testing \
+    php84-mysqli@testing \
+#    php84-mysqlnd@testing \
+#    php84-odbc@testing \
+    php84-opcache@testing \
+    php84-openssl@testing \
+    php84-pcntl@testing \
+    php84-pdo@testing \
+    php84-pdo_mysql@testing \
+#    php84-pdo_odbc@testing \
+#    php84-pdo_pgsql@testing \
+    php84-pdo_sqlite@testing \
+#    php84-pear@testing \
+#    php84-pgsql@testing \
+    php84-phar@testing \
+#   php84-phpdbg@testing \
+    php84-posix@testing \
+#    php84-pspell@testing \
+    php84-session@testing \
+#    php84-shmop@testing \
+    php84-simplexml@testing \
+#    php84-snmp@testing \
+#    php84-soap@testing \+
+#    php84-sockets@testing \
+    php84-sodium@testing \
+    php84-sqlite3@testing \
+#    php84-sysvmsg@testing \
+#    php84-sysvsem@testing \
+#    php84-sysvshm@testing \
+#    php84-tideways_xhprof@testing \
+#    php84-tidy@testing \
+    php84-tokenizer@testing \
+    php84-xml@testing \
+    php84-xmlreader@testing \
+    php84-xmlwriter@testing \
+    php84-zip@testing
 
-# use php83-fpm instead of php83-apache
-RUN apk add php83-fpm@testing
+# use php84-fpm instead of php84-apache
+RUN apk add php84-fpm@testing
 
 # i18n
 RUN apk add \
@@ -120,46 +120,46 @@ ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 
 # create php aliases
 #RUN ln -s /usr/bin/php84 /usr/bin/php
-RUN ln -s /usr/sbin/php-fpm83 /usr/sbin/php-fpm
+RUN ln -s /usr/sbin/php-fpm84 /usr/sbin/php-fpm
 
 # PECL extensions
 RUN apk add \
-#    php83-pecl-amqp@testing \
-#    php83-pecl-apcu@testing \
-#    php83-pecl-ast@testing \
-#    php83-pecl-couchbase@testing \
-#    php83-pecl-event@testing \
-#    php83-pecl-igbinary@testing \
-#    php83-pecl-imagick@testing \
-#    php83-pecl-imagick-dev@testing \
-#    php83-pecl-lzf@testing \
-#    php83-pecl-mailparse@testing \
-#    php83-pecl-maxminddb@testing \
-#    php83-pecl-mcrypt@testing \
-#    php83-pecl-memcache@testing \
-#    php83-pecl-memcached@testing \
-#    php83-pecl-mongodb@testing \
-#    php83-pecl-msgpack@testing \
-#    php83-pecl-oauth@testing \
-#    php83-pecl-protobuf@testing \
-#    php83-pecl-psr@testing \
-#    php83-pecl-rdkafka@testing \
-#    php83-pecl-redis@testing \
-#    php83-pecl-ssh2@testing \
-#    php83-pecl-timezonedb@testing \
-#    php83-pecl-uploadprogress@testing \
-#    php83-pecl-uploadprogress-doc@testing \
-#    php83-pecl-uuid@testing \
-#    php83-pecl-vips@testing \
-    php83-pecl-xdebug@testing
-#    php83-pecl-xhprof@testing \
-#    php83-pecl-xhprof-assets@testing \
-#    php83-pecl-yaml@testing \
-#    php83-pecl-zstd@testing \
-#    php83-pecl-zstd-dev@testing
+#    php84-pecl-amqp@testing \
+#    php84-pecl-apcu@testing \
+#    php84-pecl-ast@testing \
+#    php84-pecl-couchbase@testing \
+#    php84-pecl-event@testing \
+#    php84-pecl-igbinary@testing \
+#    php84-pecl-imagick@testing \
+#    php84-pecl-imagick-dev@testing \
+#    php84-pecl-lzf@testing \
+#    php84-pecl-mailparse@testing \
+#    php84-pecl-maxminddb@testing \
+#    php84-pecl-mcrypt@testing \
+#    php84-pecl-memcache@testing \
+#    php84-pecl-memcached@testing \
+#    php84-pecl-mongodb@testing \
+#    php84-pecl-msgpack@testing \
+#    php84-pecl-oauth@testing \
+#    php84-pecl-protobuf@testing \
+#    php84-pecl-psr@testing \
+#    php84-pecl-rdkafka@testing \
+#    php84-pecl-redis@testing \
+#    php84-pecl-ssh2@testing \
+#    php84-pecl-timezonedb@testing \
+#    php84-pecl-uploadprogress@testing \
+#    php84-pecl-uploadprogress-doc@testing \
+#    php84-pecl-uuid@testing \
+#    php84-pecl-vips@testing \
+    php84-pecl-xdebug@testing
+#    php84-pecl-xhprof@testing \
+#    php84-pecl-xhprof-assets@testing \
+#    php84-pecl-yaml@testing \
+#    php84-pecl-zstd@testing \
+#    php84-pecl-zstd-dev@testing
 
 # configure xdebug
-COPY --chown=root:root include/xdebug.ini /etc/php83/conf.d/xdebug.ini
+COPY --chown=root:root include/xdebug.ini /etc/php84/conf.d/xdebug.ini
 
 # install composer (currently installs php8.1 which creates a mess, use script approach instead to install)
 #RUN apk add \
@@ -223,13 +223,13 @@ RUN sed -i 's|    AllowOverride None|    AllowOverride All|g' /etc/apache2/httpd
 RUN sed -i 's|Options Indexes FollowSymLinks|Options All|g' /etc/apache2/httpd.conf
 
 # configure php-fpm to run as www-data
-RUN sed -i 's|user = nobody|user = www-data|g' /etc/php83/php-fpm.d/www.conf
-RUN sed -i 's|group = nobody|group = www-data|g' /etc/php83/php-fpm.d/www.conf
-RUN sed -i 's|;listen.owner = nobody|listen.owner = www-data|g' /etc/php83/php-fpm.d/www.conf
-RUN sed -i 's|;listen.group = group|listen.group = www-data|g' /etc/php83/php-fpm.d/www.conf
+RUN sed -i 's|user = nobody|user = www-data|g' /etc/php84/php-fpm.d/www.conf
+RUN sed -i 's|group = nobody|group = www-data|g' /etc/php84/php-fpm.d/www.conf
+RUN sed -i 's|;listen.owner = nobody|listen.owner = www-data|g' /etc/php84/php-fpm.d/www.conf
+RUN sed -i 's|;listen.group = group|listen.group = www-data|g' /etc/php84/php-fpm.d/www.conf
 
 # configure php-fpm to use unix socket
-RUN sed -i 's|listen = 127.0.0.1:9000|listen = /var/run/php-fpm8.sock|g' /etc/php83/php-fpm.d/www.conf
+RUN sed -i 's|listen = 127.0.0.1:9000|listen = /var/run/php-fpm8.sock|g' /etc/php84/php-fpm.d/www.conf
 
 # update apache timeout for easier debugging
 RUN sed -i 's|^Timeout .*$|Timeout 600|g' /etc/apache2/conf.d/default.conf
@@ -241,15 +241,15 @@ RUN echo -e "\n# Include the virtual host configurations:\nIncludeOptional /site
 RUN sed -i "s|#ServerName .*:80|ServerName localhost:80|g" /etc/apache2/httpd.conf
 
 # update php max execution time for easier debugging
-RUN sed -i 's|^max_execution_time .*$|max_execution_time = 600|g' /etc/php83/php.ini
+RUN sed -i 's|^max_execution_time .*$|max_execution_time = 600|g' /etc/php84/php.ini
 
 # php log everything
-RUN sed -i 's|^error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT$|error_reporting = E_ALL|g' /etc/php83/php.ini
+RUN sed -i 's|^error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT$|error_reporting = E_ALL|g' /etc/php84/php.ini
 
 # add php-spx
 COPY --chown=root:root include/php-spx/assets/ /usr/share/misc/php-spx/assets/
-COPY --chown=root:root include/php-spx/spx.so /usr/lib/php83/modules/spx.so
-COPY --chown=root:root include/php-spx/spx.ini /etc/php83/conf.d/spx.ini
+COPY --chown=root:root include/php-spx/spx.so /usr/lib/php84/modules/spx.so
+COPY --chown=root:root include/php-spx/spx.ini /etc/php84/conf.d/spx.ini
 
 # add default sites
 COPY --chown=www-data:www-data include/sites/ /sites.bak/

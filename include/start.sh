@@ -110,39 +110,39 @@ then
     sleep 3
 
     # check if config backup exists
-    if [ ! -d /etc/php83.bak/ ];
+    if [ ! -d /etc/php84.bak/ ];
     then
         # create config backup
         echo "Expose php to host - backup container config"
-        cp -r /etc/php83/ /etc/php83.bak/
+        cp -r /etc/php84/ /etc/php84.bak/
     fi
 
     # check if php config exists on host
-    if [ -z "$(ls -A /docker/etc/php83/ 2> /dev/null)" ];
+    if [ -z "$(ls -A /docker/etc/php84/ 2> /dev/null)" ];
     then
         # config doesn't exist on host
         echo "Expose php to host - no host config"
 
         # check if config backup exists
-        if [ -d /etc/php83.bak/ ];
+        if [ -d /etc/php84.bak/ ];
         then
             # restore config from backup
             echo "Expose php to host - restore config from backup"
-            rm /etc/php83/ 2> /dev/null
-            cp -r /etc/php83.bak/ /etc/php8/
+            rm /etc/php84/ 2> /dev/null
+            cp -r /etc/php84.bak/ /etc/php8/
         fi
 
         # copy config to host
         echo "Expose php to host - copy config to host"
-        cp -r /etc/php83/ /docker/etc/
+        cp -r /etc/php84/ /docker/etc/
     else
         echo "Expose php to host - config exists on host"
     fi
 
     # create symbolic link so host config is used
     echo "Expose php to host - create symlink"
-    rm -rf /etc/php83/ 2> /dev/null
-    ln -s /docker/etc/php83 /etc/php83
+    rm -rf /etc/php84/ 2> /dev/null
+    ln -s /docker/etc/php84 /etc/php84
 
     echo "Expose php to host - OK"
 fi
@@ -157,13 +157,13 @@ truncate -s 0 /sites/localhost/logs/xdebug.log 2> /dev/null
 chmod 666 /var/log/xdebug.log 2> /dev/null
 
 # start php-fpm
-php-fpm83
+php-fpm84
 
 # sleep
 sleep 2
 
 # check if php-fpm is running
-if pgrep -x php-fpm83 > /dev/null
+if pgrep -x php-fpm84 > /dev/null
 then
     echo "Start php-fpm - OK"
 else
@@ -205,15 +205,15 @@ restart_processes()
     sleep 0.5
 
     # test php-fpm config
-    if php-fpm83 -t
+    if php-fpm84 -t
     then
         # restart php-fpm
         echo "Restart php-fpm..."
-        killall php-fpm83 > /dev/null
-        php-fpm83
+        killall php-fpm84 > /dev/null
+        php-fpm84
 
         # check if php-fpm is running
-        if pgrep -x php-fpm83 > /dev/null
+        if pgrep -x php-fpm84 > /dev/null
         then
             echo "Restart php-fpm - OK"
         else
@@ -245,6 +245,6 @@ restart_processes()
 # infinite loop, will only stop on termination signal or deletion of sites/config
 while [ -d /sites/config/ ]
 do
-    # restart apache and php-fpm if any file in /etc/apache2 or /etc/php83 changes
-    inotifywait --quiet --event modify,create,delete --timeout 3 --recursive /etc/apache2/ /etc/php83/ /sites/config/ && restart_processes
+    # restart apache and php-fpm if any file in /etc/apache2 or /etc/php84 changes
+    inotifywait --quiet --event modify,create,delete --timeout 3 --recursive /etc/apache2/ /etc/php84/ /sites/config/ && restart_processes
 done

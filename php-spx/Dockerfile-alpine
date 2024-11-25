@@ -18,7 +18,7 @@ RUN apk add build-base
 
 # add dev libraries
 RUN apk add \
-    php83-dev@testing \
+    php84-dev@testing \
     zlib-dev@testing
 
 # add git
@@ -34,10 +34,10 @@ WORKDIR /php-spx
 #RUN git checkout tags/v0.4.12
 
 # fix ./configure "Cannot find php-config. Please use --with-php-config=PATH"
-#RUN ln -s /usr/bin/php-config83 /usr/bin/php-config
+#RUN ln -s /usr/bin/php-config84 /usr/bin/php-config
 
 # build php-spx
-RUN phpize83
+RUN phpize84
 RUN ./configure
 RUN make
 
