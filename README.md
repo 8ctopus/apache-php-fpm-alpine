@@ -6,13 +6,13 @@
 
 A super light docker web server with `Apache` and `php-fpm` on top of Alpine Linux for php developers.
 
-- Apache 2.4.62 with SSL
-- php-fpm 8.4.1, 8.3, 8.2, 8.1, 8.0 or 7.4
-- Xdebug 3.4.0 beta 1 - debugger and profiler
-- composer 2.8.3
+- Apache 2.4.63 with SSL
+- php-fpm 8.4.4, 8.3, 8.2, 8.1, 8.0 or 7.4
+- Xdebug 3.4.1 - debugger and profiler
+- composer 2.8.5
 - [SPX prolifer dev-master](https://github.com/NoiseByNorthwest/php-spx)
 - zsh 5.9
-- Alpine 3.20.3 using edge repositories
+- Alpine 3.21.3 using edge repositories
 
 ## cool features
 
@@ -62,7 +62,7 @@ Alternatively the container can also be started with `docker run`.
 
 ```sh
 # php 8.4
-docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:2.4.0
+docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:2.4.1
 
 # php 8.3
 docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:2.3.2
@@ -212,10 +212,10 @@ _Note_: This is only for the maintainer of this project.
 # bump version
 
 # build local image
-docker build --no-cache -t 8ct8pus/apache-php-fpm-alpine:2.4.0 .
+docker build --no-cache -t 8ct8pus/apache-php-fpm-alpine:2.4.1 .
 
 # test local image
 
 # push image to docker hub
-docker push 8ct8pus/apache-php-fpm-alpine:2.4.0
+docker push 8ct8pus/apache-php-fpm-alpine:2.4.1
 ```
