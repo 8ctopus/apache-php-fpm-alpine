@@ -1,5 +1,5 @@
 # don't use alpine:edge as it is not refreshed that often
-FROM alpine:3.20.3
+FROM alpine:3.21.3
 LABEL maintainer="8ctopus <hello@octopuslabs.io>"
 
 # expose ports
@@ -112,11 +112,13 @@ RUN apk add php83-fpm@testing
 RUN apk add \
     icu-data-full
 
-# fix php iconv
-# https://stackoverflow.com/questions/70046717/iconv-error-when-running-statamic-laravel-seo-pro-plugin-with-phpfpm-alpine
-# iconv(): Wrong encoding, conversion from &quot;UTF-8&quot; to &quot;UTF-8//IGNORE&quot; is not allowed
+# fix iconv(): Wrong encoding, conversion from &quot;UTF-8&quot; to &quot;UTF-8//IGNORE&quot; is not allowed
+# This error occurs when there's an issue with the iconv library's handling of character encoding conversion,
+# specifically when trying to convert from UTF-8 to US-ASCII with TRANSLIT option.
+# This is a common issue in Alpine Linux-based PHP images because Alpine uses musl libc which includes a different
+# implementation of iconv than the more common GNU libiconv.
 RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.13/community/ gnu-libiconv=1.15-r3
-ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
+ENV LD_PRELOAD=/usr/lib/preloadable_libiconv.so
 
 # create php aliases
 #RUN ln -s /usr/bin/php84 /usr/bin/php
