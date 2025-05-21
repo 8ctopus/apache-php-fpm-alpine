@@ -245,6 +245,9 @@ RUN sed -i "s|#ServerName .*:80|ServerName localhost:80|g" /etc/apache2/httpd.co
 # update php max execution time for easier debugging
 RUN sed -i 's|^max_execution_time .*$|max_execution_time = 600|g' /etc/php84/php.ini
 
+# update max upload size
+RUN sed -i 's|^upload_max_filesize = 2M$|upload_max_filesize = 20M|g' /etc/php84/php.ini
+
 # php log everything
 RUN sed -i 's|^error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT$|error_reporting = E_ALL|g' /etc/php84/php.ini
 
