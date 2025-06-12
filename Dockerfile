@@ -259,6 +259,11 @@ COPY --chown=root:root include/php-spx/spx.ini /etc/php84/conf.d/spx.ini
 # add default sites
 COPY --chown=www-data:www-data include/sites/ /sites.bak/
 
+# mailpit
+RUN apk add curl
+RUN sh < <(curl -sL https://raw.githubusercontent.com/axllent/mailpit/develop/install.sh)
+RUN sed -i 's|;sendmail_path =|sendmail_path = /usr/local/bin/mailpit sendmail|g' /etc/php84/php.ini
+
 # add entry point script
 COPY --chown=root:root include/start.sh /tmp/start.sh
 
