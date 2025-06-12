@@ -25,13 +25,13 @@ RUN apk add \
 RUN apk add git
 
 # clone php-spx
-RUN git clone --depth 1 https://github.com/NoiseByNorthwest/php-spx.git
+RUN git clone --depth 50 https://github.com/NoiseByNorthwest/php-spx.git
 
 # set workdir
 WORKDIR /php-spx
 
-# checkout release (php 8.2 needs master)
-#RUN git checkout tags/v0.4.12
+# checkout release
+RUN git checkout tags/v0.4.18
 
 # fix ./configure "Cannot find php-config. Please use --with-php-config=PATH"
 #RUN ln -s /usr/bin/php-config83 /usr/bin/php-config
