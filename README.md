@@ -148,6 +148,12 @@ Profiles are stored in the `log` directory and can be analyzed with tools such a
 - Run the script to profile
 - Refresh the SPX control panel tab and the report will be available at the bottom of the screen. Click it to show the report in a new tab.
 
+## Mailpit
+
+Mailpit catches outgoing emails and displays them in a web interface.
+
+    http://localhost:8025
+
 ## access container command line
 
 ```sh

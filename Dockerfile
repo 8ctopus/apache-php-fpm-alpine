@@ -261,7 +261,10 @@ COPY --chown=www-data:www-data include/sites/ /sites.bak/
 
 # mailpit
 RUN apk add curl
-RUN sh < <(curl -sL https://raw.githubusercontent.com/axllent/mailpit/develop/install.sh)
+RUN wget https://github.com/axllent/mailpit/releases/download/v1.26.0/mailpit-linux-amd64.tar.gz -O mailpit.tar.gz
+RUN tar --extract --file mailpit.tar.gz
+RUN mv mailpit /usr/local/bin/
+RUN chmod +x /usr/local/bin/mailpit
 RUN sed -i 's|;sendmail_path =|sendmail_path = /usr/local/bin/mailpit sendmail|g' /etc/php84/php.ini
 
 # add entry point script
