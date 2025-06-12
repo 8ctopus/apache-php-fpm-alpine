@@ -1,5 +1,5 @@
 # don't use alpine:edge as it is not refreshed that often
-FROM alpine:3.21.3
+FROM alpine:3.22.0
 LABEL maintainer="8ctopus <hello@octopuslabs.io>"
 
 # expose ports
