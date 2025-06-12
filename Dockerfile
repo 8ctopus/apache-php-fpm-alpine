@@ -16,29 +16,22 @@ EXPOSE 80/tcp
 EXPOSE 443/tcp
 
 # update repositories to edge
-RUN printf "https://dl-cdn.alpinelinux.org/alpine/edge/main\nhttps://dl-cdn.alpinelinux.org/alpine/edge/community\n" > /etc/apk/repositories
-
-# add testing repository
-RUN printf "@testing https://dl-cdn.alpinelinux.org/alpine/edge/testing\n" >> /etc/apk/repositories
+RUN printf "https://dl-cdn.alpinelinux.org/alpine/edge/main\nhttps://dl-cdn.alpinelinux.org/alpine/edge/community\n" > /etc/apk/repositories && \
+    # add testing repository
+    printf "@testing https://dl-cdn.alpinelinux.org/alpine/edge/testing\n" >> /etc/apk/repositories
 
 # update apk repositories
-RUN apk update
-
-# upgrade all
-RUN apk upgrade
+RUN apk update && \
+    # upgrade all
+    apk upgrade
 
 # add tini https://github.com/krallin/tini/issues/8
-RUN apk add --no-cache tini
-
-# install latest certificates for ssl
-RUN apk add --no-cache ca-certificates@testing
-
-# install console tools
-RUN apk add --no-cache \
-    inotify-tools@testing
-
-# install zsh
-RUN apk add --no-cache \
+RUN apk add --no-cache tini \
+    # install latest certificates for ssl
+    ca-certificates@testing \
+    # install console tools
+    inotify-tools@testing \
+    # install zsh
     zsh@testing \
     zsh-vcs@testing
 
@@ -99,7 +92,7 @@ RUN apk add --no-cache \
 #    php84-shmop@testing \
     php84-simplexml@testing \
 #    php84-snmp@testing \
-#    php84-soap@testing \+
+#    php84-soap@testing \
 #    php84-sockets@testing \
     php84-sodium@testing \
     php84-sqlite3@testing \
@@ -112,13 +105,10 @@ RUN apk add --no-cache \
     php84-xml@testing \
     php84-xmlreader@testing \
     php84-xmlwriter@testing \
-    php84-zip@testing
-
-# use php84-fpm instead of php84-apache
-RUN apk add --no-cache php84-fpm@testing
-
-# i18n
-RUN apk add --no-cache \
+    php84-zip@testing \
+    # use php84-fpm instead of php84-apache
+    php84-fpm@testing \
+    # i18n
     icu-data-full
 
 # fix iconv(): Wrong encoding, conversion from &quot;UTF-8&quot; to &quot;UTF-8//IGNORE&quot; is not allowed
@@ -130,8 +120,8 @@ RUN apk add --no-cache --no-cache --repository http://dl-cdn.alpinelinux.org/alp
 ENV LD_PRELOAD=/usr/lib/preloadable_libiconv.so
 
 # create php aliases
-RUN ln -s /usr/bin/php84 /usr/bin/php
-RUN ln -s /usr/sbin/php-fpm84 /usr/sbin/php-fpm
+RUN ln -s /usr/bin/php84 /usr/bin/php && \
+    ln -s /usr/sbin/php-fpm84 /usr/sbin/php-fpm
 
 # PECL extensions
 RUN apk add --no-cache \
@@ -180,20 +170,18 @@ COPY --chown=root:root include/xdebug.ini /etc/php84/conf.d/xdebug.ini
 COPY --chown=root:root include/composer.sh /tmp/composer.sh
 
 # make composer script executable
-RUN chmod +x /tmp/composer.sh
-
-# install composer
-RUN /tmp/composer.sh
-
-# move composer binary to usr bin
-RUN mv /composer.phar /usr/bin/composer
+RUN chmod +x /tmp/composer.sh && \
+    # install composer
+    /tmp/composer.sh && \
+    # move composer binary to usr bin
+    mv /composer.phar /usr/bin/composer
 
 # install self-signed certificate generator
 COPY --chown=root:root include/selfsign.sh /tmp/selfsign.sh
-RUN chmod +x /tmp/selfsign.sh
-RUN /tmp/selfsign.sh
-RUN mv /selfsign.phar /usr/bin/selfsign
-RUN chmod +x /usr/bin/selfsign
+RUN chmod +x /tmp/selfsign.sh && \
+    /tmp/selfsign.sh && \
+    mv /selfsign.phar /usr/bin/selfsign && \
+    chmod +x /usr/bin/selfsign
 
 # install apache
 RUN apk add --no-cache \
@@ -212,53 +200,42 @@ RUN rm -rf /var/cache/apk/*
 RUN adduser -H -D -S -G www-data -s /sbin/nologin www-data
 
 # update user and group apache runs under
-RUN sed -i 's|User apache|User www-data|g' /etc/apache2/httpd.conf
-RUN sed -i 's|Group apache|Group www-data|g' /etc/apache2/httpd.conf
-
-# enable mod rewrite (rewrite urls in htaccess)
-RUN sed -i 's|#LoadModule rewrite_module modules/mod_rewrite.so|LoadModule rewrite_module modules/mod_rewrite.so|g' /etc/apache2/httpd.conf
-
-# enable important apache modules
-RUN sed -i 's|#LoadModule deflate_module modules/mod_deflate.so|LoadModule deflate_module modules/mod_deflate.so|g' /etc/apache2/httpd.conf
-RUN sed -i 's|#LoadModule expires_module modules/mod_expires.so|LoadModule expires_module modules/mod_expires.so|g' /etc/apache2/httpd.conf
-RUN sed -i 's|#LoadModule ext_filter_module modules/mod_ext_filter.so|LoadModule ext_filter_module modules/mod_ext_filter.so|g' /etc/apache2/httpd.conf
-
-# switch from mpm_prefork to mpm_event
-RUN sed -i 's|LoadModule mpm_prefork_module modules/mod_mpm_prefork.so|#LoadModule mpm_prefork_module modules/mod_mpm_prefork.so|g' /etc/apache2/httpd.conf
-RUN sed -i 's|#LoadModule mpm_event_module modules/mod_mpm_event.so|LoadModule mpm_event_module modules/mod_mpm_event.so|g' /etc/apache2/httpd.conf
-
-# authorize all directives in .htaccess
-RUN sed -i 's|    AllowOverride None|    AllowOverride All|g' /etc/apache2/httpd.conf
-
-# authorize all changes from htaccess
-RUN sed -i 's|Options Indexes FollowSymLinks|Options All|g' /etc/apache2/httpd.conf
-
-# configure php-fpm to run as www-data
-RUN sed -i 's|user = nobody|user = www-data|g' /etc/php84/php-fpm.d/www.conf
-RUN sed -i 's|group = nobody|group = www-data|g' /etc/php84/php-fpm.d/www.conf
-RUN sed -i 's|;listen.owner = nobody|listen.owner = www-data|g' /etc/php84/php-fpm.d/www.conf
-RUN sed -i 's|;listen.group = group|listen.group = www-data|g' /etc/php84/php-fpm.d/www.conf
-
-# configure php-fpm to use unix socket
-RUN sed -i 's|listen = 127.0.0.1:9000|listen = /var/run/php-fpm8.sock|g' /etc/php84/php-fpm.d/www.conf
-
-# update apache timeout for easier debugging
-RUN sed -i 's|^Timeout .*$|Timeout 600|g' /etc/apache2/conf.d/default.conf
+RUN sed -i 's|User apache|User www-data|g' /etc/apache2/httpd.conf && \
+    sed -i 's|Group apache|Group www-data|g' /etc/apache2/httpd.conf && \
+    # enable mod rewrite (rewrite urls in htaccess)
+    sed -i 's|#LoadModule rewrite_module modules/mod_rewrite.so|LoadModule rewrite_module modules/mod_rewrite.so|g' /etc/apache2/httpd.conf && \
+    # enable important apache modules
+    sed -i 's|#LoadModule deflate_module modules/mod_deflate.so|LoadModule deflate_module modules/mod_deflate.so|g' /etc/apache2/httpd.conf && \
+    sed -i 's|#LoadModule expires_module modules/mod_expires.so|LoadModule expires_module modules/mod_expires.so|g' /etc/apache2/httpd.conf && \
+    sed -i 's|#LoadModule ext_filter_module modules/mod_ext_filter.so|LoadModule ext_filter_module modules/mod_ext_filter.so|g' /etc/apache2/httpd.conf && \
+    # switch from mpm_prefork to mpm_event
+    sed -i 's|LoadModule mpm_prefork_module modules/mod_mpm_prefork.so|#LoadModule mpm_prefork_module modules/mod_mpm_prefork.so|g' /etc/apache2/httpd.conf && \
+    sed -i 's|#LoadModule mpm_event_module modules/mod_mpm_event.so|LoadModule mpm_event_module modules/mod_mpm_event.so|g' /etc/apache2/httpd.conf && \
+    # authorize all directives in .htaccess
+    sed -i 's|    AllowOverride None|    AllowOverride All|g' /etc/apache2/httpd.conf && \
+    # authorize all changes from htaccess
+    sed -i 's|Options Indexes FollowSymLinks|Options All|g' /etc/apache2/httpd.conf && \
+    # configure php-fpm to run as www-data
+    sed -i 's|user = nobody|user = www-data|g' /etc/php84/php-fpm.d/www.conf && \
+    sed -i 's|group = nobody|group = www-data|g' /etc/php84/php-fpm.d/www.conf && \
+    sed -i 's|;listen.owner = nobody|listen.owner = www-data|g' /etc/php84/php-fpm.d/www.conf && \
+    sed -i 's|;listen.group = group|listen.group = www-data|g' /etc/php84/php-fpm.d/www.conf && \
+    # configure php-fpm to use unix socket
+    sed -i 's|listen = 127.0.0.1:9000|listen = /var/run/php-fpm8.sock|g' /etc/php84/php-fpm.d/www.conf && \
+    # update apache timeout for easier debugging
+    sed -i 's|^Timeout .*$|Timeout 600|g' /etc/apache2/conf.d/default.conf
 
 # add vhosts to apache
 RUN echo -e "\n# Include the virtual host configurations:\nIncludeOptional /sites/config/vhosts/*.conf" >> /etc/apache2/httpd.conf
 
 # set localhost server name
-RUN sed -i "s|#ServerName .*:80|ServerName localhost:80|g" /etc/apache2/httpd.conf
-
-# update php max execution time for easier debugging
-RUN sed -i 's|^max_execution_time .*$|max_execution_time = 600|g' /etc/php84/php.ini
-
-# update max upload size
-RUN sed -i 's|^upload_max_filesize = 2M$|upload_max_filesize = 20M|g' /etc/php84/php.ini
-
-# php log everything
-RUN sed -i 's|^error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT$|error_reporting = E_ALL|g' /etc/php84/php.ini
+RUN sed -i "s|#ServerName .*:80|ServerName localhost:80|g" /etc/apache2/httpd.conf && \
+    # update php max execution time for easier debugging
+    sed -i 's|^max_execution_time .*$|max_execution_time = 600|g' /etc/php84/php.ini && \
+    # update max upload size
+    sed -i 's|^upload_max_filesize = 2M$|upload_max_filesize = 20M|g' /etc/php84/php.ini && \
+    # php log everything
+    sed -i 's|^error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT$|error_reporting = E_ALL|g' /etc/php84/php.ini
 
 # add php-spx
 COPY --chown=root:root include/php-spx/assets/ /usr/share/misc/php-spx/assets/
@@ -270,8 +247,8 @@ COPY --chown=www-data:www-data include/sites/ /sites.bak/
 
 # add mailpit (intercept emails)
 COPY --chown=root:root --from=mailpit /mailpit /usr/local/bin/mailpit
-RUN chmod +x /usr/local/bin/mailpit
-RUN sed -i 's|;sendmail_path =|sendmail_path = /usr/local/bin/mailpit sendmail|g' /etc/php84/php.ini
+RUN chmod +x /usr/local/bin/mailpit && \
+    sed -i 's|;sendmail_path =|sendmail_path = /usr/local/bin/mailpit sendmail|g' /etc/php84/php.ini
 
 # add entry point script
 COPY --chown=root:root include/start.sh /tmp/start.sh
