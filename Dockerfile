@@ -41,7 +41,7 @@ RUN apk add \
     php84@testing \
 #    php84-apache2@testing \
     php84-bcmath@testing \
-#    php84-brotli@testing \
+    php84-brotli@testing \
     php84-bz2@testing \
     php84-calendar@testing \
 #    php84-cgi@testing \
