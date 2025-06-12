@@ -1,5 +1,5 @@
 # don't use alpine:edge as it is not refreshed that often
-FROM alpine:3.22.0
+FROM alpine:3.22.0 AS image
 LABEL maintainer="8ctopus <hello@octopuslabs.io>"
 
 # expose ports
@@ -192,7 +192,7 @@ RUN apk add --no-cache \
     apache2-ssl@testing \
     apache2-proxy@testing
 
-# delete apk cache
+# delete apk cache (FIX ME this has no effect because of layer immutability)
 RUN rm -rf /var/cache/apk/*
 
 # add user www-data
