@@ -12,7 +12,7 @@ A super light docker web server with `Apache` and `php-fpm` on top of Alpine Lin
 - composer 2.8.6
 - [SPX prolifer dev-master](https://github.com/NoiseByNorthwest/php-spx)
 - zsh 5.9
-- Alpine 3.21.3 using edge repositories
+- Alpine 3.22.0 using edge repositories
 
 ## cool features
 
