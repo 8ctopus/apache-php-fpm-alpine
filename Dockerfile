@@ -1,3 +1,12 @@
+FROM alpine:3.22.0 AS mailpit
+
+RUN apk add --no-cache upx
+
+RUN wget https://github.com/axllent/mailpit/releases/download/v1.26.0/mailpit-linux-amd64.tar.gz -O mailpit.tar.gz
+RUN tar --extract --file mailpit.tar.gz
+# compress mailpit as it weighs around 24Mb
+RUN upx mailpit
+
 # don't use alpine:edge as it is not refreshed that often
 FROM alpine:3.22.0 AS image
 LABEL maintainer="8ctopus <hello@octopuslabs.io>"
@@ -234,6 +243,11 @@ COPY --chown=root:root include/php-spx/spx.ini /etc/php83/conf.d/spx.ini
 
 # add default sites
 COPY --chown=www-data:www-data include/sites/ /sites.bak/
+
+# add mailpit (intercept emails)
+COPY --chown=root:root --from=mailpit /mailpit /usr/local/bin/mailpit
+RUN chmod +x /usr/local/bin/mailpit
+RUN sed -i 's|;sendmail_path =|sendmail_path = /usr/local/bin/mailpit sendmail|g' /etc/php83/php.ini
 
 # add entry point script
 COPY --chown=root:root include/start.sh /tmp/start.sh

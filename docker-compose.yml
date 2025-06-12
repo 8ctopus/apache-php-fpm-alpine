@@ -53,6 +53,7 @@ services:
     ports:
       - 80:80
       - 443:443
+      - 8025:8025
     volumes:
       # development directory
       - ./sites/:/sites/

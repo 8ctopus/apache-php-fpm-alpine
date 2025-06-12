@@ -24,6 +24,7 @@ Apache php-fpm Alpine is a lightweight Docker web server image that combines `Ap
 - All changes to configuration files are automatically applied (hot reload)
 - Xdebug is configured for step by step debugging and profiling
 - Profile php code with SPX or Xdebug
+- catch outgoing emails using [mailpit](https://github.com/axllent/mailpit)
 
 ## getting started
 
@@ -143,6 +144,12 @@ Profiles are stored in the `log` directory and can be analyzed with tools such a
 - Check checkbox `Whether to enable SPX profiler for your current browser session. No performance impact for other clients.`
 - Run the script to profile
 - Refresh the SPX control panel tab and the report will be available at the bottom of the screen. Click it to show the report in a new tab.
+
+## Mailpit
+
+Mailpit catches outgoing emails and displays them in a web interface.
+
+    http://localhost:8025
 
 ## access container command line
 
