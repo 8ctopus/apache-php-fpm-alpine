@@ -23,16 +23,19 @@ RUN \
     \
     # update apk repositories
     apk update && \
-    # upgrade all
+    # upgrade all packages
     apk upgrade && \
     \
     apk add --no-cache \
     # add tini https://github.com/krallin/tini/issues/8
     tini \
+    \
     # install latest certificates for ssl
     ca-certificates@testing \
+    \
     # install console tools
     inotify-tools@testing \
+    \
     # install zsh
     zsh@testing \
     zsh-vcs@testing \
@@ -104,8 +107,10 @@ RUN \
     php84-xmlreader@testing \
     php84-xmlwriter@testing \
     php84-zip@testing \
+    \
     # use php84-fpm instead of php84-apache
     php84-fpm@testing \
+    \
     # i18n
     icu-data-full \
     \
@@ -137,20 +142,33 @@ RUN \
 #    php84-pecl-uploadprogress-doc@testing \
 #    php84-pecl-uuid@testing \
 #    php84-pecl-vips@testing \
-    php84-pecl-xdebug@testing
+    php84-pecl-xdebug@testing \
 #    php84-pecl-xhprof@testing \
 #    php84-pecl-xhprof-assets@testing \
 #    php84-pecl-yaml@testing \
 #    php84-pecl-zstd@testing \
 #    php84-pecl-zstd-dev@testing
-
+    \
+    # install apache
+    apache2@testing \
+    apache2-ssl@testing \
+    apache2-proxy@testing && \
+    \
 # fix iconv(): Wrong encoding, conversion from &quot;UTF-8&quot; to &quot;UTF-8//IGNORE&quot; is not allowed
 # This error occurs when there's an issue with the iconv library's handling of character encoding conversion,
 # specifically when trying to convert from UTF-8 to US-ASCII with TRANSLIT option.
 # This is a common issue in Alpine Linux-based PHP images because Alpine uses musl libc which includes a different
 # implementation of iconv than the more common GNU libiconv.
-RUN apk add --no-cache --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.13/community/ gnu-libiconv=1.15-r3
+    apk add --no-cache --no-cache  --repository https://dl-cdn.alpinelinux.org/alpine/v3.13/community/ gnu-libiconv=1.15-r3 && \
+    \
+    # delete apk cache (needs to be done before the layer is written)
+    rm -rf /var/cache/apk/*
+
 ENV LD_PRELOAD=/usr/lib/preloadable_libiconv.so
+
+# install composer (currently installs php8.1 which creates a mess, use script approach instead to install)
+#RUN apk add --no-cache \
+#    composer@testing
 
 # create php aliases
 RUN ln -s /usr/bin/php84 /usr/bin/php && \
@@ -162,18 +180,13 @@ COPY --chown=root:root include/zshrc /etc/zsh/zshrc
 # configure xdebug
 COPY --chown=root:root include/xdebug.ini /etc/php84/conf.d/xdebug.ini
 
-# install composer (currently installs php8.1 which creates a mess, use script approach instead to install)
-#RUN apk add --no-cache \
-#    composer@testing
-
 # add composer script
 COPY --chown=root:root include/composer.sh /tmp/composer.sh
 
-# make composer script executable
-RUN chmod +x /tmp/composer.sh && \
-    # install composer
+# install composer
+RUN \
+    chmod +x /tmp/composer.sh && \
     /tmp/composer.sh && \
-    # move composer binary to usr bin
     mv /composer.phar /usr/bin/composer
 
 # install self-signed certificate generator
@@ -182,15 +195,6 @@ RUN chmod +x /tmp/selfsign.sh && \
     /tmp/selfsign.sh && \
     mv /selfsign.phar /usr/bin/selfsign && \
     chmod +x /usr/bin/selfsign
-
-# install apache
-RUN apk add --no-cache \
-    apache2@testing \
-    apache2-ssl@testing \
-    apache2-proxy@testing
-
-# delete apk cache (FIX ME this has no effect because of layer immutability)
-RUN rm -rf /var/cache/apk/*
 
 # add user www-data
 # group www-data already exists
@@ -223,13 +227,11 @@ RUN sed -i 's|User apache|User www-data|g' /etc/apache2/httpd.conf && \
     # configure php-fpm to use unix socket
     sed -i 's|listen = 127.0.0.1:9000|listen = /var/run/php-fpm8.sock|g' /etc/php84/php-fpm.d/www.conf && \
     # update apache timeout for easier debugging
-    sed -i 's|^Timeout .*$|Timeout 600|g' /etc/apache2/conf.d/default.conf
-
-# add vhosts to apache
-RUN echo -e "\n# Include the virtual host configurations:\nIncludeOptional /sites/config/vhosts/*.conf" >> /etc/apache2/httpd.conf
-
-# set localhost server name
-RUN sed -i "s|#ServerName .*:80|ServerName localhost:80|g" /etc/apache2/httpd.conf && \
+    sed -i 's|^Timeout .*$|Timeout 600|g' /etc/apache2/conf.d/default.conf && \
+    # add vhosts to apache
+    echo -e "\n# Include the virtual host configurations:\nIncludeOptional /sites/config/vhosts/*.conf" >> /etc/apache2/httpd.conf && \
+    # set localhost server name
+    sed -i "s|#ServerName .*:80|ServerName localhost:80|g" /etc/apache2/httpd.conf && \
     # update php max execution time for easier debugging
     sed -i 's|^max_execution_time .*$|max_execution_time = 600|g' /etc/php84/php.ini && \
     # update max upload size
@@ -257,8 +259,9 @@ COPY --chown=root:root include/start.sh /tmp/start.sh
 RUN chmod +x /tmp/start.sh
 
 # set working dir
-RUN mkdir /sites/
-RUN chown www-data:www-data /sites/
+RUN mkdir /sites/ && \
+    chown www-data:www-data /sites/
+
 WORKDIR /sites/
 
 # set entrypoint
