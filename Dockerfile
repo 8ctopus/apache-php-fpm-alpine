@@ -188,53 +188,40 @@ RUN rm -rf /var/cache/apk/*
 RUN adduser -H -D -S -G www-data -s /sbin/nologin www-data
 
 # update user and group apache runs under
-RUN sed -i 's|User apache|User www-data|g' /etc/apache2/httpd.conf
-RUN sed -i 's|Group apache|Group www-data|g' /etc/apache2/httpd.conf
-
-# enable mod rewrite (rewrite urls in htaccess)
-RUN sed -i 's|#LoadModule rewrite_module modules/mod_rewrite.so|LoadModule rewrite_module modules/mod_rewrite.so|g' /etc/apache2/httpd.conf
-
-# enable important apache modules
-RUN sed -i 's|#LoadModule deflate_module modules/mod_deflate.so|LoadModule deflate_module modules/mod_deflate.so|g' /etc/apache2/httpd.conf
-RUN sed -i 's|#LoadModule expires_module modules/mod_expires.so|LoadModule expires_module modules/mod_expires.so|g' /etc/apache2/httpd.conf
-RUN sed -i 's|#LoadModule ext_filter_module modules/mod_ext_filter.so|LoadModule ext_filter_module modules/mod_ext_filter.so|g' /etc/apache2/httpd.conf
-
-# switch from mpm_prefork to mpm_event
-RUN sed -i 's|LoadModule mpm_prefork_module modules/mod_mpm_prefork.so|#LoadModule mpm_prefork_module modules/mod_mpm_prefork.so|g' /etc/apache2/httpd.conf
-RUN sed -i 's|#LoadModule mpm_event_module modules/mod_mpm_event.so|LoadModule mpm_event_module modules/mod_mpm_event.so|g' /etc/apache2/httpd.conf
-
-# authorize all directives in .htaccess
-RUN sed -i 's|    AllowOverride None|    AllowOverride All|g' /etc/apache2/httpd.conf
-
-# authorize all changes from htaccess
-RUN sed -i 's|Options Indexes FollowSymLinks|Options All|g' /etc/apache2/httpd.conf
-
-# configure php-fpm to run as www-data
-RUN sed -i 's|user = nobody|user = www-data|g' /etc/php83/php-fpm.d/www.conf
-RUN sed -i 's|group = nobody|group = www-data|g' /etc/php83/php-fpm.d/www.conf
-RUN sed -i 's|;listen.owner = nobody|listen.owner = www-data|g' /etc/php83/php-fpm.d/www.conf
-RUN sed -i 's|;listen.group = group|listen.group = www-data|g' /etc/php83/php-fpm.d/www.conf
-
-# configure php-fpm to use unix socket
-RUN sed -i 's|listen = 127.0.0.1:9000|listen = /var/run/php-fpm8.sock|g' /etc/php83/php-fpm.d/www.conf
-
-# update apache timeout for easier debugging
-RUN sed -i 's|^Timeout .*$|Timeout 600|g' /etc/apache2/conf.d/default.conf
-
-# add vhosts to apache
-RUN echo -e "\n# Include the virtual host configurations:\nIncludeOptional /sites/config/vhosts/*.conf" >> /etc/apache2/httpd.conf
-
-# set localhost server name
-RUN sed -i "s|#ServerName .*:80|ServerName localhost:80|g" /etc/apache2/httpd.conf
-
-# update php max execution time for easier debugging
-RUN sed -i 's|^max_execution_time .*$|max_execution_time = 600|g' /etc/php83/php.ini
-
-# update max upload size
-RUN sed -i 's|^upload_max_filesize = 2M$|upload_max_filesize = 20M|g' /etc/php83/php.ini
-
-# php log everything
-RUN sed -i 's|^error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT$|error_reporting = E_ALL|g' /etc/php83/php.ini
+RUN sed -i 's|User apache|User www-data|g' /etc/apache2/httpd.conf && \
+    sed -i 's|Group apache|Group www-data|g' /etc/apache2/httpd.conf && \
+    # enable mod rewrite (rewrite urls in htaccess)
+    sed -i 's|#LoadModule rewrite_module modules/mod_rewrite.so|LoadModule rewrite_module modules/mod_rewrite.so|g' /etc/apache2/httpd.conf && \
+    # enable important apache modules
+    sed -i 's|#LoadModule deflate_module modules/mod_deflate.so|LoadModule deflate_module modules/mod_deflate.so|g' /etc/apache2/httpd.conf && \
+    sed -i 's|#LoadModule expires_module modules/mod_expires.so|LoadModule expires_module modules/mod_expires.so|g' /etc/apache2/httpd.conf && \
+    sed -i 's|#LoadModule ext_filter_module modules/mod_ext_filter.so|LoadModule ext_filter_module modules/mod_ext_filter.so|g' /etc/apache2/httpd.conf && \
+    # switch from mpm_prefork to mpm_event
+    sed -i 's|LoadModule mpm_prefork_module modules/mod_mpm_prefork.so|#LoadModule mpm_prefork_module modules/mod_mpm_prefork.so|g' /etc/apache2/httpd.conf && \
+    sed -i 's|#LoadModule mpm_event_module modules/mod_mpm_event.so|LoadModule mpm_event_module modules/mod_mpm_event.so|g' /etc/apache2/httpd.conf && \
+    # authorize all directives in .htaccess
+    sed -i 's|    AllowOverride None|    AllowOverride All|g' /etc/apache2/httpd.conf && \
+    # authorize all changes from htaccess
+    sed -i 's|Options Indexes FollowSymLinks|Options All|g' /etc/apache2/httpd.conf && \
+    # configure php-fpm to run as www-data
+    sed -i 's|user = nobody|user = www-data|g' /etc/php83/php-fpm.d/www.conf && \
+    sed -i 's|group = nobody|group = www-data|g' /etc/php83/php-fpm.d/www.conf && \
+    sed -i 's|;listen.owner = nobody|listen.owner = www-data|g' /etc/php83/php-fpm.d/www.conf && \
+    sed -i 's|;listen.group = group|listen.group = www-data|g' /etc/php83/php-fpm.d/www.conf && \
+    # configure php-fpm to use unix socket
+    sed -i 's|listen = 127.0.0.1:9000|listen = /var/run/php-fpm8.sock|g' /etc/php83/php-fpm.d/www.conf && \
+    # update apache timeout for easier debugging
+    sed -i 's|^Timeout .*$|Timeout 600|g' /etc/apache2/conf.d/default.conf && \
+    # add vhosts to apache
+    echo -e "\n# Include the virtual host configurations:\nIncludeOptional /sites/config/vhosts/*.conf" >> /etc/apache2/httpd.conf && \
+    # set localhost server name
+    sed -i "s|#ServerName .*:80|ServerName localhost:80|g" /etc/apache2/httpd.conf && \
+    # update php max execution time for easier debugging
+    sed -i 's|^max_execution_time .*$|max_execution_time = 600|g' /etc/php83/php.ini && \
+    # update max upload size
+    sed -i 's|^upload_max_filesize = 2M$|upload_max_filesize = 20M|g' /etc/php83/php.ini && \
+    # php log everything
+    sed -i 's|^error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT$|error_reporting = E_ALL|g' /etc/php83/php.ini
 
 # add php-spx
 COPY --chown=root:root include/php-spx/assets/ /usr/share/misc/php-spx/assets/
