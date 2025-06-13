@@ -19,17 +19,17 @@ RUN apk update
 RUN apk upgrade
 
 # add tini https://github.com/krallin/tini/issues/8
-RUN apk add tini
+RUN apk add --no-cache tini
 
 # install latest certificates for ssl
-RUN apk add ca-certificates@testing
+RUN apk add --no-cache ca-certificates@testing
 
 # install console tools
-RUN apk add \
+RUN apk add --no-cache \
     inotify-tools@testing
 
 # install zsh
-RUN apk add \
+RUN apk add --no-cache \
     zsh@testing \
     zsh-vcs@testing
 
@@ -37,7 +37,7 @@ RUN apk add \
 COPY --chown=root:root include/zshrc /etc/zsh/zshrc
 
 # install php
-RUN apk add \
+RUN apk add --no-cache \
     php83@testing \
 #    php83-apache2@testing \
     php83-bcmath@testing \
@@ -106,10 +106,10 @@ RUN apk add \
     php83-zip@testing
 
 # use php83-fpm instead of php83-apache
-RUN apk add php83-fpm@testing
+RUN apk add --no-cache php83-fpm@testing
 
 # i18n
-RUN apk add \
+RUN apk add --no-cache \
     icu-data-full
 
 # fix iconv(): Wrong encoding, conversion from &quot;UTF-8&quot; to &quot;UTF-8//IGNORE&quot; is not allowed
@@ -117,7 +117,7 @@ RUN apk add \
 # specifically when trying to convert from UTF-8 to US-ASCII with TRANSLIT option.
 # This is a common issue in Alpine Linux-based PHP images because Alpine uses musl libc which includes a different
 # implementation of iconv than the more common GNU libiconv.
-RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.13/community/ gnu-libiconv=1.15-r3
+RUN apk add --no-cache --no-cache  --repository http://dl-cdn.alpinelinux.org/alpine/v3.13/community/ gnu-libiconv=1.15-r3
 ENV LD_PRELOAD=/usr/lib/preloadable_libiconv.so
 
 # create php aliases
@@ -125,7 +125,7 @@ ENV LD_PRELOAD=/usr/lib/preloadable_libiconv.so
 RUN ln -s /usr/sbin/php-fpm83 /usr/sbin/php-fpm
 
 # PECL extensions
-RUN apk add \
+RUN apk add --no-cache \
 #    php83-pecl-amqp@testing \
 #    php83-pecl-apcu@testing \
 #    php83-pecl-ast@testing \
@@ -164,7 +164,7 @@ RUN apk add \
 COPY --chown=root:root include/xdebug.ini /etc/php83/conf.d/xdebug.ini
 
 # install composer (currently installs php8.1 which creates a mess, use script approach instead to install)
-#RUN apk add \
+#RUN apk add --no-cache \
 #    composer@testing
 
 # add composer script
@@ -187,7 +187,7 @@ RUN mv /selfsign.phar /usr/bin/selfsign
 RUN chmod +x /usr/bin/selfsign
 
 # install apache
-RUN apk add \
+RUN apk add --no-cache \
     apache2@testing \
     apache2-ssl@testing \
     apache2-proxy@testing
