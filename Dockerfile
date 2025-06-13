@@ -210,7 +210,7 @@ RUN \
     # php log everything
     sed -i 's|^error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT$|error_reporting = E_ALL|g' /etc/php84/php.ini
 
-COPY --chown=root:root include/ /tmp
+COPY --chown=root:root include /tmp
 
 RUN \
     # create php aliases
@@ -220,7 +220,7 @@ RUN \
     # configure zsh
     mv /tmp/zshrc /etc/zsh/zshrc && \
     # configure xdebug
-    mv include/xdebug.ini /etc/php84/conf.d/xdebug.ini && \
+    mv /tmp/xdebug.ini /etc/php84/conf.d/xdebug.ini && \
     \
     # install composer
     chmod +x /tmp/composer.sh && \
@@ -234,7 +234,7 @@ RUN \
     chmod +x /usr/bin/selfsign && \
     \
     # add php-spx
-    mv /tmp/php-spx/assets/ /usr/share/misc/php-spx/assets/ && \
+    mv /tmp/php-spx/assets /usr/share/misc/php-spx/ && \
     mv /tmp/php-spx/spx.so /usr/lib/php84/modules/spx.so && \
     mv /tmp/php-spx/spx.ini /etc/php84/conf.d/spx.ini && \
     \
