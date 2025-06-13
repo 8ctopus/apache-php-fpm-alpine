@@ -14,16 +14,20 @@ RUN printf "https://dl-cdn.alpinelinux.org/alpine/edge/main\nhttps://dl-cdn.alpi
     apk update && \
     # upgrade all
     apk upgrade && \
-
+    \
     # add tini https://github.com/krallin/tini/issues/8
     apk add --no-cache tini \
+    \
     # install latest certificates for ssl
     ca-certificates@testing \
+    \
     # install console tools
     inotify-tools@testing \
+    \
     # install zsh
     zsh@testing \
     zsh-vcs@testing \
+    \
     # install php
     php83@testing \
 #    php83-apache2@testing \
@@ -91,11 +95,13 @@ RUN printf "https://dl-cdn.alpinelinux.org/alpine/edge/main\nhttps://dl-cdn.alpi
     php83-xmlreader@testing \
     php83-xmlwriter@testing \
     php83-zip@testing \
+    \
     # use php83-fpm instead of php83-apache
     php83-fpm@testing \
+    \
     # i18n
     icu-data-full \
-
+    \
     # PECL extensions
 #    php83-pecl-amqp@testing \
 #    php83-pecl-apcu@testing \
@@ -130,7 +136,7 @@ RUN printf "https://dl-cdn.alpinelinux.org/alpine/edge/main\nhttps://dl-cdn.alpi
 #    php83-pecl-yaml@testing \
 #    php83-pecl-zstd@testing \
 #    php83-pecl-zstd-dev@testing
-
+    \
     # install apache
     apache2@testing \
     apache2-ssl@testing \
