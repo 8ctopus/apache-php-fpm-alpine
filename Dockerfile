@@ -13,10 +13,10 @@ RUN printf "https://dl-cdn.alpinelinux.org/alpine/edge/main\nhttps://dl-cdn.alpi
     # update apk repositories
     apk update && \
     # upgrade all
-    apk upgrade
+    apk upgrade && \
 
-# add tini https://github.com/krallin/tini/issues/8
-RUN apk add --no-cache tini \
+    # add tini https://github.com/krallin/tini/issues/8
+    apk add --no-cache tini \
     # install latest certificates for ssl
     ca-certificates@testing \
     # install console tools
@@ -94,10 +94,9 @@ RUN apk add --no-cache tini \
     # use php83-fpm instead of php83-apache
     php83-fpm@testing \
     # i18n
-    icu-data-full
+    icu-data-full \
 
-# PECL extensions
-RUN apk add --no-cache \
+    # PECL extensions
 #    php83-pecl-amqp@testing \
 #    php83-pecl-apcu@testing \
 #    php83-pecl-ast@testing \
@@ -125,15 +124,14 @@ RUN apk add --no-cache \
 #    php83-pecl-uploadprogress-doc@testing \
 #    php83-pecl-uuid@testing \
 #    php83-pecl-vips@testing \
-    php83-pecl-xdebug@testing
+    php83-pecl-xdebug@testing \
 #    php83-pecl-xhprof@testing \
 #    php83-pecl-xhprof-assets@testing \
 #    php83-pecl-yaml@testing \
 #    php83-pecl-zstd@testing \
 #    php83-pecl-zstd-dev@testing
 
-# install apache
-RUN apk add --no-cache \
+    # install apache
     apache2@testing \
     apache2-ssl@testing \
     apache2-proxy@testing
