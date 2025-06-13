@@ -20,13 +20,13 @@ RUN \
     printf "https://dl-cdn.alpinelinux.org/alpine/edge/main\nhttps://dl-cdn.alpinelinux.org/alpine/edge/community\n" > /etc/apk/repositories && \
     # add testing repository
     printf "@testing https://dl-cdn.alpinelinux.org/alpine/edge/testing\n" >> /etc/apk/repositories && \
-
+    \
     # update apk repositories
     apk update && \
     # upgrade all
-    apk upgrade
-
-RUN apk add --no-cache \
+    apk upgrade && \
+    \
+    apk add --no-cache \
     # add tini https://github.com/krallin/tini/issues/8
     tini \
     # install latest certificates for ssl
@@ -35,13 +35,9 @@ RUN apk add --no-cache \
     inotify-tools@testing \
     # install zsh
     zsh@testing \
-    zsh-vcs@testing
-
-# configure zsh
-COPY --chown=root:root include/zshrc /etc/zsh/zshrc
-
-# install php
-RUN apk add --no-cache \
+    zsh-vcs@testing \
+    \
+    # install php
     php84@testing \
 #    php84-apache2@testing \
     php84-bcmath@testing \
@@ -111,22 +107,9 @@ RUN apk add --no-cache \
     # use php84-fpm instead of php84-apache
     php84-fpm@testing \
     # i18n
-    icu-data-full
-
-# fix iconv(): Wrong encoding, conversion from &quot;UTF-8&quot; to &quot;UTF-8//IGNORE&quot; is not allowed
-# This error occurs when there's an issue with the iconv library's handling of character encoding conversion,
-# specifically when trying to convert from UTF-8 to US-ASCII with TRANSLIT option.
-# This is a common issue in Alpine Linux-based PHP images because Alpine uses musl libc which includes a different
-# implementation of iconv than the more common GNU libiconv.
-RUN apk add --no-cache --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.13/community/ gnu-libiconv=1.15-r3
-ENV LD_PRELOAD=/usr/lib/preloadable_libiconv.so
-
-# create php aliases
-RUN ln -s /usr/bin/php84 /usr/bin/php && \
-    ln -s /usr/sbin/php-fpm84 /usr/sbin/php-fpm
-
-# PECL extensions
-RUN apk add --no-cache \
+    icu-data-full \
+    \
+    # PECL extensions
 #    php84-pecl-amqp@testing \
 #    php84-pecl-apcu@testing \
 #    php84-pecl-ast@testing \
@@ -160,6 +143,21 @@ RUN apk add --no-cache \
 #    php84-pecl-yaml@testing \
 #    php84-pecl-zstd@testing \
 #    php84-pecl-zstd-dev@testing
+
+# fix iconv(): Wrong encoding, conversion from &quot;UTF-8&quot; to &quot;UTF-8//IGNORE&quot; is not allowed
+# This error occurs when there's an issue with the iconv library's handling of character encoding conversion,
+# specifically when trying to convert from UTF-8 to US-ASCII with TRANSLIT option.
+# This is a common issue in Alpine Linux-based PHP images because Alpine uses musl libc which includes a different
+# implementation of iconv than the more common GNU libiconv.
+RUN apk add --no-cache --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.13/community/ gnu-libiconv=1.15-r3
+ENV LD_PRELOAD=/usr/lib/preloadable_libiconv.so
+
+# create php aliases
+RUN ln -s /usr/bin/php84 /usr/bin/php && \
+    ln -s /usr/sbin/php-fpm84 /usr/sbin/php-fpm
+
+# configure zsh
+COPY --chown=root:root include/zshrc /etc/zsh/zshrc
 
 # configure xdebug
 COPY --chown=root:root include/xdebug.ini /etc/php84/conf.d/xdebug.ini
