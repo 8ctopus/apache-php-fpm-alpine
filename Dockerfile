@@ -6,13 +6,14 @@ LABEL maintainer="8ctopus <hello@octopuslabs.io>"
 EXPOSE 80/tcp
 EXPOSE 443/tcp
 
-# update repositories to edge
-RUN printf "https://dl-cdn.alpinelinux.org/alpine/edge/main\nhttps://dl-cdn.alpinelinux.org/alpine/edge/community\n" > /etc/apk/repositories && \
+RUN \
+    # update repositories to edge
+    printf "https://dl-cdn.alpinelinux.org/alpine/edge/main\nhttps://dl-cdn.alpinelinux.org/alpine/edge/community\n" > /etc/apk/repositories && \
     # add testing repository
     printf "@testing https://dl-cdn.alpinelinux.org/alpine/edge/testing\n" >> /etc/apk/repositories && \
     # update apk repositories
     apk update && \
-    # upgrade all
+    # upgrade all packages
     apk upgrade && \
     \
     # add tini https://github.com/krallin/tini/issues/8
@@ -154,7 +155,7 @@ ENV LD_PRELOAD=/usr/lib/preloadable_libiconv.so
 #RUN apk add --no-cache \
 #    composer@testing
 
-# create php aliases
+# create php alias
 RUN ln -s /usr/sbin/php-fpm83 /usr/sbin/php-fpm
 
 # configure zsh
@@ -166,11 +167,10 @@ COPY --chown=root:root include/xdebug.ini /etc/php83/conf.d/xdebug.ini
 # add composer script
 COPY --chown=root:root include/composer.sh /tmp/composer.sh
 
-# make composer script executable
-RUN chmod +x /tmp/composer.sh && \
-    # install composer
+# install composer
+RUN \
+    chmod +x /tmp/composer.sh && \
     /tmp/composer.sh && \
-    # move composer binary to usr bin
     mv /composer.phar /usr/bin/composer
 
 # install self-signed certificate generator
