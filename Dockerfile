@@ -26,8 +26,9 @@ RUN \
     # upgrade all packages
     apk upgrade && \
     \
+    apk add --no-cache \
     # add tini https://github.com/krallin/tini/issues/8
-    apk add --no-cache tini \
+    tini \
     \
     # install latest certificates for ssl
     ca-certificates@testing \
@@ -92,7 +93,7 @@ RUN \
 #    php83-shmop@testing \
     php83-simplexml@testing \
 #    php83-snmp@testing \
-#    php83-soap@testing \+
+#    php83-soap@testing \
 #    php83-sockets@testing \
     php83-sodium@testing \
     php83-sqlite3@testing \
@@ -247,8 +248,8 @@ COPY --chown=www-data:www-data include/sites/ /sites.bak/
 
 # add mailpit (intercept emails)
 COPY --chown=root:root --from=mailpit /mailpit /usr/local/bin/mailpit
-RUN chmod +x /usr/local/bin/mailpit
-RUN sed -i 's|;sendmail_path =|sendmail_path = /usr/local/bin/mailpit sendmail|g' /etc/php83/php.ini
+RUN chmod +x /usr/local/bin/mailpit && \
+    sed -i 's|;sendmail_path =|sendmail_path = /usr/local/bin/mailpit sendmail|g' /etc/php83/php.ini
 
 # add entry point script
 COPY --chown=root:root include/start.sh /tmp/start.sh
