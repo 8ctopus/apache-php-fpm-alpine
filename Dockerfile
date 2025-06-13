@@ -140,6 +140,10 @@ RUN apk add --no-cache \
 RUN apk add --no-cache --no-cache  --repository http://dl-cdn.alpinelinux.org/alpine/v3.13/community/ gnu-libiconv=1.15-r3
 ENV LD_PRELOAD=/usr/lib/preloadable_libiconv.so
 
+# install composer (currently installs php8.1 which creates a mess, use script approach instead to install)
+#RUN apk add --no-cache \
+#    composer@testing
+
 # create php aliases
 #RUN ln -s /usr/bin/php84 /usr/bin/php
 RUN ln -s /usr/sbin/php-fpm83 /usr/sbin/php-fpm
@@ -149,10 +153,6 @@ COPY --chown=root:root include/zshrc /etc/zsh/zshrc
 
 # configure xdebug
 COPY --chown=root:root include/xdebug.ini /etc/php83/conf.d/xdebug.ini
-
-# install composer (currently installs php8.1 which creates a mess, use script approach instead to install)
-#RUN apk add --no-cache \
-#    composer@testing
 
 # add composer script
 COPY --chown=root:root include/composer.sh /tmp/composer.sh
