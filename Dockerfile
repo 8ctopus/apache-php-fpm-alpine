@@ -96,18 +96,6 @@ RUN apk add --no-cache tini \
     # i18n
     icu-data-full
 
-# fix iconv(): Wrong encoding, conversion from &quot;UTF-8&quot; to &quot;UTF-8//IGNORE&quot; is not allowed
-# This error occurs when there's an issue with the iconv library's handling of character encoding conversion,
-# specifically when trying to convert from UTF-8 to US-ASCII with TRANSLIT option.
-# This is a common issue in Alpine Linux-based PHP images because Alpine uses musl libc which includes a different
-# implementation of iconv than the more common GNU libiconv.
-RUN apk add --no-cache --no-cache  --repository http://dl-cdn.alpinelinux.org/alpine/v3.13/community/ gnu-libiconv=1.15-r3
-ENV LD_PRELOAD=/usr/lib/preloadable_libiconv.so
-
-# create php aliases
-#RUN ln -s /usr/bin/php84 /usr/bin/php
-RUN ln -s /usr/sbin/php-fpm83 /usr/sbin/php-fpm
-
 # PECL extensions
 RUN apk add --no-cache \
 #    php83-pecl-amqp@testing \
@@ -143,6 +131,18 @@ RUN apk add --no-cache \
 #    php83-pecl-yaml@testing \
 #    php83-pecl-zstd@testing \
 #    php83-pecl-zstd-dev@testing
+
+# fix iconv(): Wrong encoding, conversion from &quot;UTF-8&quot; to &quot;UTF-8//IGNORE&quot; is not allowed
+# This error occurs when there's an issue with the iconv library's handling of character encoding conversion,
+# specifically when trying to convert from UTF-8 to US-ASCII with TRANSLIT option.
+# This is a common issue in Alpine Linux-based PHP images because Alpine uses musl libc which includes a different
+# implementation of iconv than the more common GNU libiconv.
+RUN apk add --no-cache --no-cache  --repository http://dl-cdn.alpinelinux.org/alpine/v3.13/community/ gnu-libiconv=1.15-r3
+ENV LD_PRELOAD=/usr/lib/preloadable_libiconv.so
+
+# create php aliases
+#RUN ln -s /usr/bin/php84 /usr/bin/php
+RUN ln -s /usr/sbin/php-fpm83 /usr/sbin/php-fpm
 
 # configure zsh
 COPY --chown=root:root include/zshrc /etc/zsh/zshrc
