@@ -141,14 +141,18 @@ RUN \
     # install apache
     apache2@testing \
     apache2-ssl@testing \
-    apache2-proxy@testing
+    apache2-proxy@testing && \
+    \
+    # fix iconv(): Wrong encoding, conversion from &quot;UTF-8&quot; to &quot;UTF-8//IGNORE&quot; is not allowed
+    # This error occurs when there's an issue with the iconv library's handling of character encoding conversion,
+    # specifically when trying to convert from UTF-8 to US-ASCII with TRANSLIT option.
+    # This is a common issue in Alpine Linux-based PHP images because Alpine uses musl libc which includes a different
+    # implementation of iconv than the more common GNU libiconv.
+    apk add --no-cache --no-cache  --repository https://dl-cdn.alpinelinux.org/alpine/v3.13/community/ gnu-libiconv=1.15-r3 && \
+    \
+    # delete apk cache (needs to be done before the layer is written)
+    rm -rf /var/cache/apk/*
 
-# fix iconv(): Wrong encoding, conversion from &quot;UTF-8&quot; to &quot;UTF-8//IGNORE&quot; is not allowed
-# This error occurs when there's an issue with the iconv library's handling of character encoding conversion,
-# specifically when trying to convert from UTF-8 to US-ASCII with TRANSLIT option.
-# This is a common issue in Alpine Linux-based PHP images because Alpine uses musl libc which includes a different
-# implementation of iconv than the more common GNU libiconv.
-RUN apk add --no-cache --no-cache  --repository https://dl-cdn.alpinelinux.org/alpine/v3.13/community/ gnu-libiconv=1.15-r3
 ENV LD_PRELOAD=/usr/lib/preloadable_libiconv.so
 
 # install composer (currently installs php8.1 which creates a mess, use script approach instead to install)
@@ -179,9 +183,6 @@ RUN chmod +x /tmp/selfsign.sh && \
     /tmp/selfsign.sh && \
     mv /selfsign.phar /usr/bin/selfsign && \
     chmod +x /usr/bin/selfsign
-
-# delete apk cache (FIX ME this has no effect because of layer immutability)
-RUN rm -rf /var/cache/apk/*
 
 # add user www-data
 # group www-data already exists
