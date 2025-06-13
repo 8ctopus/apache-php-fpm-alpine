@@ -132,6 +132,12 @@ RUN apk add --no-cache \
 #    php83-pecl-zstd@testing \
 #    php83-pecl-zstd-dev@testing
 
+# install apache
+RUN apk add --no-cache \
+    apache2@testing \
+    apache2-ssl@testing \
+    apache2-proxy@testing
+
 # fix iconv(): Wrong encoding, conversion from &quot;UTF-8&quot; to &quot;UTF-8//IGNORE&quot; is not allowed
 # This error occurs when there's an issue with the iconv library's handling of character encoding conversion,
 # specifically when trying to convert from UTF-8 to US-ASCII with TRANSLIT option.
@@ -170,12 +176,6 @@ RUN chmod +x /tmp/selfsign.sh && \
     /tmp/selfsign.sh && \
     mv /selfsign.phar /usr/bin/selfsign && \
     chmod +x /usr/bin/selfsign
-
-# install apache
-RUN apk add --no-cache \
-    apache2@testing \
-    apache2-ssl@testing \
-    apache2-proxy@testing
 
 # delete apk cache (FIX ME this has no effect because of layer immutability)
 RUN rm -rf /var/cache/apk/*
