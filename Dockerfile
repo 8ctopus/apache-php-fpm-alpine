@@ -151,7 +151,6 @@ ENV LD_PRELOAD=/usr/lib/preloadable_libiconv.so
 #    composer@testing
 
 # create php aliases
-#RUN ln -s /usr/bin/php84 /usr/bin/php
 RUN ln -s /usr/sbin/php-fpm83 /usr/sbin/php-fpm
 
 # configure zsh
