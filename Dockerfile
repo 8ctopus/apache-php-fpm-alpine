@@ -15,18 +15,20 @@ LABEL maintainer="8ctopus <hello@octopuslabs.io>"
 EXPOSE 80/tcp
 EXPOSE 443/tcp
 
-# update repositories to edge
-RUN printf "https://dl-cdn.alpinelinux.org/alpine/edge/main\nhttps://dl-cdn.alpinelinux.org/alpine/edge/community\n" > /etc/apk/repositories && \
+RUN \
+    # update repositories to edge
+    printf "https://dl-cdn.alpinelinux.org/alpine/edge/main\nhttps://dl-cdn.alpinelinux.org/alpine/edge/community\n" > /etc/apk/repositories && \
     # add testing repository
-    printf "@testing https://dl-cdn.alpinelinux.org/alpine/edge/testing\n" >> /etc/apk/repositories
+    printf "@testing https://dl-cdn.alpinelinux.org/alpine/edge/testing\n" >> /etc/apk/repositories && \
 
-# update apk repositories
-RUN apk update && \
+    # update apk repositories
+    apk update && \
     # upgrade all
     apk upgrade
 
-# add tini https://github.com/krallin/tini/issues/8
-RUN apk add --no-cache tini \
+RUN apk add --no-cache \
+    # add tini https://github.com/krallin/tini/issues/8
+    tini \
     # install latest certificates for ssl
     ca-certificates@testing \
     # install console tools
