@@ -1,6 +1,6 @@
 FROM alpine:3.22.0 AS mailpit
 
-RUN apk add --no-cache curl upx
+RUN apk add --no-cache upx
 
 RUN wget https://github.com/axllent/mailpit/releases/download/v1.26.0/mailpit-linux-amd64.tar.gz -O mailpit.tar.gz
 RUN tar --extract --file mailpit.tar.gz
