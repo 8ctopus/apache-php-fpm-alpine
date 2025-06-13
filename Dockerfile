@@ -238,8 +238,9 @@ COPY --chown=root:root include/start.sh /tmp/start.sh
 RUN chmod +x /tmp/start.sh
 
 # set working dir
-RUN mkdir /sites/
-RUN chown www-data:www-data /sites/
+RUN mkdir /sites/ && \
+    chown www-data:www-data /sites/
+
 WORKDIR /sites/
 
 # set entrypoint
