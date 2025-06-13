@@ -154,11 +154,11 @@ RUN \
     apache2-ssl@testing \
     apache2-proxy@testing && \
     \
-# fix iconv(): Wrong encoding, conversion from &quot;UTF-8&quot; to &quot;UTF-8//IGNORE&quot; is not allowed
-# This error occurs when there's an issue with the iconv library's handling of character encoding conversion,
-# specifically when trying to convert from UTF-8 to US-ASCII with TRANSLIT option.
-# This is a common issue in Alpine Linux-based PHP images because Alpine uses musl libc which includes a different
-# implementation of iconv than the more common GNU libiconv.
+    # fix iconv(): Wrong encoding, conversion from &quot;UTF-8&quot; to &quot;UTF-8//IGNORE&quot; is not allowed
+    # This error occurs when there's an issue with the iconv library's handling of character encoding conversion,
+    # specifically when trying to convert from UTF-8 to US-ASCII with TRANSLIT option.
+    # This is a common issue in Alpine Linux-based PHP images because Alpine uses musl libc which includes a different
+    # implementation of iconv than the more common GNU libiconv.
     apk add --no-cache --no-cache  --repository https://dl-cdn.alpinelinux.org/alpine/v3.13/community/ gnu-libiconv=1.15-r3 && \
     \
     # delete apk cache (needs to be done before the layer is written)
