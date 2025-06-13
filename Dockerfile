@@ -7,34 +7,24 @@ EXPOSE 80/tcp
 EXPOSE 443/tcp
 
 # update repositories to edge
-RUN printf "https://dl-cdn.alpinelinux.org/alpine/edge/main\nhttps://dl-cdn.alpinelinux.org/alpine/edge/community\n" > /etc/apk/repositories
-
-# add testing repository
-RUN printf "@testing https://dl-cdn.alpinelinux.org/alpine/edge/testing\n" >> /etc/apk/repositories
-
-# update apk repositories
-RUN apk update
-
-# upgrade all
-RUN apk upgrade
+RUN printf "https://dl-cdn.alpinelinux.org/alpine/edge/main\nhttps://dl-cdn.alpinelinux.org/alpine/edge/community\n" > /etc/apk/repositories && \
+    # add testing repository
+    printf "@testing https://dl-cdn.alpinelinux.org/alpine/edge/testing\n" >> /etc/apk/repositories && \
+    # update apk repositories
+    apk update && \
+    # upgrade all
+    apk upgrade
 
 # add tini https://github.com/krallin/tini/issues/8
-RUN apk add --no-cache tini
-
-# install latest certificates for ssl
-RUN apk add --no-cache ca-certificates@testing
-
-# install console tools
-RUN apk add --no-cache \
-    inotify-tools@testing
-
-# install zsh
-RUN apk add --no-cache \
+RUN apk add --no-cache tini \
+    # install latest certificates for ssl
+    ca-certificates@testing \
+    # install console tools
+    inotify-tools@testing \
+    # install zsh
     zsh@testing \
-    zsh-vcs@testing
-
-# install php
-RUN apk add --no-cache \
+    zsh-vcs@testing \
+    # install php
     php83@testing \
 #    php83-apache2@testing \
     php83-bcmath@testing \
@@ -100,13 +90,10 @@ RUN apk add --no-cache \
     php83-xml@testing \
     php83-xmlreader@testing \
     php83-xmlwriter@testing \
-    php83-zip@testing
-
-# use php83-fpm instead of php83-apache
-RUN apk add --no-cache php83-fpm@testing
-
-# i18n
-RUN apk add --no-cache \
+    php83-zip@testing \
+    # use php83-fpm instead of php83-apache
+    php83-fpm@testing \
+    # i18n
     icu-data-full
 
 # fix iconv(): Wrong encoding, conversion from &quot;UTF-8&quot; to &quot;UTF-8//IGNORE&quot; is not allowed
