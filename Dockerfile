@@ -249,7 +249,7 @@ COPY --chown=www-data:www-data include/sites/ /sites.bak/
 # add mailpit (intercept emails)
 COPY --chown=root:root --from=mailpit /mailpit /usr/local/bin/mailpit
 RUN chmod +x /usr/local/bin/mailpit && \
-    sed -i 's|;sendmail_path =|sendmail_path = /usr/local/bin/mailpit sendmail|g' /etc/php83/php.ini
+    ln -sf /usr/local/bin/mailpit /usr/sbin/sendmail
 
 # add entry point script
 COPY --chown=root:root include/start.sh /tmp/start.sh
