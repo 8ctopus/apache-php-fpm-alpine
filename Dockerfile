@@ -33,9 +33,6 @@ RUN apk add --no-cache \
     zsh@testing \
     zsh-vcs@testing
 
-# configure zsh
-COPY --chown=root:root include/zshrc /etc/zsh/zshrc
-
 # install php
 RUN apk add --no-cache \
     php83@testing \
@@ -159,6 +156,9 @@ RUN apk add --no-cache \
 #    php83-pecl-yaml@testing \
 #    php83-pecl-zstd@testing \
 #    php83-pecl-zstd-dev@testing
+
+# configure zsh
+COPY --chown=root:root include/zshrc /etc/zsh/zshrc
 
 # configure xdebug
 COPY --chown=root:root include/xdebug.ini /etc/php83/conf.d/xdebug.ini
