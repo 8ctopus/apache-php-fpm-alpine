@@ -20,6 +20,7 @@ RUN \
     printf "https://dl-cdn.alpinelinux.org/alpine/edge/main\nhttps://dl-cdn.alpinelinux.org/alpine/edge/community\n" > /etc/apk/repositories && \
     # add testing repository
     printf "@testing https://dl-cdn.alpinelinux.org/alpine/edge/testing\n" >> /etc/apk/repositories && \
+    \
     # update apk repositories
     apk update && \
     # upgrade all packages
