@@ -4,7 +4,7 @@
 ![Docker image pulls](https://img.shields.io/docker/pulls/8ct8pus/apache-php-fpm-alpine)
 [image on dockerhub](https://hub.docker.com/r/8ct8pus/apache-php-fpm-alpine)
 
-Apache php-fpm Alpine is a lightweight Docker web server image that combines `Apache` HTTP Server with `PHP-FPM`, built on top of Alpine Linux. Designed specifically for PHP developers, this image offers a minimal footprint while providing a fully functional and configurable environment for PHP development and testing. It supports multiple PHP versions (including PHP 8.3), includes SSL support out of the box, and facilitates easy virtual host management. This container is ideal for rapid development workflows, offering hot reload capabilities for configuration changes and seamless integration with your local development domains.
+Apache php-fpm Alpine is a lightweight (200MB) Docker web server image that combines `Apache` HTTP Server with `PHP-FPM`, built on top of Alpine Linux. Designed specifically for PHP developers, this image offers a minimal footprint while providing a fully functional and configurable environment for PHP development and testing. It supports multiple PHP versions (including PHP 8.3), includes SSL support out of the box, and facilitates easy virtual host management. This container is ideal for rapid development workflows, offering hot reload capabilities for configuration changes and seamless integration with your local development domains.
 
 - Apache 2.4.63 with SSL
 - php-fpm 8.3.22, 8.2, 8.1, 8.0 or 7.4
