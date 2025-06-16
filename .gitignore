@@ -6,4 +6,5 @@
 
 # other
 /php-spx/spx.so
+/include/php-spx/spx.so
 /*.sublime-workspace
