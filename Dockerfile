@@ -233,10 +233,11 @@ RUN \
     mv /selfsign.phar /usr/bin/selfsign && \
     chmod +x /usr/bin/selfsign && \
     \
-    # add php-spx
-    mv /tmp/php-spx/assets /usr/share/misc/php-spx/ && \
-    mv /tmp/php-spx/spx.so /usr/lib/php84/modules/spx.so && \
+    # add php-spx - /usr/share/misc/php-spx/assets/web-ui
     mv /tmp/php-spx/spx.ini /etc/php84/conf.d/spx.ini && \
+    mv /tmp/php-spx/spx.so /usr/lib/php84/modules/spx.so && \
+    mkdir -p /usr/share/misc/php-spx/ && \
+    mv /tmp/php-spx/assets /usr/share/misc/php-spx/ && \
     \
     # add default sites
     mv /tmp/sites/ /sites.bak/ && \
