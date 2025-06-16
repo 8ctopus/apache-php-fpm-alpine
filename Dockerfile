@@ -166,44 +166,16 @@ RUN \
 
 ENV LD_PRELOAD=/usr/lib/preloadable_libiconv.so
 
-# install composer (currently installs php8.1 which creates a mess, use script approach instead to install)
-#RUN apk add --no-cache \
-#    composer@testing
-
-# create php alias
-RUN ln -s /usr/sbin/php-fpm83 /usr/sbin/php-fpm
-
-# configure zsh
-COPY --chown=root:root include/zshrc /etc/zsh/zshrc
-
-# configure xdebug
-COPY --chown=root:root include/xdebug.ini /etc/php83/conf.d/xdebug.ini
-
-# add composer script
-COPY --chown=root:root include/composer.sh /tmp/composer.sh
-
-# install composer
 RUN \
-    chmod +x /tmp/composer.sh && \
-    /tmp/composer.sh && \
-    mv /composer.phar /usr/bin/composer
-
-# install self-signed certificate generator
-COPY --chown=root:root include/selfsign.sh /tmp/selfsign.sh
-RUN chmod +x /tmp/selfsign.sh && \
-    /tmp/selfsign.sh && \
-    mv /selfsign.phar /usr/bin/selfsign && \
-    chmod +x /usr/bin/selfsign
-
-# add user www-data
-# group www-data already exists
-# -H don't create home directory
-# -D don't assign a password
-# -S create a system user
-RUN adduser -H -D -S -G www-data -s /sbin/nologin www-data
-
-# update user and group apache runs under
-RUN sed -i 's|User apache|User www-data|g' /etc/apache2/httpd.conf && \
+    # add user www-data
+    # group www-data already exists
+    # -H don't create home directory
+    # -D don't assign a password
+    # -S create a system user
+    adduser -H -D -S -G www-data -s /sbin/nologin www-data && \
+    \
+    # update user and group apache runs under
+    sed -i 's|User apache|User www-data|g' /etc/apache2/httpd.conf && \
     sed -i 's|Group apache|Group www-data|g' /etc/apache2/httpd.conf && \
     # enable mod rewrite (rewrite urls in htaccess)
     sed -i 's|#LoadModule rewrite_module modules/mod_rewrite.so|LoadModule rewrite_module modules/mod_rewrite.so|g' /etc/apache2/httpd.conf && \
@@ -238,28 +210,48 @@ RUN sed -i 's|User apache|User www-data|g' /etc/apache2/httpd.conf && \
     # php log everything
     sed -i 's|^error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT$|error_reporting = E_ALL|g' /etc/php83/php.ini
 
-# add php-spx
-COPY --chown=root:root include/php-spx/assets/ /usr/share/misc/php-spx/assets/
-COPY --chown=root:root include/php-spx/spx.so /usr/lib/php83/modules/spx.so
-COPY --chown=root:root include/php-spx/spx.ini /etc/php83/conf.d/spx.ini
+COPY --chown=root:root include /tmp
 
-# add default sites
-COPY --chown=www-data:www-data include/sites/ /sites.bak/
+RUN \
+    # create php alias
+    ln -s /usr/sbin/php-fpm83 /usr/sbin/php-fpm && \
+    \
+    # configure zsh
+    mv /tmp/zshrc /etc/zsh/zshrc && \
+    # configure xdebug
+    mv /tmp/xdebug.ini /etc/php83/conf.d/xdebug.ini && \
+    \
+    # install composer
+    chmod +x /tmp/composer.sh && \
+    /tmp/composer.sh && \
+    mv /composer.phar /usr/bin/composer && \
+    \
+    # install self-signed certificate generator
+    chmod +x /tmp/selfsign.sh && \
+    /tmp/selfsign.sh && \
+    mv /selfsign.phar /usr/bin/selfsign && \
+    chmod +x /usr/bin/selfsign && \
+    \
+    # add php-spx - /usr/share/misc/php-spx/assets/web-ui
+    mv /tmp/php-spx/spx.ini /etc/php83/conf.d/spx.ini && \
+    mv /tmp/php-spx/spx.so /usr/lib/php83/modules/spx.so && \
+    mkdir -p /usr/share/misc/php-spx/ && \
+    mv /tmp/php-spx/assets /usr/share/misc/php-spx/ && \
+    \
+    # add default sites
+    mv /tmp/sites/ /sites.bak/ && \
+    # add entry point script
+    #mv /tmp/start.sh /tmp/start.sh
+    # make entry point script executable
+    chmod +x /tmp/start.sh && \
+    # set working dir
+    mkdir /sites/ && \
+    chown www-data:www-data /sites/
 
 # add mailpit (intercept emails)
 COPY --chown=root:root --from=mailpit /mailpit /usr/local/bin/mailpit
 RUN chmod +x /usr/local/bin/mailpit && \
     ln -sf /usr/local/bin/mailpit /usr/sbin/sendmail
-
-# add entry point script
-COPY --chown=root:root include/start.sh /tmp/start.sh
-
-# make entry point script executable
-RUN chmod +x /tmp/start.sh
-
-# set working dir
-RUN mkdir /sites/ && \
-    chown www-data:www-data /sites/
 
 WORKDIR /sites/
 
