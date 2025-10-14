@@ -247,7 +247,9 @@ RUN \
     chmod +x /tmp/start.sh && \
     # set working dir
     mkdir /sites/ && \
-    chown www-data:www-data /sites/
+    chown www-data:www-data /sites/ && \
+    mkdir -p /sites/localhost/logs/ && \
+    chown -R www-data:www-data /sites/localhost/logs
 
 # add mailpit (intercept emails)
 COPY --chown=root:root --from=mailpit /mailpit /usr/local/bin/mailpit
