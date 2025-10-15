@@ -140,30 +140,6 @@ To start profiling, add the `XDEBUG_PROFILE` variable to the request as a GET, P
     http://localhost/?XDEBUG_PROFILE
 
 Profiles are stored in the `log` directory and can be analyzed with tools such as [webgrind](https://github.com/jokkedk/webgrind).
-
-**to attach Xdebug to IDE like phpstorm, you will use the port 9001 and ide key PHPSTORM**
-**if you are using linux, you will need to add this line to your docker-compose.yml under your service for the webserver:**
-```
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-```
-foe example:
-```
-  web:
-    image: 8ct8pus/apache-php-fpm-alpine:2.3.4
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    hostname: testing
-    container_name: web
-    ports:
-      - "80:80"
-      - "443:443"
-      - "8025:8025"
-    volumes:
-      - ./:/sites/localhost/html/public/
-    depends_on:
-      - db
-```
 ## SPX
 
 - Access the [SPX control panel](http://localhost/?SPX_KEY=dev&SPX_UI_URI=/)
