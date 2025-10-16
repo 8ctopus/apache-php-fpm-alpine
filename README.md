@@ -210,7 +210,7 @@ services:
 
 ## build the docker image
 
-_Note_: This is only for the maintainer of this project.
+_Note_: This is only for the project maintainer.
 
 ```sh
 # build php spx module
