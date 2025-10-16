@@ -6,10 +6,10 @@
 
 Apache php-fpm Alpine is a lightweight (200MB) Docker web server image that combines `Apache` HTTP Server with `PHP-FPM`, built on top of Alpine Linux. Designed specifically for PHP developers, this image offers a minimal footprint while providing a fully functional and configurable environment for PHP development and testing. It supports multiple PHP versions (including PHP 8.4), includes SSL support out of the box, and facilitates easy virtual host management. This container is ideal for rapid development workflows, offering hot reload capabilities for configuration changes and seamless integration with your local development domains.
 
-- Apache 2.4.63 with SSL
-- php-fpm 8.4.8, 8.3, 8.2, 8.1, 8.0 or 7.4
-- Xdebug 3.4.3 - debugger and profiler
-- composer 2.8.9
+- Apache 2.4.65 with SSL
+- php-fpm 8.4.13, 8.3, 8.2, 8.1, 8.0 or 7.4
+- Xdebug 3.4.6 - debugger and profiler
+- composer 2.8.12
 - [SPX prolifer 0.4.18](https://github.com/NoiseByNorthwest/php-spx)
 - zsh 5.9
 - Alpine 3.22.2 using edge repositories
@@ -63,7 +63,7 @@ Alternatively the container can also be started with `docker run`.
 
 ```sh
 # php 8.4
-docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:2.5.1
+docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:2.5.2
 
 # php 8.3
 docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:2.3.4
@@ -219,10 +219,10 @@ _Note_: This is only for the project maintainer.
 # bump version
 
 # build local image
-docker build --no-cache -t 8ct8pus/apache-php-fpm-alpine:2.5.1 .
+docker build --no-cache -t 8ct8pus/apache-php-fpm-alpine:2.5.2 .
 
 # test local image
 
 # push image to docker hub
-docker push 8ct8pus/apache-php-fpm-alpine:2.5.1
+docker push 8ct8pus/apache-php-fpm-alpine:2.5.2
 ```
