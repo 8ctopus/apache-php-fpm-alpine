@@ -69,3 +69,5 @@ services:
       - ./docker/etc/:/docker/etc/
       # expose logs to host
       #- ./docker/log/:/var/log/
+    extra_hosts:
+      - "host.docker.internal:host-gateway" # this is for linux users

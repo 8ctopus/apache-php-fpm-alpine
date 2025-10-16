@@ -140,7 +140,6 @@ To start profiling, add the `XDEBUG_PROFILE` variable to the request as a GET, P
     http://localhost/?XDEBUG_PROFILE
 
 Profiles are stored in the `log` directory and can be analyzed with tools such as [webgrind](https://github.com/jokkedk/webgrind).
-
 ## SPX
 
 - Access the [SPX control panel](http://localhost/?SPX_KEY=dev&SPX_UI_URI=/)
