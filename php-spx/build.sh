@@ -1,4 +1,4 @@
-VERSION="3.22.0"
+VERSION="3.22.2"
 
 # https://stackoverflow.com/a/20434740/10126479
 DIR="$( cd "$( dirname "$0" )" && pwd )"

@@ -1,4 +1,4 @@
-FROM alpine:3.22.0 AS mailpit
+FROM alpine:3.22.2 AS mailpit
 
 RUN apk add --no-cache upx
 
@@ -8,7 +8,7 @@ RUN tar --extract --file mailpit.tar.gz
 RUN upx mailpit
 
 # don't use alpine:edge as it is not refreshed that often
-FROM alpine:3.22.0 AS image
+FROM alpine:3.22.2 AS image
 LABEL maintainer="8ctopus <hello@octopuslabs.io>"
 
 # expose ports
