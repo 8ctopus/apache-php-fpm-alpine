@@ -18,8 +18,11 @@ RUN apk add build-base
 
 # add dev libraries
 RUN apk add \
-    php84-dev@testing \
+    php85-dev@testing \
     zlib-dev@testing
+
+# fix ./configure "Cannot find php-config. Please use --with-php-config=PATH"
+RUN ln -s /usr/bin/php-config85 /usr/bin/php-config
 
 # add git
 RUN apk add git
@@ -30,14 +33,13 @@ RUN git clone --depth 50 https://github.com/NoiseByNorthwest/php-spx.git
 # set workdir
 WORKDIR /php-spx
 
-# checkout release
-RUN git checkout tags/v0.4.22
+# checkout release - we need master for now
+#RUN git checkout tags/v0.4.22
 
-# fix ./configure "Cannot find php-config. Please use --with-php-config=PATH"
-#RUN ln -s /usr/bin/php-config84 /usr/bin/php-config
+RUN sed -i 's|CFLAGS="\$CFLAGS -Werror -Wall -O3 -pthread -std=gnu90"|CFLAGS="$CFLAGS -Wall -O3 -pthread -std=gnu90"|' /php-spx/config.m4
 
 # build php-spx
-RUN phpize84
+RUN phpize85
 RUN ./configure
 RUN make
 
