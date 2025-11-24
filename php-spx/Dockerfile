@@ -31,10 +31,10 @@ RUN git clone --depth 50 https://github.com/NoiseByNorthwest/php-spx.git
 WORKDIR /php-spx
 
 # checkout release
-RUN git checkout tags/v0.4.18
+RUN git checkout tags/v0.4.22
 
 # fix ./configure "Cannot find php-config. Please use --with-php-config=PATH"
-RUN ln -s /usr/bin/php-config84 /usr/bin/php-config
+#RUN ln -s /usr/bin/php-config84 /usr/bin/php-config
 
 # build php-spx
 RUN phpize84
