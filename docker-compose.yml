@@ -1,7 +1,9 @@
 services:
   web:
+    # php 8.5.0
+    image: 8ct8pus/apache-php-fpm-alpine:2.6.0
     # php 8.4.15
-    image: 8ct8pus/apache-php-fpm-alpine:2.5.3
+    #image: 8ct8pus/apache-php-fpm-alpine:2.5.3
     # php 8.4.13
     #image: 8ct8pus/apache-php-fpm-alpine:2.5.2
     # php 8.4.8

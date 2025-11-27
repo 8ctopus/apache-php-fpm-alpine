@@ -7,7 +7,7 @@
 Apache php-fpm Alpine is a lightweight (200MB) Docker web server image that combines `Apache` HTTP Server with `PHP-FPM`, built on top of Alpine Linux. Designed specifically for PHP developers, this image offers a minimal footprint while providing a fully functional and configurable environment for PHP development and testing. It supports multiple PHP versions (including PHP 8.4), includes SSL support out of the box, and facilitates easy virtual host management. This container is ideal for rapid development workflows, offering hot reload capabilities for configuration changes and seamless integration with your local development domains.
 
 - Apache 2.4.65 with SSL
-- php-fpm 8.4.15, 8.3, 8.2, 8.1, 8.0 or 7.4
+- php-fpm 8.5.0, 8.4, 8.3, 8.2, 8.1, 8.0 or 7.4
 - Xdebug 3.4.7 - debugger and profiler
 - composer 2.9.2
 - [SPX prolifer 0.4.22](https://github.com/NoiseByNorthwest/php-spx)
@@ -29,7 +29,7 @@ Apache php-fpm Alpine is a lightweight (200MB) Docker web server image that comb
 ## getting started
 
 - download [`docker-compose.yml`](https://github.com/8ctopus/apache-php-fpm-alpine/blob/master/docker-compose.yml)
-- select php version: `8.4` is the default flavor, to use php `8.3`, `8.2`, `8.1`, `8.0` or `7.4`, select the image in `docker-compose.yml`
+- select php version: `8.5` is the default flavor, to use php `8.4`, `8.3`, `8.2`, `8.1`, `8.0` or `7.4`, select the image in `docker-compose.yml`
 - start `Docker Desktop` and run `docker-compose up`
 - open the browser at [`http://localhost/`](http://localhost/)
 - update the source code in `sites/localhost/html/public/`
@@ -62,8 +62,11 @@ docker-compose down
 Alternatively the container can also be started with `docker run`.
 
 ```sh
+# php 8.5
+docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:2.6.0
+
 # php 8.4
-docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:2.5.3
+docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:2.6.0
 
 # php 8.3
 docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:2.3.4
@@ -219,10 +222,10 @@ _Note_: This is only for the project maintainer.
 # bump version
 
 # build local image
-docker build --no-cache -t 8ct8pus/apache-php-fpm-alpine:2.5.3 .
+docker build --no-cache -t 8ct8pus/apache-php-fpm-alpine:2.6.0 .
 
 # test local image
 
 # push image to docker hub
-docker push 8ct8pus/apache-php-fpm-alpine:2.5.3
+docker push 8ct8pus/apache-php-fpm-alpine:2.6.0
 ```
