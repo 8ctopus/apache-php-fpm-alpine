@@ -213,10 +213,10 @@ RUN \
 COPY --chown=root:root include /tmp
 
 RUN \
-    # create php aliases
-    ln -s /usr/bin/php85 /usr/bin/php && \
-    ln -s /usr/sbin/php-fpm85 /usr/sbin/php-fpm && \
-    \
+    ## create php aliases
+    #ln -s /usr/bin/php85 /usr/bin/php && \
+    #ln -s /usr/sbin/php-fpm85 /usr/sbin/php-fpm && \
+    #\
     # configure zsh
     mv /tmp/zshrc /etc/zsh/zshrc && \
     # configure xdebug
