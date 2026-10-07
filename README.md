@@ -6,11 +6,11 @@
 
 Apache php-fpm Alpine is a lightweight (200MB) Docker web server image that combines `Apache` HTTP Server with `PHP-FPM`, built on top of Alpine Linux. Designed specifically for PHP developers, this image offers a minimal footprint while providing a fully functional and configurable environment for PHP development and testing. It supports multiple PHP versions (including PHP 8.5), includes SSL support out of the box, and facilitates easy virtual host management. This container is ideal for rapid development workflows, offering hot reload capabilities for configuration changes and seamless integration with your local development domains.
 
-- Apache 2.4.65 with SSL
-- php-fpm 8.5.0, 8.4, 8.3, 8.2, 8.1, 8.0 or 7.4
-- Xdebug 3.4.7 - debugger and profiler
-- composer 2.9.2
-- [SPX prolifer 0.4.22](https://github.com/NoiseByNorthwest/php-spx)
+- Apache 2.4.69 with SSL
+- php-fpm 8.5.11, 8.4, 8.3, 8.2, 8.1, 8.0 or 7.4
+- Xdebug 3.5.3 - debugger and profiler
+- composer 2.10.3
+- [SPX prolifer master branch](https://github.com/NoiseByNorthwest/php-spx)
 - zsh 5.9
 - Alpine 3.24.2 using edge repositories
 
