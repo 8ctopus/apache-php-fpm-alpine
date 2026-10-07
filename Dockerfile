@@ -18,8 +18,8 @@ EXPOSE 443/tcp
 RUN \
     # update repositories to edge
     printf "https://dl-cdn.alpinelinux.org/alpine/edge/main\nhttps://dl-cdn.alpinelinux.org/alpine/edge/community\n" > /etc/apk/repositories && \
-    # add testing repository
-    printf "@testing https://dl-cdn.alpinelinux.org/alpine/edge/testing\n" >> /etc/apk/repositories && \
+    ## add testing repository
+    #printf "@testing https://dl-cdn.alpinelinux.org/alpine/edge/testing\n" >> /etc/apk/repositories && \
     \
     # update apk repositories
     apk update && \
@@ -31,128 +31,128 @@ RUN \
     tini \
     \
     # install latest certificates for ssl
-    ca-certificates@testing \
+    ca-certificates \
     \
     # install console tools
-    inotify-tools@testing \
+    inotify-tools \
     \
     # install zsh
-    zsh@testing \
-    zsh-vcs@testing \
+    zsh \
+    zsh-vcs \
     \
     # install php
-    php85@testing \
-#    php85-apache2@testing \
-    php85-bcmath@testing \
-    php85-brotli@testing \
-    php85-bz2@testing \
-    php85-calendar@testing \
-#    php85-cgi@testing \
-    php85-common@testing \
-    php85-ctype@testing \
-    php85-curl@testing \
-#    php85-dba@testing \
-#    php85-dbg@testing \
-#    php85-dev@testing \
-#    php85-doc@testing \
-    php85-dom@testing \
-#    php85-embed@testing \
-#    php85-enchant@testing \
-    php85-exif@testing \
-#    php85-ffi@testing \
-    php85-fileinfo@testing \
-    php85-ftp@testing \
-    php85-gd@testing \
-    php85-gettext@testing \
-#    php85-gmp@testing \
-    php85-json@testing \
-    php85-iconv@testing \
-    php85-imap@testing \
-    php85-intl@testing \
-    php85-ldap@testing \
-#    php85-litespeed@testing \
-    php85-mbstring@testing \
-    php85-mysqli@testing \
-#    php85-mysqlnd@testing \
-#    php85-odbc@testing \
-#    php85-opcache@testing \
-    php85-openssl@testing \
-    php85-pcntl@testing \
-    php85-pdo@testing \
-    php85-pdo_mysql@testing \
-#    php85-pdo_odbc@testing \
-#    php85-pdo_pgsql@testing \
-    php85-pdo_sqlite@testing \
-#    php85-pear@testing \
-#    php85-pgsql@testing \
-    php85-phar@testing \
-#   php85-phpdbg@testing \
-    php85-posix@testing \
-#    php85-pspell@testing \
-    php85-session@testing \
-#    php85-shmop@testing \
-    php85-simplexml@testing \
-#    php85-snmp@testing \
-#    php85-soap@testing \
-#    php85-sockets@testing \
-    php85-sodium@testing \
-    php85-sqlite3@testing \
-#    php85-sysvmsg@testing \
-#    php85-sysvsem@testing \
-#    php85-sysvshm@testing \
-#    php85-tideways_xhprof@testing \
-#    php85-tidy@testing \
-    php85-tokenizer@testing \
-    php85-xml@testing \
-    php85-xmlreader@testing \
-    php85-xmlwriter@testing \
-    php85-zip@testing \
+    php85 \
+#    php85-apache2 \
+    php85-bcmath \
+    php85-brotli \
+    php85-bz2 \
+    php85-calendar \
+#    php85-cgi \
+    php85-common \
+    php85-ctype \
+    php85-curl \
+#    php85-dba \
+#    php85-dbg \
+#    php85-dev \
+#    php85-doc \
+    php85-dom \
+#    php85-embed \
+#    php85-enchant \
+    php85-exif \
+#    php85-ffi \
+    php85-fileinfo \
+    php85-ftp \
+    php85-gd \
+    php85-gettext \
+#    php85-gmp \
+    php85-json \
+    php85-iconv \
+    php85-imap \
+    php85-intl \
+    php85-ldap \
+#    php85-litespeed \
+    php85-mbstring \
+    php85-mysqli \
+#    php85-mysqlnd \
+#    php85-odbc \
+#    php85-opcache \
+    php85-openssl \
+    php85-pcntl \
+    php85-pdo \
+    php85-pdo_mysql \
+#    php85-pdo_odbc \
+#    php85-pdo_pgsql \
+    php85-pdo_sqlite \
+#    php85-pear \
+#    php85-pgsql \
+    php85-phar \
+#   php85-phpdbg \
+    php85-posix \
+#    php85-pspell \
+    php85-session \
+#    php85-shmop \
+    php85-simplexml \
+#    php85-snmp \
+#    php85-soap \
+#    php85-sockets \
+    php85-sodium \
+    php85-sqlite3 \
+#    php85-sysvmsg \
+#    php85-sysvsem \
+#    php85-sysvshm \
+#    php85-tideways_xhprof \
+#    php85-tidy \
+    php85-tokenizer \
+    php85-xml \
+    php85-xmlreader \
+    php85-xmlwriter \
+    php85-zip \
     \
     # use php85-fpm instead of php85-apache
-    php85-fpm@testing \
+    php85-fpm \
     \
     # i18n
     icu-data-full \
     \
     # PECL extensions
-#    php85-pecl-amqp@testing \
-#    php85-pecl-apcu@testing \
-#    php85-pecl-ast@testing \
-#    php85-pecl-couchbase@testing \
-#    php85-pecl-event@testing \
-#    php85-pecl-igbinary@testing \
-#    php85-pecl-imagick@testing \
-#    php85-pecl-imagick-dev@testing \
-#    php85-pecl-lzf@testing \
-#    php85-pecl-mailparse@testing \
-#    php85-pecl-maxminddb@testing \
-#    php85-pecl-mcrypt@testing \
-#    php85-pecl-memcache@testing \
-#    php85-pecl-memcached@testing \
-#    php85-pecl-mongodb@testing \
-#    php85-pecl-msgpack@testing \
-#    php85-pecl-oauth@testing \
-#    php85-pecl-protobuf@testing \
-#    php85-pecl-psr@testing \
-#    php85-pecl-rdkafka@testing \
-#    php85-pecl-redis@testing \
-#    php85-pecl-ssh2@testing \
-#    php85-pecl-timezonedb@testing \
-#    php85-pecl-uploadprogress@testing \
-#    php85-pecl-uploadprogress-doc@testing \
-#    php85-pecl-uuid@testing \
-#    php85-pecl-vips@testing \
-    php85-pecl-xdebug@testing \
-#    php85-pecl-xhprof@testing \
-#    php85-pecl-xhprof-assets@testing \
-#    php85-pecl-yaml@testing \
-#    php85-pecl-zstd@testing \
-#    php85-pecl-zstd-dev@testing
+#    php85-pecl-amqp \
+#    php85-pecl-apcu \
+#    php85-pecl-ast \
+#    php85-pecl-couchbase \
+#    php85-pecl-event \
+#    php85-pecl-igbinary \
+#    php85-pecl-imagick \
+#    php85-pecl-imagick-dev \
+#    php85-pecl-lzf \
+#    php85-pecl-mailparse \
+#    php85-pecl-maxminddb \
+#    php85-pecl-mcrypt \
+#    php85-pecl-memcache \
+#    php85-pecl-memcached \
+#    php85-pecl-mongodb \
+#    php85-pecl-msgpack \
+#    php85-pecl-oauth \
+#    php85-pecl-protobuf \
+#    php85-pecl-psr \
+#    php85-pecl-rdkafka \
+#    php85-pecl-redis \
+#    php85-pecl-ssh2 \
+#    php85-pecl-timezonedb \
+#    php85-pecl-uploadprogress \
+#    php85-pecl-uploadprogress-doc \
+#    php85-pecl-uuid \
+#    php85-pecl-vips \
+    php85-pecl-xdebug \
+#    php85-pecl-xhprof \
+#    php85-pecl-xhprof-assets \
+#    php85-pecl-yaml \
+#    php85-pecl-zstd \
+#    php85-pecl-zstd-dev
     \
     # install apache
-    apache2@testing \
-    apache2-ssl@testing \
-    apache2-proxy@testing && \
+    apache2 \
+    apache2-ssl \
+    apache2-proxy && \
     \
     # fix iconv(): Wrong encoding, conversion from &quot;UTF-8&quot; to &quot;UTF-8//IGNORE&quot; is not allowed
     # This error occurs when there's an issue with the iconv library's handling of character encoding conversion,
