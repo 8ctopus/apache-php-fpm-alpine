@@ -18,11 +18,11 @@ RUN apk add build-base
 
 # add dev libraries
 RUN apk add \
-    php85-dev@testing \
-    zlib-dev@testing
+    php85-dev \
+    zlib-dev
 
-# fix ./configure "Cannot find php-config. Please use --with-php-config=PATH"
-RUN ln -s /usr/bin/php-config85 /usr/bin/php-config
+## fix ./configure "Cannot find php-config. Please use --with-php-config=PATH"
+#RUN ln -s /usr/bin/php-config85 /usr/bin/php-config
 
 # add git
 RUN apk add git
