@@ -63,10 +63,10 @@ Alternatively the container can also be started with `docker run`.
 
 ```sh
 # php 8.5
-docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:2.6.0
+docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:2.6.1
 
 # php 8.4
-docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:2.6.0
+docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:2.5.3
 
 # php 8.3
 docker run -p 80:80 -p 443:443 --name web 8ct8pus/apache-php-fpm-alpine:2.3.4
@@ -222,10 +222,10 @@ _Note_: This is only for the project maintainer.
 # bump version
 
 # build local image
-docker build --no-cache -t 8ct8pus/apache-php-fpm-alpine:2.6.0 .
+docker build --no-cache -t 8ct8pus/apache-php-fpm-alpine:2.6.1 .
 
 # test local image
 
 # push image to docker hub
-docker push 8ct8pus/apache-php-fpm-alpine:2.6.0
+docker push 8ct8pus/apache-php-fpm-alpine:2.6.1
 ```
