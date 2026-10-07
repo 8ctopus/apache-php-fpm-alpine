@@ -12,7 +12,7 @@ Apache php-fpm Alpine is a lightweight (200MB) Docker web server image that comb
 - composer 2.9.2
 - [SPX prolifer 0.4.22](https://github.com/NoiseByNorthwest/php-spx)
 - zsh 5.9
-- Alpine 3.22.2 using edge repositories
+- Alpine 3.24.2 using edge repositories
 
 ## cool features
 

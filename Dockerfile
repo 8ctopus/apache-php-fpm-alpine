@@ -2,7 +2,7 @@ FROM alpine:3.22.2 AS mailpit
 
 RUN apk add --no-cache upx
 
-RUN wget https://github.com/axllent/mailpit/releases/download/v1.27.11/mailpit-linux-amd64.tar.gz -O mailpit.tar.gz
+RUN wget https://github.com/axllent/mailpit/releases/download/v1.31.3/mailpit-linux-amd64.tar.gz -O mailpit.tar.gz
 RUN tar --extract --file mailpit.tar.gz
 # compress mailpit as it weighs around 24Mb
 RUN upx mailpit
